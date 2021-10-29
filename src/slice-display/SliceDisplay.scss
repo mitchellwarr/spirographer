@@ -1,0 +1,44 @@
+.slice-display {
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  
+  &__background {
+    fill: #3a3a3a;
+  }
+
+  &__axis-lines {
+    stroke: white;
+    opacity: 0.4;
+  }
+
+
+  &__r {
+    &-center {
+      fill: #ecda38;
+    }
+    &-circumference {
+      stroke: white;
+      stroke-width: 1;
+      fill: none;
+    }
+    &-line {
+      stroke: #ecda38;
+      stroke-width: 1;
+    }
+    &-diameter {
+      stroke: #d4d4d4;
+      stroke-width: 0.5;
+    }
+  }
+
+  &__drawing-point {
+    fill: #d32a2a;
+  }
+
+  &__graphed-line {
+    stroke: #d32a2a;
+    stroke-width: 0.5;
+    opacity: 0.6;
+  }
+}
