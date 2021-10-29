@@ -2,6 +2,7 @@ import * as Comlink from 'comlink';
 // eslint-disable-next-line import/no-unresolved
 import GraphWorker from 'web-worker:./GraphWorker';
 
+const graphWorker = new GraphWorker();
 export const generateLineChunks = (props, cb) => {
   const {
     alphaStart,
@@ -18,7 +19,7 @@ export const generateLineChunks = (props, cb) => {
   const alphaLength = alphaEnd - alphaStart;
   const chunkNumber = Math.ceil(alphaLength / chunkSize);
 
-  const lineDataChunk = Comlink.wrap(new GraphWorker());
+  const lineDataChunk = Comlink.wrap(graphWorker);
 
   const ranges = Array.from(
     { length: chunkNumber },

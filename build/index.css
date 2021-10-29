@@ -57,3 +57,5 @@ body {
     flex-grow: 0;
     flex-shrink: 0;
     cursor: pointer; }
+    .slider__input:focus-within {
+      cursor: auto; }

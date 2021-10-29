@@ -8,7 +8,6 @@ export const Slider = ({
   children,
   ...rest
 }) => {
-
   const onChange = useCallback(
     ({ target: { value } }) => propsOnChange(parseFloat(value)),
     [propsOnChange]
@@ -33,8 +32,8 @@ export const Slider = ({
       <input
         className={'slider__input'}
         type={'text'}
-        value={value}
-        onChange={onChange}
+        value={value || 0}
+        onBlur={onChange}
         style={style.input}
       />
     </div>

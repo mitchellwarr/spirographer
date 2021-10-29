@@ -48,6 +48,8 @@ const RCircle = ({ cx, cy, alpha, r, rotation }) => {
   );
 };
 
+const MAX_ALPHA = Math.PI * 20;
+
 export const SliceDisplay = (props) => {
   const {
     R,
@@ -55,8 +57,9 @@ export const SliceDisplay = (props) => {
     k2,
     h,
     p,
-    delta
   } = props;
+  
+  const delta = MAX_ALPHA / 5000;
 
   const [bind, { width, height }] = useMeasure();
   
@@ -100,7 +103,7 @@ export const SliceDisplay = (props) => {
         {
           alphaStart: 0,
           alphaEnd: alpha,
-          chunkSize: Math.PI * 5,
+          chunkSize: alpha,
           R,
           k,
           k2,
@@ -192,8 +195,8 @@ export const SliceDisplay = (props) => {
       <div style={{ padding: '8px 16px' }} >
         <Slider
           min={0}
-          max={Math.PI * 20}
-          step={'any'}
+          max={MAX_ALPHA}
+          step={delta}
           value={alpha}
           style={{
             input: {

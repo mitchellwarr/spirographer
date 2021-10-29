@@ -20,5 +20,8 @@
     flex-grow: 0;
     flex-shrink: 0;
     cursor: pointer;
+    &:focus-within {
+      cursor: auto;
+    }
   }
 }
