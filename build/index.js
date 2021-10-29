@@ -12497,66 +12497,6 @@ const SliceDisplay = props => {
   });
 };
 
-const RowItem = ({
-  children,
-  right,
-  bottom,
-  flexible,
-  inflexible,
-  column,
-  className = '',
-  style,
-  ...props
-}) => /*#__PURE__*/jsxRuntime.exports.jsx("div", { ...props,
-  className: classNames('system-layout-row__item', {
-    [className]: className,
-    'system-layout-row__item--layout-row': !column,
-    'system-layout-row__item--layout-column': column,
-    'system-layout-row__item--flexible': flexible,
-    'system-layout-row__item--inflexible': inflexible,
-    'system-layout-row__item--right': right,
-    'system-layout-row__item--bottom': bottom
-  }),
-  style: style,
-  children: children
-});
-const Row = /*#__PURE__*/react.exports.forwardRef((props, ref) => {
-  const {
-    children,
-    wrap,
-    center,
-    flexible,
-    className = '',
-    style = {},
-    innerStyle = {},
-    spacing: propsSpacing,
-    alignItems,
-    justifyContent,
-    ...restProps
-  } = props;
-  const spacing = style.spacing || propsSpacing;
-  return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
-    className: classNames('system-layout-row__wrapper', {
-      'system-layout-row__wrapper--flexible': flexible
-    }),
-    style: style,
-    ref: ref,
-    ...restProps,
-    children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
-      className: classNames(className, 'system-layout-row', `system-layout-row--spacing-${spacing}`, {
-        'system-layout-row--wrap': wrap,
-        'system-layout-row--center': center
-      }),
-      style: {
-        alignItems,
-        justifyContent,
-        ...innerStyle
-      },
-      children: children
-    })
-  });
-});
-
 const App = () => {
   const [variables, setVariables] = useStateReducer(() => ({
     R: 40,
@@ -12567,30 +12507,21 @@ const App = () => {
     delta: 0.04,
     maxLoops: 2
   }));
-  return /*#__PURE__*/jsxRuntime.exports.jsxs(Row, {
-    spacing: 32,
-    wrap: true,
-    children: [/*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
-      flexible: true,
+  return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
+    children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
       style: {
-        width: '100%'
+        marginBottom: 32
       },
       children: /*#__PURE__*/jsxRuntime.exports.jsx(GraphDisplay, { ...variables
       })
-    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
-      flexible: true,
+    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
       style: {
-        flexBasis: 0,
-        minWidth: 750
+        marginBottom: 32
       },
       children: /*#__PURE__*/jsxRuntime.exports.jsx(VariableSettings, { ...variables,
         onChange: setVariables
       })
-    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
-      flexible: true,
-      style: {
-        minWidth: 750
-      },
+    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
       children: /*#__PURE__*/jsxRuntime.exports.jsx(SliceDisplay, { ...variables
       })
     })]

@@ -22,44 +22,25 @@ export const App = () => {
   );
 
   return (
-    <Row
-      spacing={32}
-      wrap
-    >
-      <RowItem
-        flexible
-        style={{
-          width: '100%'
-        }}
-      >
+    <div>
+      <div style={{ marginBottom: 32 }} >
         <GraphDisplay
           {...variables}
         />
-      </RowItem>
+      </div>
 
-      <RowItem
-        flexible
-        style={{
-          flexBasis: 0,
-          minWidth: 750
-        }}
-      >
+      <div style={{ marginBottom: 32 }} >
         <VariableSettings
           {...variables}
           onChange={setVariables}
         />
-      </RowItem>
+      </div>
 
-      <RowItem
-        flexible
-        style={{
-          minWidth: 750
-        }}
-      >
+      <div>
         <SliceDisplay
           {...variables}
         />
-      </RowItem>
-    </Row>
+      </div>
+    </div>
   );
 };
