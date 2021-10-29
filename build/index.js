@@ -11162,52 +11162,44 @@ const GraphDisplay = props => {
     return Math.max(...[...xDomain, ...yDomain].map(x => Math.abs(x))) || 0;
   }, [lines]);
   const viewZoomRatio = viewRadius * 2 / Math.min(width, height) || 1;
-  return /*#__PURE__*/jsxRuntime.exports.jsxs(jsxRuntime.exports.Fragment, {
-    children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
-      style: {
-        borderRadius: 4,
-        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-        padding: 16
-      },
-      ...bind,
-      children: /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
-        width: '100%',
-        height: '300px',
-        viewBox: `${-viewRadius} ${-viewRadius} ${viewRadius * 2} ${viewRadius * 2}`,
-        children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
-          from: {
-            x: -(width / 2) * viewZoomRatio
-          },
-          to: {
-            x: width / 2 * viewZoomRatio
-          },
-          stroke: 'black',
-          strokeWidth: 1.3 * viewZoomRatio
-        }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
-          from: {
-            y: -(height / 2) * viewZoomRatio
-          },
-          to: {
-            y: height / 2 * viewZoomRatio
-          },
-          stroke: 'black',
-          strokeWidth: 1.3 * viewZoomRatio
-        }), lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
-          data: line,
-          x: xGetter$1,
-          y: yGetter$1,
-          stroke: 'red',
-          opacity: 0.4,
-          strokeWidth: 0.5
-        }, i))]
-      })
-    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
-      children: lines.length
-    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
-      children: lines.length / CHUNKS_PER_PIE
-    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
-      children: 0.1 + 0.8 / (lines.length / CHUNKS_PER_PIE)
-    })]
+  return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+    style: {
+      borderRadius: 4,
+      boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      padding: 16
+    },
+    ...bind,
+    children: /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
+      width: '100%',
+      height: '300px',
+      viewBox: `${-viewRadius} ${-viewRadius} ${viewRadius * 2} ${viewRadius * 2}`,
+      children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
+        from: {
+          x: -(width / 2) * viewZoomRatio
+        },
+        to: {
+          x: width / 2 * viewZoomRatio
+        },
+        stroke: 'black',
+        strokeWidth: 1.3 * viewZoomRatio
+      }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
+        from: {
+          y: -(height / 2) * viewZoomRatio
+        },
+        to: {
+          y: height / 2 * viewZoomRatio
+        },
+        stroke: 'black',
+        strokeWidth: 1.3 * viewZoomRatio
+      }), lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
+        data: line,
+        x: xGetter$1,
+        y: yGetter$1,
+        stroke: 'red',
+        opacity: 0.4,
+        strokeWidth: 0.5
+      }, i))]
+    })
   });
 };
 

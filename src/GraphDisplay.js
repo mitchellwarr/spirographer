@@ -86,50 +86,45 @@ export const GraphDisplay = (props) => {
 
   const viewZoomRatio = ((viewRadius*2) / Math.min(width, height)) || 1;
   return (
-    <>
-      <div
-        style={{
-          borderRadius: 4,
-          boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-          padding: 16
-        }}
-        {...bind}
+    <div
+      style={{
+        borderRadius: 4,
+        boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
+        padding: 16
+      }}
+      {...bind}
+    >
+      <svg
+        width={'100%'}
+        height={'300px'}
+        viewBox={`${-viewRadius} ${-viewRadius} ${viewRadius*2} ${viewRadius*2}`}
       >
-        <svg
-          width={'100%'}
-          height={'300px'}
-          viewBox={`${-viewRadius} ${-viewRadius} ${viewRadius*2} ${viewRadius*2}`}
-        >
-          <Line
-            from={{ x: -(width/2) * viewZoomRatio }}
-            to={{ x: width/2 * viewZoomRatio }}
-            stroke={'black'}
-            strokeWidth={1.3 * viewZoomRatio}
-          />
-          <Line
-            from={{ y: -(height/2) * viewZoomRatio }}
-            to={{ y: height/2 * viewZoomRatio }}
-            stroke={'black'}
-            strokeWidth={1.3 * viewZoomRatio}
-          />
-          {lines.map(
-            (line, i) => (
-              <LinePath
-                key={i}
-                data={line}
-                x={xGetter}
-                y={yGetter}
-                stroke={'red'}
-                opacity={0.4}
-                strokeWidth={0.5}
-              />
-            )
-          )}
-        </svg>
-      </div>
-      <div>{lines.length}</div>
-      <div>{(lines.length / CHUNKS_PER_PIE)}</div>
-      <div>{0.1 + (0.8 / (lines.length / CHUNKS_PER_PIE))}</div>
-    </>
+        <Line
+          from={{ x: -(width/2) * viewZoomRatio }}
+          to={{ x: width/2 * viewZoomRatio }}
+          stroke={'black'}
+          strokeWidth={1.3 * viewZoomRatio}
+        />
+        <Line
+          from={{ y: -(height/2) * viewZoomRatio }}
+          to={{ y: height/2 * viewZoomRatio }}
+          stroke={'black'}
+          strokeWidth={1.3 * viewZoomRatio}
+        />
+        {lines.map(
+          (line, i) => (
+            <LinePath
+              key={i}
+              data={line}
+              x={xGetter}
+              y={yGetter}
+              stroke={'red'}
+              opacity={0.4}
+              strokeWidth={0.5}
+            />
+          )
+        )}
+      </svg>
+    </div>
   );
 };
