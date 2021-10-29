@@ -104,9 +104,9 @@ export const SliceDisplay = (props) => {
 
   const [lines, setLines] = useState(() => []);
   useAPIEffect(
-    async api => {
+    api => {
       if (!alpha) return setLines([]);
-      generateLineChunks(
+      return generateLineChunks(
         {
           alphaStart: 0,
           alphaEnd: alpha,

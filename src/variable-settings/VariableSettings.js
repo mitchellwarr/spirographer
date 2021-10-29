@@ -10,6 +10,7 @@ export const VariableSettings = (props) => {
     k,
     k2,
     delta,
+    maxLoops,
     onChange
   } = props;
   
@@ -19,6 +20,7 @@ export const VariableSettings = (props) => {
     onKChange,
     onK2Change,
     onDeltaChange,
+    onMaxLoopsChange
   } = useMemo(
     () => ({
       onHChange: h => onChange({ h }),
@@ -26,6 +28,7 @@ export const VariableSettings = (props) => {
       onKChange: k => onChange({ k }),
       onK2Change: k2 => onChange({ k2 }),
       onDeltaChange: delta => onChange({ delta }),
+      onMaxLoopsChange: maxLoops => onChange({ maxLoops }),
     }),
     [onChange]
   );
@@ -44,7 +47,7 @@ export const VariableSettings = (props) => {
       <Slider
         min={-5}
         max={10}
-        step={0.01}
+        step={0.002}
         value={p}
         onChange={onPChange}
       >
@@ -53,7 +56,7 @@ export const VariableSettings = (props) => {
       <Slider
         min={0.01}
         max={10}
-        step={0.01}
+        step={0.002}
         value={k}
         onChange={onKChange}
       >
@@ -62,7 +65,7 @@ export const VariableSettings = (props) => {
       <Slider
         min={0.01}
         max={10}
-        step={0.01}
+        step={0.002}
         value={k2}
         onChange={onK2Change}
       >
@@ -76,6 +79,15 @@ export const VariableSettings = (props) => {
         onChange={onDeltaChange}
       >
         <div style={{ width: 50 }} >delta</div>
+      </Slider>
+      <Slider
+        min={1}
+        max={20}
+        step={1}
+        value={maxLoops}
+        onChange={onMaxLoopsChange}
+      >
+        <div style={{ width: 50 }} >Render loops</div>
       </Slider>
     </div>
   );

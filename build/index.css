@@ -51,7 +51,8 @@ body * {
     opacity: 0.6; }
 
 .slider {
-  display: flex; }
+  display: flex;
+  align-items: center; }
   .slider__label {
     margin-right: 8px;
     flex-grow: 0;

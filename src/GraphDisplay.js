@@ -20,8 +20,8 @@ const PIES_NEEDED = (scaleData, max) => {
     const x = xScale(Math.PI * 100 * i);
     const y = yScale(Math.PI * 100 * i);
     if (
-      Math.abs(x - start.x) < 0.1 &&
-      Math.abs(y - start.y) < 0.1
+      Math.abs(x - start.x) < 0.5 &&
+      Math.abs(y - start.y) < 0.5
     ) return i;
   }
   return max;
@@ -36,7 +36,8 @@ export const GraphDisplay = (props) => {
     k2,
     h,
     p,
-    delta
+    delta,
+    maxLoops
   } = props;
 
   const [bind, { width, height }] = useMeasure();
@@ -44,12 +45,12 @@ export const GraphDisplay = (props) => {
   const [lines, setLines] = useState(() => []);
 
   useAPIEffect(
-    async api => {
+    api => {
       const chunkLength = (Math.PI * 100) / CHUNKS_PER_PIE;
 
-      const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, 5);
+      const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, maxLoops);
 
-      generateLineChunks(
+      return generateLineChunks(
         {
           alphaStart: 0,
           alphaEnd: (Math.PI * 100) * piesNeeded,
@@ -72,7 +73,7 @@ export const GraphDisplay = (props) => {
         }
       );
     },
-    [R, k, k2, h, p, delta]
+    [R, k, k2, h, p, delta, maxLoops]
   );
 
   const viewRadius = useMemo(

@@ -26,9 +26,10 @@ export const generateLineChunks = (props, cb) => {
     (_, i) => [i*chunkSize, Math.min((i+1)*chunkSize, alphaEnd)]
   );
 
+  const abort = { true: false };
   for (let i in ranges) {
-    (async () => {
-      const line = await lineDataChunk({
+    lineDataChunk(
+      {
         R,
         k,
         k2,
@@ -36,8 +37,15 @@ export const generateLineChunks = (props, cb) => {
         p,
         delta,
         range: ranges[i],
-      });
-      cb({ line, chunk: i, chunkLength: ranges.length });
-    })();
+      },
+      abort
+    )
+      .then(
+        line => {
+          if (abort.true) return;
+          cb({ line, chunk: i, chunkLength: ranges.length });
+        }
+      );
   }
+  return () => abort.true = true;
 };

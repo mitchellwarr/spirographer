@@ -1,12 +1,14 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useTextField } from '@react-aria/textfield';
 import './Slider.scss';
+import { makeRandomID } from '../lib/Utils';
 
 const InputBox = ({
   className,
   value: propsValue,
   style,
-  onSubmit
+  onSubmit,
+  ...rest
 }) => {
 
   const [value, setValue] = useState(() => propsValue);
@@ -34,7 +36,8 @@ const InputBox = ({
       value,
       onBlur,
       onKeyUp,
-      onChange: setValue
+      onChange: setValue,
+      ...rest
     },
     ref
   );
@@ -60,12 +63,13 @@ export const Slider = ({
     str => propsOnChange(parseFloat(str)),
     [propsOnChange]
   );
+  const [id] = useState(() => makeRandomID());
   return (
     <div
       className={'slider'}
       style={style}
     >
-      <div className={'slider__label'} >
+      <div className={'slider__label'} id={id} >
         {children}
       </div>
       <input
@@ -78,6 +82,7 @@ export const Slider = ({
       />
       <InputBox
         className={'slider__input'}
+        aria-labelledby={id}
         value={value || 0}
         onSubmit={onChange}
         style={style.input}

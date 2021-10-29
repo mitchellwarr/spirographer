@@ -16,13 +16,14 @@ export const App = () => {
       k2: 2.01,
       h: 40,
       p: 0.5,
-      delta: 0.03,
+      delta: 0.04,
+      maxLoops: 2
     })
   );
 
   return (
     <Row
-      spacing={24}
+      spacing={32}
       wrap
     >
       <RowItem
@@ -40,7 +41,7 @@ export const App = () => {
         flexible
         style={{
           flexBasis: 0,
-          minWidth: 350
+          minWidth: 750
         }}
       >
         <VariableSettings
@@ -49,7 +50,12 @@ export const App = () => {
         />
       </RowItem>
 
-      <RowItem flexible >
+      <RowItem
+        flexible
+        style={{
+          minWidth: 750
+        }}
+      >
         <SliceDisplay
           {...variables}
         />
