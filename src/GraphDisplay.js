@@ -90,7 +90,8 @@ export const GraphDisplay = (props) => {
       style={{
         borderRadius: 4,
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-        padding: 16
+        padding: 16,
+        width: '100%'
       }}
       {...bind}
     >

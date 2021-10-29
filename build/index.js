@@ -8445,7 +8445,7 @@ var classnames = {exports: {}};
 })();
 }(classnames));
 
-var cx = classnames.exports;
+var classNames = classnames.exports;
 
 var pi = Math.PI,
     tau = 2 * pi,
@@ -9697,7 +9697,7 @@ function Group(_ref) {
 
   return /*#__PURE__*/React.createElement("g", _extends$2({
     ref: innerRef,
-    className: cx('visx-group', className),
+    className: classNames('visx-group', className),
     transform: transform || "translate(" + left + ", " + top + ")"
   }, restProps), children);
 }
@@ -9764,7 +9764,7 @@ function Line(_ref) {
   var isRectilinear = from.x === to.x || from.y === to.y;
   return /*#__PURE__*/React.createElement("line", _extends$1({
     ref: innerRef,
-    className: cx('visx-line', className),
+    className: classNames('visx-line', className),
     x1: from.x,
     y1: from.y,
     x2: to.x,
@@ -9836,7 +9836,7 @@ function LinePath(_ref) {
   }));
   return /*#__PURE__*/React.createElement("path", _extends({
     ref: innerRef,
-    className: cx('visx-linepath', className),
+    className: classNames('visx-linepath', className),
     d: path(data) || '',
     fill: fill // without this a datum surrounded by nulls will not be visible
     // https://github.com/d3/d3-shape#line_defined
@@ -11166,7 +11166,8 @@ const GraphDisplay = props => {
     style: {
       borderRadius: 4,
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-      padding: 16
+      padding: 16,
+      width: '100%'
     },
     ...bind,
     children: /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
@@ -11476,57 +11477,57 @@ const SliceDisplay = props => {
     children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", { ...bind,
       style: {
         height: 400
-      },
-      children: /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
+      }
+    }), /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
+      className: 'slice-display__svg',
+      width: width,
+      height: height,
+      children: [/*#__PURE__*/jsxRuntime.exports.jsx("rect", {
+        className: 'slice-display__background',
         width: width,
-        height: height,
-        children: [/*#__PURE__*/jsxRuntime.exports.jsx("rect", {
-          className: 'slice-display__background',
-          width: width,
-          height: height
-        }), /*#__PURE__*/jsxRuntime.exports.jsx(Axis, {
-          width: width,
-          height: height
-        }), /*#__PURE__*/jsxRuntime.exports.jsx(Group, {
-          left: width / 2,
-          top: height / 2,
-          children: /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
-            transform: `scale(${Math.min(width, height) / ((r1 + r2 + r3) * 2)})`,
-            children: [/*#__PURE__*/jsxRuntime.exports.jsx("g", {
-              className: 'slice-display__graphed-line',
-              children: lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
-                data: line,
-                x: xGetter,
-                y: yGetter
-              }, i))
-            }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-              alpha: alpha,
-              r: r1,
-              cx: circle1.x,
-              cy: circle1.y
-            }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-              rotation: alpha + beta,
-              alpha: alpha + beta - beta * (1 / p),
-              r: r2,
-              cx: circle2.x,
-              cy: circle2.y
-            }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-              rotation: alpha + beta + theta,
-              alpha: alpha + beta - beta * (1 / p) - theta * (1 / p),
-              r: r3,
-              cx: circle3.x,
-              cy: circle3.y
-            }), /*#__PURE__*/jsxRuntime.exports.jsx("g", {
-              children: /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
-                className: 'slice-display__drawing-point',
-                r: 3,
-                cx: drawingPoint.x,
-                cy: drawingPoint.y
-              })
-            })]
-          })
-        })]
-      })
+        height: height
+      }), /*#__PURE__*/jsxRuntime.exports.jsx(Axis, {
+        width: width,
+        height: height
+      }), /*#__PURE__*/jsxRuntime.exports.jsx(Group, {
+        left: width / 2,
+        top: height / 2,
+        children: /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
+          transform: `scale(${Math.min(width, height) / ((r1 + r2 + r3) * 2)})`,
+          children: [/*#__PURE__*/jsxRuntime.exports.jsx("g", {
+            className: 'slice-display__graphed-line',
+            children: lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
+              data: line,
+              x: xGetter,
+              y: yGetter
+            }, i))
+          }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
+            alpha: alpha,
+            r: r1,
+            cx: circle1.x,
+            cy: circle1.y
+          }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
+            rotation: alpha + beta,
+            alpha: alpha + beta - beta * (1 / p),
+            r: r2,
+            cx: circle2.x,
+            cy: circle2.y
+          }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
+            rotation: alpha + beta + theta,
+            alpha: alpha + beta - beta * (1 / p) - theta * (1 / p),
+            r: r3,
+            cx: circle3.x,
+            cy: circle3.y
+          }), /*#__PURE__*/jsxRuntime.exports.jsx("g", {
+            children: /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
+              className: 'slice-display__drawing-point',
+              r: 3,
+              cx: drawingPoint.x,
+              cy: drawingPoint.y
+            })
+          })]
+        })
+      })]
     }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
       style: {
         padding: '8px 16px'
@@ -11548,6 +11549,66 @@ const SliceDisplay = props => {
   });
 };
 
+const RowItem = ({
+  children,
+  right,
+  bottom,
+  flexible,
+  inflexible,
+  column,
+  className = '',
+  style,
+  ...props
+}) => /*#__PURE__*/jsxRuntime.exports.jsx("div", { ...props,
+  className: classNames('system-layout-row__item', {
+    [className]: className,
+    'system-layout-row__item--layout-row': !column,
+    'system-layout-row__item--layout-column': column,
+    'system-layout-row__item--flexible': flexible,
+    'system-layout-row__item--inflexible': inflexible,
+    'system-layout-row__item--right': right,
+    'system-layout-row__item--bottom': bottom
+  }),
+  style: style,
+  children: children
+});
+const Row = /*#__PURE__*/react.exports.forwardRef((props, ref) => {
+  const {
+    children,
+    wrap,
+    center,
+    flexible,
+    className = '',
+    style = {},
+    innerStyle = {},
+    spacing: propsSpacing,
+    alignItems,
+    justifyContent,
+    ...restProps
+  } = props;
+  const spacing = style.spacing || propsSpacing;
+  return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+    className: classNames('system-layout-row__wrapper', {
+      'system-layout-row__wrapper--flexible': flexible
+    }),
+    style: style,
+    ref: ref,
+    ...restProps,
+    children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+      className: classNames(className, 'system-layout-row', `system-layout-row--spacing-${spacing}`, {
+        'system-layout-row--wrap': wrap,
+        'system-layout-row--center': center
+      }),
+      style: {
+        alignItems,
+        justifyContent,
+        ...innerStyle
+      },
+      children: children
+    })
+  });
+});
+
 const App = () => {
   const [variables, setVariables] = useStateReducer(() => ({
     R: 40,
@@ -11557,24 +11618,27 @@ const App = () => {
     p: 0.5,
     delta: 0.05
   }));
-  return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
-    style: {
-      padding: 24
-    },
-    children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
+  return /*#__PURE__*/jsxRuntime.exports.jsxs(Row, {
+    spacing: 24,
+    wrap: true,
+    children: [/*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      flexible: true,
       style: {
-        marginBottom: 24
+        width: '100%'
       },
       children: /*#__PURE__*/jsxRuntime.exports.jsx(GraphDisplay, { ...variables
       })
-    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      flexible: true,
       style: {
-        marginBottom: 24
+        flexBasis: 0,
+        minWidth: 350
       },
       children: /*#__PURE__*/jsxRuntime.exports.jsx(VariableSettings, { ...variables,
         onChange: setVariables
       })
-    }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      flexible: true,
       children: /*#__PURE__*/jsxRuntime.exports.jsx(SliceDisplay, { ...variables
       })
     })]

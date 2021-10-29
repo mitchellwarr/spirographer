@@ -1,7 +1,15 @@
 .slice-display {
+  width: 100%;
   border-radius: 4px;
   overflow: hidden;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  position: relative;
+
+  &__svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+  }
   
   &__background {
     fill: #3a3a3a;

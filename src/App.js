@@ -2,6 +2,7 @@ import { useStateReducer } from 'hooks';
 import { GraphDisplay } from './GraphDisplay';
 import { VariableSettings } from './variable-settings';
 import { SliceDisplay } from './slice-display';
+import { Row, RowItem } from './elements/Row';
 
 export const App = () => {
   
@@ -20,25 +21,39 @@ export const App = () => {
   );
 
   return (
-    <div style={{ padding: 24 }} >
-      <div style={{ marginBottom: 24 }} >
+    <Row
+      spacing={24}
+      wrap
+    >
+      <RowItem
+        flexible
+        style={{
+          width: '100%'
+        }}
+      >
         <GraphDisplay
           {...variables}
         />
-      </div>
+      </RowItem>
 
-      <div style={{ marginBottom: 24 }} >
+      <RowItem
+        flexible
+        style={{
+          flexBasis: 0,
+          minWidth: 350
+        }}
+      >
         <VariableSettings
           {...variables}
           onChange={setVariables}
         />
-      </div>
+      </RowItem>
 
-      <div>
+      <RowItem flexible >
         <SliceDisplay
           {...variables}
         />
-      </div>
-    </div>
+      </RowItem>
+    </Row>
   );
 };

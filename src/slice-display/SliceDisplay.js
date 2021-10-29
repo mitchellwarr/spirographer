@@ -130,68 +130,67 @@ export const SliceDisplay = (props) => {
       <div
         {...bind}
         style={{ height: 400 }}
-      >
-        <svg width={width} height={height} >
-          <rect
-            className={'slice-display__background'}
-            width={width}
-            height={height}
-          />
+      />
+      <svg className={'slice-display__svg'} width={width} height={height} >
+        <rect
+          className={'slice-display__background'}
+          width={width}
+          height={height}
+        />
 
-          <Axis width={width} height={height} />
+        <Axis width={width} height={height} />
 
-          <Group left={width/2} top={height/2} >
-            <g transform={`scale(${Math.min(width, height) / ((r1 + r2 + r3) * 2)})`} >
+        <Group left={width/2} top={height/2} >
+          <g transform={`scale(${Math.min(width, height) / ((r1 + r2 + r3) * 2)})`} >
               
-              <g className={'slice-display__graphed-line'} >
-                {lines.map(
-                  (line, i) => (
-                    <LinePath
-                      key={i}
-                      data={line}
-                      x={xGetter}
-                      y={yGetter}
-                    />
-                  )
-                )}
-              </g>
-              
-              <RCircle
-                alpha={alpha}
-                r={r1}
-                cx={circle1.x}
-                cy={circle1.y}
-              />
-
-              <RCircle
-                rotation={alpha + beta}
-                alpha={alpha + beta - (beta * (1/p))}
-                r={r2}
-                cx={circle2.x}
-                cy={circle2.y}
-              />
-
-              <RCircle
-                rotation={alpha + beta + theta}
-                alpha={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
-                r={r3}
-                cx={circle3.x}
-                cy={circle3.y}
-              />
-              
-              <g>
-                <circle
-                  className={'slice-display__drawing-point'}
-                  r={3}
-                  cx={drawingPoint.x}
-                  cy={drawingPoint.y}
-                />
-              </g>
-
+            <g className={'slice-display__graphed-line'} >
+              {lines.map(
+                (line, i) => (
+                  <LinePath
+                    key={i}
+                    data={line}
+                    x={xGetter}
+                    y={yGetter}
+                  />
+                )
+              )}
             </g>
-          </Group>
-        </svg>
-      </div>
+              
+            <RCircle
+              alpha={alpha}
+              r={r1}
+              cx={circle1.x}
+              cy={circle1.y}
+            />
+
+            <RCircle
+              rotation={alpha + beta}
+              alpha={alpha + beta - (beta * (1/p))}
+              r={r2}
+              cx={circle2.x}
+              cy={circle2.y}
+            />
+
+            <RCircle
+              rotation={alpha + beta + theta}
+              alpha={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
+              r={r3}
+              cx={circle3.x}
+              cy={circle3.y}
+            />
+              
+            <g>
+              <circle
+                className={'slice-display__drawing-point'}
+                r={3}
+                cx={drawingPoint.x}
+                cy={drawingPoint.y}
+              />
+            </g>
+
+          </g>
+        </Group>
+      </svg>
       <div style={{ padding: '8px 16px' }} >
         <Slider
           min={0}
