@@ -2,7 +2,6 @@ import { useStateReducer } from 'hooks';
 import { GraphDisplay } from './GraphDisplay';
 import { VariableSettings } from './variable-settings';
 import { SliceDisplay } from './slice-display';
-import { Row, RowItem } from './elements/Row';
 
 export const App = () => {
 

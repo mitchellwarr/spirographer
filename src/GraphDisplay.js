@@ -5,6 +5,7 @@ import { generateLineChunks, scaleFactory } from './graph-data';
 
 import { Line, LinePath } from '@visx/shape';
 import { extent } from 'd3-array';
+import { Slider } from './variable-settings/Slider';
 
 const xGetter = ({ x }) => x;
 const yGetter = ({ y }) => y;
@@ -39,16 +40,17 @@ export const GraphDisplay = (props) => {
 
   const [lines, setLines] = useState(() => []);
 
+  const chunkLength = (Math.PI * 100) / CHUNKS_PER_PIE;
+  const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, maxLoops);
+  const maxAlpha = (Math.PI * 100) * piesNeeded;
+  const [alphaPercent, setAlphaPercent] = useState(() => 1);
+
   useAPIEffect(
     api => {
-      const chunkLength = (Math.PI * 100) / CHUNKS_PER_PIE;
-
-      const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, maxLoops);
-
       return generateLineChunks(
         {
           alphaStart: 0,
-          alphaEnd: (Math.PI * 100) * piesNeeded,
+          alphaEnd: maxAlpha * alphaPercent,
           chunkSize: chunkLength,
           R,
           k,
@@ -68,7 +70,7 @@ export const GraphDisplay = (props) => {
         }
       );
     },
-    [R, k, k2, h, p, delta, maxLoops]
+    [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]
   );
 
   const viewRadius = useMemo(
@@ -86,7 +88,6 @@ export const GraphDisplay = (props) => {
       style={{
         borderRadius: 4,
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
-        padding: 16,
         position: 'relative',
         width: '100%'
       }}
@@ -98,7 +99,7 @@ export const GraphDisplay = (props) => {
       <svg
         width={width}
         height={height}
-        style={{ position: 'absolute', top: 16, left: 16 }}
+        style={{ position: 'absolute', top: 0, left: 0 }}
         viewBox={`${-viewRadius} ${-viewRadius} ${viewRadius*2} ${viewRadius*2}`}
       >
         <Line
@@ -127,6 +128,22 @@ export const GraphDisplay = (props) => {
           )
         )}
       </svg>
+      <div style={{ padding: '8px 16px' }} >
+        <Slider
+          min={0}
+          max={1}
+          step={'any'}
+          value={alphaPercent}
+          style={{
+            input: {
+              width: 80
+            }
+          }}
+          onChange={setAlphaPercent}
+        >
+          Time
+        </Slider>
+      </div>
     </div>
   );
 };
