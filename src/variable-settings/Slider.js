@@ -1,5 +1,53 @@
-import { useCallback } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
+import { useTextField } from '@react-aria/textfield';
 import './Slider.scss';
+
+const InputBox = ({
+  className,
+  value: propsValue,
+  style,
+  onSubmit
+}) => {
+
+  const [value, setValue] = useState(() => propsValue);
+  
+  useEffect(
+    () => setValue(propsValue),
+    [propsValue]
+  );
+  
+  const onKeyUp = useCallback(
+    ({ key }) => key == 'Enter' && onSubmit(value),
+    [onSubmit, value]
+  );
+
+  const onBlur = useCallback(
+    () => onSubmit(value),
+    [onSubmit, value]
+  );
+
+  const ref = useRef();
+  const {
+    inputProps
+  } = useTextField(
+    {
+      value,
+      onBlur,
+      onKeyUp,
+      onChange: setValue
+    },
+    ref
+  );
+
+  return (
+    <input
+      className={className}
+      type={'text'}
+      style={style}
+      {...inputProps}
+    />
+  );
+};
 
 export const Slider = ({
   style = {},
@@ -9,10 +57,9 @@ export const Slider = ({
   ...rest
 }) => {
   const onChange = useCallback(
-    ({ target: { value } }) => propsOnChange(parseFloat(value)),
+    str => propsOnChange(parseFloat(str)),
     [propsOnChange]
   );
-  
   return (
     <div
       className={'slider'}
@@ -25,15 +72,14 @@ export const Slider = ({
         className={'slider__slider'}
         type={'range'}
         value={value}
-        onChange={onChange}
+        onChange={({ target: { value } }) => onChange(value)}
         style={style.slider}
         {...rest}
       />
-      <input
+      <InputBox
         className={'slider__input'}
-        type={'text'}
         value={value || 0}
-        onBlur={onChange}
+        onSubmit={onChange}
         style={style.input}
       />
     </div>

@@ -16,7 +16,7 @@ export const App = () => {
       k2: 2.01,
       h: 40,
       p: 0.5,
-      delta: 0.05,
+      delta: 0.03,
     })
   );
 

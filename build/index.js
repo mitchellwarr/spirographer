@@ -2437,7 +2437,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function (target, source)
   react.exports = react_development;
 }
 
-var React = react.exports;
+var _react = react.exports;
 
 var reactDom = {exports: {}};
 
@@ -9652,6 +9652,66 @@ var factoryWithTypeCheckers = function (isValidElement, throwOnDirectAccess) {
 
 var _pt = propTypes.exports;
 
+function _extends$3() {
+  _extends$3 = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends$3.apply(this, arguments);
+}
+
+function _objectWithoutPropertiesLoose$3(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+function Group(_ref) {
+  var _ref$top = _ref.top,
+      top = _ref$top === void 0 ? 0 : _ref$top,
+      _ref$left = _ref.left,
+      left = _ref$left === void 0 ? 0 : _ref$left,
+      transform = _ref.transform,
+      className = _ref.className,
+      children = _ref.children,
+      innerRef = _ref.innerRef,
+      restProps = _objectWithoutPropertiesLoose$3(_ref, ["top", "left", "transform", "className", "children", "innerRef"]);
+
+  return /*#__PURE__*/_react.createElement("g", _extends$3({
+    ref: innerRef,
+    className: classNames('visx-group', className),
+    transform: transform || "translate(" + left + ", " + top + ")"
+  }, restProps), children);
+}
+Group.propTypes = {
+  top: _pt.number,
+  left: _pt.number,
+  transform: _pt.string,
+  className: _pt.string,
+  children: _pt.node,
+  innerRef: _pt.oneOfType([_pt.string, _pt.func, _pt.object])
+};
+
+var _excluded$1 = ["from", "to", "fill", "className", "innerRef"];
+
 function _extends$2() {
   _extends$2 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
@@ -9684,33 +9744,37 @@ function _objectWithoutPropertiesLoose$2(source, excluded) {
 
   return target;
 }
-function Group(_ref) {
-  var _ref$top = _ref.top,
-      top = _ref$top === void 0 ? 0 : _ref$top,
-      _ref$left = _ref.left,
-      left = _ref$left === void 0 ? 0 : _ref$left,
-      transform = _ref.transform,
+function Line(_ref) {
+  var _ref$from = _ref.from,
+      from = _ref$from === void 0 ? {
+    x: 0,
+    y: 0
+  } : _ref$from,
+      _ref$to = _ref.to,
+      to = _ref$to === void 0 ? {
+    x: 1,
+    y: 1
+  } : _ref$to,
+      _ref$fill = _ref.fill,
+      fill = _ref$fill === void 0 ? 'transparent' : _ref$fill,
       className = _ref.className,
-      children = _ref.children,
       innerRef = _ref.innerRef,
-      restProps = _objectWithoutPropertiesLoose$2(_ref, ["top", "left", "transform", "className", "children", "innerRef"]);
+      restProps = _objectWithoutPropertiesLoose$2(_ref, _excluded$1);
 
-  return /*#__PURE__*/React.createElement("g", _extends$2({
+  var isRectilinear = from.x === to.x || from.y === to.y;
+  return /*#__PURE__*/_react.createElement("line", _extends$2({
     ref: innerRef,
-    className: classNames('visx-group', className),
-    transform: transform || "translate(" + left + ", " + top + ")"
-  }, restProps), children);
+    className: classNames('visx-line', className),
+    x1: from.x,
+    y1: from.y,
+    x2: to.x,
+    y2: to.y,
+    fill: fill,
+    shapeRendering: isRectilinear ? 'crispEdges' : 'auto'
+  }, restProps));
 }
-Group.propTypes = {
-  top: _pt.number,
-  left: _pt.number,
-  transform: _pt.string,
-  className: _pt.string,
-  children: _pt.node,
-  innerRef: _pt.oneOfType([_pt.string, _pt.func, _pt.object])
-};
 
-var _excluded$1 = ["from", "to", "fill", "className", "innerRef"];
+var _excluded = ["children", "data", "x", "y", "fill", "className", "curve", "innerRef", "defined"];
 
 function _extends$1() {
   _extends$1 = Object.assign || function (target) {
@@ -9744,70 +9808,6 @@ function _objectWithoutPropertiesLoose$1(source, excluded) {
 
   return target;
 }
-function Line(_ref) {
-  var _ref$from = _ref.from,
-      from = _ref$from === void 0 ? {
-    x: 0,
-    y: 0
-  } : _ref$from,
-      _ref$to = _ref.to,
-      to = _ref$to === void 0 ? {
-    x: 1,
-    y: 1
-  } : _ref$to,
-      _ref$fill = _ref.fill,
-      fill = _ref$fill === void 0 ? 'transparent' : _ref$fill,
-      className = _ref.className,
-      innerRef = _ref.innerRef,
-      restProps = _objectWithoutPropertiesLoose$1(_ref, _excluded$1);
-
-  var isRectilinear = from.x === to.x || from.y === to.y;
-  return /*#__PURE__*/React.createElement("line", _extends$1({
-    ref: innerRef,
-    className: classNames('visx-line', className),
-    x1: from.x,
-    y1: from.y,
-    x2: to.x,
-    y2: to.y,
-    fill: fill,
-    shapeRendering: isRectilinear ? 'crispEdges' : 'auto'
-  }, restProps));
-}
-
-var _excluded = ["children", "data", "x", "y", "fill", "className", "curve", "innerRef", "defined"];
-
-function _extends() {
-  _extends = Object.assign || function (target) {
-    for (var i = 1; i < arguments.length; i++) {
-      var source = arguments[i];
-
-      for (var key in source) {
-        if (Object.prototype.hasOwnProperty.call(source, key)) {
-          target[key] = source[key];
-        }
-      }
-    }
-
-    return target;
-  };
-
-  return _extends.apply(this, arguments);
-}
-
-function _objectWithoutPropertiesLoose(source, excluded) {
-  if (source == null) return {};
-  var target = {};
-  var sourceKeys = Object.keys(source);
-  var key, i;
-
-  for (i = 0; i < sourceKeys.length; i++) {
-    key = sourceKeys[i];
-    if (excluded.indexOf(key) >= 0) continue;
-    target[key] = source[key];
-  }
-
-  return target;
-}
 function LinePath(_ref) {
   var children = _ref.children,
       _ref$data = _ref.data,
@@ -9823,7 +9823,7 @@ function LinePath(_ref) {
       defined = _ref$defined === void 0 ? function () {
     return true;
   } : _ref$defined,
-      restProps = _objectWithoutPropertiesLoose(_ref, _excluded);
+      restProps = _objectWithoutPropertiesLoose$1(_ref, _excluded);
 
   var path = line({
     x: x,
@@ -9831,10 +9831,10 @@ function LinePath(_ref) {
     defined: defined,
     curve: curve
   });
-  if (children) return /*#__PURE__*/React.createElement(React.Fragment, null, children({
+  if (children) return /*#__PURE__*/_react.createElement(_react.Fragment, null, children({
     path: path
   }));
-  return /*#__PURE__*/React.createElement("path", _extends({
+  return /*#__PURE__*/_react.createElement("path", _extends$1({
     ref: innerRef,
     className: classNames('visx-linepath', className),
     d: path(data) || '',
@@ -11133,7 +11133,7 @@ const GraphDisplay = props => {
       k2,
       h,
       p
-    }, 10);
+    }, 5);
     generateLineChunks({
       alphaStart: 0,
       alphaEnd: Math.PI * 100 * piesNeeded,
@@ -11162,17 +11162,28 @@ const GraphDisplay = props => {
     return Math.max(...[...xDomain, ...yDomain].map(x => Math.abs(x))) || 0;
   }, [lines]);
   const viewZoomRatio = viewRadius * 2 / Math.min(width, height) || 1;
-  return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+  return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     style: {
       borderRadius: 4,
       boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
       padding: 16,
+      position: 'relative',
       width: '100%'
     },
-    ...bind,
-    children: /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
-      width: '100%',
-      height: '300px',
+    children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", { ...bind,
+      style: {
+        width: '100%',
+        height: width,
+        maxHeight: 600
+      }
+    }), /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
+      width: width,
+      height: height,
+      style: {
+        position: 'absolute',
+        top: 16,
+        left: 16
+      },
       viewBox: `${-viewRadius} ${-viewRadius} ${viewRadius * 2} ${viewRadius * 2}`,
       children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
         from: {
@@ -11200,7 +11211,882 @@ const GraphDisplay = props => {
         opacity: 0.4,
         strokeWidth: 0.5
       }, i))]
-    })
+    })]
+  });
+};
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function toVal(mix) {
+  var k,
+      y,
+      str = '';
+
+  if (typeof mix === 'string' || typeof mix === 'number') {
+    str += mix;
+  } else if (typeof mix === 'object') {
+    if (Array.isArray(mix)) {
+      for (k = 0; k < mix.length; k++) {
+        if (mix[k]) {
+          if (y = toVal(mix[k])) {
+            str && (str += ' ');
+            str += y;
+          }
+        }
+      }
+    } else {
+      for (k in mix) {
+        if (mix[k]) {
+          str && (str += ' ');
+          str += k;
+        }
+      }
+    }
+  }
+
+  return str;
+}
+
+function _clsx () {
+  var i = 0,
+      tmp,
+      x,
+      str = '';
+
+  while (i < arguments.length) {
+    if (tmp = arguments[i++]) {
+      if (x = toVal(tmp)) {
+        str && (str += ' ');
+        str += x;
+      }
+    }
+  }
+
+  return str;
+}
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+// client-only apps. In order to support multiple copies of React Aria potentially
+// being on the page at once, the prefix is set to a random number. SSRProvider
+// will reset this to zero for consistency between server and client, so in the
+// SSR case multiple copies of React Aria is not supported.
+
+const $f01a183cc7bdff77849e49ad26eb904$var$defaultContext = {
+  prefix: String(Math.round(Math.random() * 10000000000)),
+  current: 0
+};
+
+const $f01a183cc7bdff77849e49ad26eb904$var$SSRContext = /*#__PURE__*/_react.createContext($f01a183cc7bdff77849e49ad26eb904$var$defaultContext);
+let $f01a183cc7bdff77849e49ad26eb904$var$canUseDOM = Boolean(typeof window !== 'undefined' && window.document && window.document.createElement);
+/** @private */
+
+function useSSRSafeId(defaultId) {
+  let ctx = react.exports.useContext($f01a183cc7bdff77849e49ad26eb904$var$SSRContext); // If we are rendering in a non-DOM environment, and there's no SSRProvider,
+  // provide a warning to hint to the developer to add one.
+
+  if (ctx === $f01a183cc7bdff77849e49ad26eb904$var$defaultContext && !$f01a183cc7bdff77849e49ad26eb904$var$canUseDOM) {
+    console.warn('When server rendering, you must wrap your application in an <SSRProvider> to ensure consistent ids are generated between the client and server.');
+  }
+
+  return react.exports.useMemo(() => defaultId || "react-aria" + ctx.prefix + "-" + ++ctx.current, [defaultId]);
+}
+
+// Since neither useLayoutEffect nor useEffect run on the server,
+// we can suppress this by replace it with a noop on the server.
+
+const useLayoutEffect = typeof window !== 'undefined' ? _react.useLayoutEffect : () => {};
+let $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap = new Map();
+/**
+ * If a default is not provided, generate an id.
+ * @param defaultId - Default component id.
+ */
+
+function useId(defaultId) {
+  let isRendering = react.exports.useRef(true);
+  isRendering.current = true;
+  let [value, setValue] = react.exports.useState(defaultId);
+  let nextId = react.exports.useRef(null);
+  let res = useSSRSafeId(value); // don't memo this, we want it new each render so that the Effects always run
+
+  let updateValue = val => {
+    if (!isRendering.current) {
+      setValue(val);
+    } else {
+      nextId.current = val;
+    }
+  };
+
+  $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap.set(res, updateValue);
+  useLayoutEffect(() => {
+    isRendering.current = false;
+  }, [updateValue]);
+  useLayoutEffect(() => {
+    let r = res;
+    return () => {
+      $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap.delete(r);
+    };
+  }, [res]);
+  react.exports.useEffect(() => {
+    let newId = nextId.current;
+
+    if (newId) {
+      setValue(newId);
+      nextId.current = null;
+    }
+  }, [setValue, updateValue]);
+  return res;
+}
+/**
+ * Merges two ids.
+ * Different ids will trigger a side-effect and re-render components hooked up with `useId`.
+ */
+
+function mergeIds(idA, idB) {
+  if (idA === idB) {
+    return idA;
+  }
+
+  let setIdA = $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap.get(idA);
+
+  if (setIdA) {
+    setIdA(idB);
+    return idB;
+  }
+
+  let setIdB = $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap.get(idB);
+
+  if (setIdB) {
+    setIdB(idA);
+    return idA;
+  }
+
+  return idB;
+}
+/**
+ * Used to generate an id, and after render, check if that id is rendered so we know
+ * if we can use it in places such as labelledby.
+ */
+
+function useSlotId() {
+  let id = useId();
+  let [resolvedId, setResolvedId] = react.exports.useState(id);
+  useLayoutEffect(() => {
+    let setCurr = $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap.get(id);
+
+    if (setCurr && !document.getElementById(id)) {
+      setResolvedId(null);
+    } else {
+      setResolvedId(id);
+    }
+  }, [id]);
+  return resolvedId;
+}
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+
+/**
+ * Calls all functions in the order they were chained with the same arguments.
+ */
+
+function chain() {
+  for (var _len = arguments.length, callbacks = new Array(_len), _key = 0; _key < _len; _key++) {
+    callbacks[_key] = arguments[_key];
+  }
+
+  return function () {
+    for (let callback of callbacks) {
+      if (typeof callback === 'function') {
+        callback(...arguments);
+      }
+    }
+  };
+}
+/**
+ * Merges multiple props objects together. Event handlers are chained,
+ * classNames are combined, and ids are deduplicated - different ids
+ * will trigger a side-effect and re-render components hooked up with `useId`.
+ * For all other props, the last prop object overrides all previous ones.
+ * @param args - Multiple sets of props to merge together.
+ */
+
+function mergeProps() {
+  // Start with a base clone of the first argument. This is a lot faster than starting
+  // with an empty object and adding properties as we go.
+  let result = _extends({}, arguments.length <= 0 ? undefined : arguments[0]);
+
+  for (let i = 1; i < arguments.length; i++) {
+    let props = i < 0 || arguments.length <= i ? undefined : arguments[i];
+
+    for (let key in props) {
+      let a = result[key];
+      let b = props[key]; // Chain events
+
+      if (typeof a === 'function' && typeof b === 'function' && // This is a lot faster than a regex.
+      key[0] === 'o' && key[1] === 'n' && key.charCodeAt(2) >=
+      /* 'A' */
+      65 && key.charCodeAt(2) <=
+      /* 'Z' */
+      90) {
+        result[key] = chain(a, b); // Merge classnames, sometimes classNames are empty string which eval to false, so we just need to do a type check
+      } else if ((key === 'className' || key === 'UNSAFE_className') && typeof a === 'string' && typeof b === 'string') {
+        result[key] = _clsx(a, b);
+      } else if (key === 'id' && a && b) {
+        result.id = mergeIds(a, b); // Override others
+      } else {
+        result[key] = b !== undefined ? b : a;
+      }
+    }
+  }
+
+  return result;
+}
+const $f6a965352cabf1a7c37e8c1337e5eab$var$DOMPropNames = new Set(['id']);
+const $f6a965352cabf1a7c37e8c1337e5eab$var$labelablePropNames = new Set(['aria-label', 'aria-labelledby', 'aria-describedby', 'aria-details']);
+const $f6a965352cabf1a7c37e8c1337e5eab$var$propRe = /^(data-.*)$/;
+function filterDOMProps(props, opts) {
+  if (opts === void 0) {
+    opts = {};
+  }
+
+  let {
+    labelable,
+    propNames
+  } = opts;
+  let filteredProps = {};
+
+  for (const prop in props) {
+    if (Object.prototype.hasOwnProperty.call(props, prop) && ($f6a965352cabf1a7c37e8c1337e5eab$var$DOMPropNames.has(prop) || labelable && $f6a965352cabf1a7c37e8c1337e5eab$var$labelablePropNames.has(prop) || propNames != null && propNames.has(prop) || $f6a965352cabf1a7c37e8c1337e5eab$var$propRe.test(prop))) {
+      filteredProps[prop] = props[prop];
+    }
+  }
+
+  return filteredProps;
+} // Currently necessary for Safari and old Edge:
+// This is necessary rather than a simple count of transitions because of browser
+// bugs, e.g. Chrome sometimes fires both transitionend and transitioncancel rather
+// than one or the other. So we need to track what's actually transitioning so that
+// we can ignore these duplicate events.
+
+let $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionsByElement = new Map(); // A list of callbacks to call once there are no transitioning elements.
+
+let $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionCallbacks = new Set();
+
+function $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$setupGlobalEvents() {
+  if (typeof window === 'undefined') {
+    return;
+  }
+
+  let onTransitionStart = e => {
+    // Add the transitioning property to the list for this element.
+    let transitions = $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionsByElement.get(e.target);
+
+    if (!transitions) {
+      transitions = new Set();
+      $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionsByElement.set(e.target, transitions); // The transitioncancel event must be registered on the element itself, rather than as a global
+      // event. This enables us to handle when the node is deleted from the document while it is transitioning.
+      // In that case, the cancel event would have nowhere to bubble to so we need to handle it directly.
+
+      e.target.addEventListener('transitioncancel', onTransitionEnd);
+    }
+
+    transitions.add(e.propertyName);
+  };
+
+  let onTransitionEnd = e => {
+    // Remove property from list of transitioning properties.
+    let properties = $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionsByElement.get(e.target);
+
+    if (!properties) {
+      return;
+    }
+
+    properties.delete(e.propertyName); // If empty, remove transitioncancel event, and remove the element from the list of transitioning elements.
+
+    if (properties.size === 0) {
+      e.target.removeEventListener('transitioncancel', onTransitionEnd);
+      $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionsByElement.delete(e.target);
+    } // If no transitioning elements, call all of the queued callbacks.
+
+
+    if ($b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionsByElement.size === 0) {
+      for (let cb of $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionCallbacks) {
+        cb();
+      }
+
+      $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$transitionCallbacks.clear();
+    }
+  };
+
+  document.body.addEventListener('transitionrun', onTransitionStart);
+  document.body.addEventListener('transitionend', onTransitionEnd);
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState !== 'loading') {
+    $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$setupGlobalEvents();
+  } else {
+    document.addEventListener('DOMContentLoaded', $b3e8d5c5f32fa26afa6df1b81f09b6b8$var$setupGlobalEvents);
+  }
+}
+/**
+ * Merges aria-label and aria-labelledby into aria-labelledby when both exist.
+ * @param props - Aria label props.
+ * @param defaultLabel - Default value for aria-label when not present.
+ */
+
+function useLabels(props, defaultLabel) {
+  let {
+    id,
+    'aria-label': label,
+    'aria-labelledby': labelledBy
+  } = props; // If there is both an aria-label and aria-labelledby,
+  // combine them by pointing to the element itself.
+
+  id = useId(id);
+
+  if (labelledBy && label) {
+    let ids = new Set([...labelledBy.trim().split(/\s+/), id]);
+    labelledBy = [...ids].join(' ');
+  } else if (labelledBy) {
+    labelledBy = labelledBy.trim().split(/\s+/).join(' ');
+  } // If no labels are provided, use the default
+
+
+  if (!label && !labelledBy && defaultLabel) {
+    label = defaultLabel;
+  }
+
+  return {
+    id,
+    'aria-label': label,
+    'aria-labelledby': labelledBy
+  };
+} // Like useEffect, but only called for updates after the initial render.
+
+function useSyncRef(context, ref) {
+  useLayoutEffect(() => {
+    if (context && context.ref && ref) {
+      context.ref.current = ref.current;
+      return () => {
+        context.ref.current = null;
+      };
+    }
+  }, [context, ref]);
+}
+
+function $b0986c1243f71db8e992f67117a1ed9$var$testPlatform(re) {
+  return typeof window !== 'undefined' && window.navigator != null ? re.test(window.navigator.platform) : false;
+}
+
+function isMac() {
+  return $b0986c1243f71db8e992f67117a1ed9$var$testPlatform(/^Mac/);
+}
+
+/*
+ * Copyright 2020 Adobe. All rights reserved.
+ * This file is licensed to you under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License. You may obtain a copy
+ * of the License at http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under
+ * the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR REPRESENTATIONS
+ * OF ANY KIND, either express or implied. See the License for the specific language
+ * governing permissions and limitations under the License.
+ */
+// Original licensing for the following method can be found in the
+// NOTICE file in the root directory of this source tree.
+// See https://github.com/facebook/react/blob/3c713d513195a53788b3f8bb4b70279d68b15bcc/packages/react-interactions/events/src/dom/shared/index.js#L74-L87
+// Keyboards, Assistive Technologies, and element.click() all produce a "virtual"
+// click event. This is a method of inferring such clicks. Every browser except
+// IE 11 only sets a zero value of "detail" for click events that are "virtual".
+// However, IE 11 uses a zero value for all click events. For IE 11 we rely on
+// the quirk that it produces click events that are of type PointerEvent, and
+// where only the "virtual" click lacks a pointerType field.
+
+
+function $f67ef9f1b8ed09b4b00fd0840cd8b94b$export$isVirtualClick(event) {
+  // JAWS/NVDA with Firefox.
+  if (event.mozInputSource === 0 && event.isTrusted) {
+    return true;
+  }
+
+  return event.detail === 0 && !event.pointerType;
+}
+
+const $a3ff51240de6f955c79cf17a88e349$export$PressResponderContext = /*#__PURE__*/_react.createContext(null);
+
+$a3ff51240de6f955c79cf17a88e349$export$PressResponderContext.displayName = 'PressResponderContext';
+// See https://github.com/facebook/react/tree/cc7c1aece46a6b69b41958d731e0fd27c94bfc6c/packages/react-interactions
+
+/**
+ * Handles focus events for the immediate target.
+ * Focus events on child elements will be ignored.
+ */
+
+function useFocus(props) {
+  if (props.isDisabled) {
+    return {
+      focusProps: {}
+    };
+  }
+
+  let onFocus, onBlur;
+
+  if (props.onFocus || props.onFocusChange) {
+    onFocus = e => {
+      if (e.target === e.currentTarget) {
+        if (props.onFocus) {
+          props.onFocus(e);
+        }
+
+        if (props.onFocusChange) {
+          props.onFocusChange(true);
+        }
+      }
+    };
+  }
+
+  if (props.onBlur || props.onFocusChange) {
+    onBlur = e => {
+      if (e.target === e.currentTarget) {
+        if (props.onBlur) {
+          props.onBlur(e);
+        }
+
+        if (props.onFocusChange) {
+          props.onFocusChange(false);
+        }
+      }
+    };
+  }
+
+  return {
+    focusProps: {
+      onFocus,
+      onBlur
+    }
+  };
+}
+let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$changeHandlers = new Set();
+let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasSetupGlobalListeners = false;
+let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = false;
+let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasBlurredWindowRecently = false; // Only Tab or Esc keys will make focus visible on text input elements
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers(modality, e) {
+  for (let handler of $d01f69bb2ab5f70dfd0005370a2a2cbc$var$changeHandlers) {
+    handler(modality, e);
+  }
+}
+/**
+ * Helper function to determine if a KeyboardEvent is unmodified and could make keyboard focus styles visible.
+ */
+
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$isValidKey(e) {
+  // Control and Shift keys trigger when navigating back to the tab with keyboard.
+  return !(e.metaKey || !isMac() && e.altKey || e.ctrlKey || e.type === 'keyup' && (e.key === 'Control' || e.key === 'Shift'));
+}
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleKeyboardEvent(e) {
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
+
+  if ($d01f69bb2ab5f70dfd0005370a2a2cbc$var$isValidKey(e)) {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers('keyboard', e);
+  }
+}
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent(e) {
+
+  if (e.type === 'mousedown' || e.type === 'pointerdown') {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers('pointer', e);
+  }
+}
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleClickEvent(e) {
+  if ($f67ef9f1b8ed09b4b00fd0840cd8b94b$export$isVirtualClick(e)) {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
+  }
+}
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleFocusEvent(e) {
+  // Firefox fires two extra focus events when the user first clicks into an iframe:
+  // first on the window, then on the document. We ignore these events so they don't
+  // cause keyboard focus rings to appear.
+  if (e.target === window || e.target === document) {
+    return;
+  } // If a focus event occurs without a preceding keyboard or pointer event, switch to virtual modality.
+  // This occurs, for example, when navigating a form with the next/previous buttons on iOS.
+
+
+  if (!$d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus && !$d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasBlurredWindowRecently) {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers('virtual', e);
+  }
+
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = false;
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasBlurredWindowRecently = false;
+}
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleWindowBlur() {
+  // When the window is blurred, reset state. This is necessary when tabbing out of the window,
+  // for example, since a subsequent focus event won't be fired.
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = false;
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasBlurredWindowRecently = true;
+}
+/**
+ * Setup global event listeners to control when keyboard focus style should be visible.
+ */
+
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$setupGlobalFocusEvents() {
+  if (typeof window === 'undefined' || $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasSetupGlobalListeners) {
+    return;
+  } // Programmatic focus() calls shouldn't affect the current input modality.
+  // However, we need to detect other cases when a focus event occurs without
+  // a preceding user event (e.g. screen reader focus). Overriding the focus
+  // method on HTMLElement.prototype is a bit hacky, but works.
+
+
+  let focus = HTMLElement.prototype.focus;
+
+  HTMLElement.prototype.focus = function () {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
+    focus.apply(this, arguments);
+  };
+
+  document.addEventListener('keydown', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleKeyboardEvent, true);
+  document.addEventListener('keyup', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleKeyboardEvent, true);
+  document.addEventListener('click', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleClickEvent, true); // Register focus events on the window so they are sure to happen
+  // before React's event listeners (registered on the document).
+
+  window.addEventListener('focus', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleFocusEvent, true);
+  window.addEventListener('blur', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleWindowBlur, false);
+
+  if (typeof PointerEvent !== 'undefined') {
+    document.addEventListener('pointerdown', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent, true);
+    document.addEventListener('pointermove', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent, true);
+    document.addEventListener('pointerup', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent, true);
+  } else {
+    document.addEventListener('mousedown', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent, true);
+    document.addEventListener('mousemove', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent, true);
+    document.addEventListener('mouseup', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent, true);
+  }
+
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasSetupGlobalListeners = true;
+}
+
+if (typeof document !== 'undefined') {
+  if (document.readyState !== 'loading') {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$setupGlobalFocusEvents();
+  } else {
+    document.addEventListener('DOMContentLoaded', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$setupGlobalFocusEvents);
+  }
+}
+/**
+ * This function wraps a React event handler to make stopPropagation the default, and support continuePropagation instead.
+ */
+
+
+function $dc0d75166de722fbf58eb6c3552$export$createEventHandler(handler) {
+  if (!handler) {
+    return;
+  }
+
+  let shouldStopPropagation = true;
+  return e => {
+    let event = _extends({}, e, {
+      preventDefault() {
+        e.preventDefault();
+      },
+
+      isDefaultPrevented() {
+        return e.isDefaultPrevented();
+      },
+
+      stopPropagation() {
+        console.error('stopPropagation is now the default behavior for events in React Spectrum. You can use continuePropagation() to revert this behavior.');
+      },
+
+      continuePropagation() {
+        shouldStopPropagation = false;
+      }
+
+    });
+
+    handler(event);
+
+    if (shouldStopPropagation) {
+      e.stopPropagation();
+    }
+  };
+}
+/**
+ * Handles keyboard interactions for a focusable element.
+ */
+
+
+function useKeyboard(props) {
+  return {
+    keyboardProps: props.isDisabled ? {} : {
+      onKeyDown: $dc0d75166de722fbf58eb6c3552$export$createEventHandler(props.onKeyDown),
+      onKeyUp: $dc0d75166de722fbf58eb6c3552$export$createEventHandler(props.onKeyUp)
+    }
+  };
+}
+
+let $e11539c8317b2d21639df611cb5658f$var$FocusableContext = /*#__PURE__*/_react.createContext(null);
+
+function $e11539c8317b2d21639df611cb5658f$var$useFocusableContext(ref) {
+  let context = react.exports.useContext($e11539c8317b2d21639df611cb5658f$var$FocusableContext) || {};
+  useSyncRef(context, ref); // eslint-disable-next-line
+
+  let otherProps = _objectWithoutPropertiesLoose(context, ["ref"]);
+
+  return otherProps;
+}
+/**
+ * Used to make an element focusable and capable of auto focus.
+ */
+
+function useFocusable(props, domRef) {
+  let {
+    focusProps
+  } = useFocus(props);
+  let {
+    keyboardProps
+  } = useKeyboard(props);
+  let interactions = mergeProps(focusProps, keyboardProps);
+  let domProps = $e11539c8317b2d21639df611cb5658f$var$useFocusableContext(domRef);
+  let interactionProps = props.isDisabled ? {} : domProps;
+  let autoFocusRef = react.exports.useRef(props.autoFocus);
+  react.exports.useEffect(() => {
+    if (autoFocusRef.current && domRef.current) {
+      domRef.current.focus();
+    }
+
+    autoFocusRef.current = false;
+  }, []);
+  return {
+    focusableProps: mergeProps(_extends({}, interactions, {
+      tabIndex: props.excludeFromTabOrder && !props.isDisabled ? -1 : undefined
+    }), interactionProps)
+  };
+}
+
+/**
+ * Provides the accessibility implementation for labels and their associated elements.
+ * Labels provide context for user inputs.
+ * @param props - The props for labels and fields.
+ */
+
+function useLabel(props) {
+  let {
+    id,
+    label,
+    'aria-labelledby': ariaLabelledby,
+    'aria-label': ariaLabel,
+    labelElementType = 'label'
+  } = props;
+  id = useId(id);
+  let labelId = useId();
+  let labelProps = {};
+
+  if (label) {
+    ariaLabelledby = ariaLabelledby ? ariaLabelledby + " " + labelId : labelId;
+    labelProps = {
+      id: labelId,
+      htmlFor: labelElementType === 'label' ? id : undefined
+    };
+  } else if (!ariaLabelledby && !ariaLabel) {
+    console.warn('If you do not provide a visible label, you must specify an aria-label or aria-labelledby attribute for accessibility');
+  }
+
+  let fieldProps = useLabels({
+    id,
+    'aria-label': ariaLabel,
+    'aria-labelledby': ariaLabelledby
+  });
+  return {
+    labelProps,
+    fieldProps
+  };
+}
+/**
+ * Provides the accessibility implementation for input fields.
+ * Fields accept user input, gain context from their label, and may display a description or error message.
+ * @param props - Props for the Field.
+ */
+
+function useField(props) {
+  let {
+    description,
+    errorMessage
+  } = props;
+  let {
+    labelProps,
+    fieldProps
+  } = useLabel(props);
+  let descriptionId = useSlotId();
+  let errorMessageId = useSlotId();
+  fieldProps = mergeProps(fieldProps, {
+    'aria-describedby': [descriptionId, // Use aria-describedby for error message because aria-errormessage is unsupported using VoiceOver or NVDA. See https://github.com/adobe/react-spectrum/issues/1346#issuecomment-740136268
+    errorMessageId, props['aria-describedby']].filter(Boolean).join(' ') || undefined
+  });
+  let descriptionProps = {};
+  let errorMessageProps = {};
+
+  if (description) {
+    descriptionProps.id = descriptionId;
+  }
+
+  if (errorMessage) {
+    errorMessageProps.id = errorMessageId;
+  }
+
+  return {
+    labelProps,
+    fieldProps,
+    descriptionProps,
+    errorMessageProps
+  };
+}
+
+/**
+ * Provides the behavior and accessibility implementation for a text field.
+ * @param props - Props for the text field.
+ * @param ref - Ref to the HTML input or textarea element.
+ */
+
+function useTextField(props, ref) {
+  let {
+    inputElementType = 'input',
+    isDisabled = false,
+    isRequired = false,
+    isReadOnly = false,
+    validationState,
+    type = 'text',
+    onChange: _onChange = () => {}
+  } = props;
+  let {
+    focusableProps
+  } = useFocusable(props, ref);
+  let {
+    labelProps,
+    fieldProps,
+    descriptionProps,
+    errorMessageProps
+  } = useField(props);
+  let domProps = filterDOMProps(props, {
+    labelable: true
+  });
+  const inputOnlyProps = {
+    type,
+    pattern: props.pattern
+  };
+  return {
+    labelProps,
+    inputProps: mergeProps(domProps, inputElementType === 'input' && inputOnlyProps, _extends({
+      disabled: isDisabled,
+      readOnly: isReadOnly,
+      'aria-required': isRequired || undefined,
+      'aria-invalid': validationState === 'invalid' || undefined,
+      'aria-errormessage': props['aria-errormessage'],
+      'aria-activedescendant': props['aria-activedescendant'],
+      'aria-autocomplete': props['aria-autocomplete'],
+      'aria-haspopup': props['aria-haspopup'],
+      value: props.value,
+      defaultValue: props.value ? undefined : props.defaultValue,
+      onChange: e => _onChange(e.target.value),
+      autoComplete: props.autoComplete,
+      maxLength: props.maxLength,
+      minLength: props.minLength,
+      name: props.name,
+      placeholder: props.placeholder,
+      inputMode: props.inputMode,
+      // Clipboard events
+      onCopy: props.onCopy,
+      onCut: props.onCut,
+      onPaste: props.onPaste,
+      // Composition events
+      onCompositionEnd: props.onCompositionEnd,
+      onCompositionStart: props.onCompositionStart,
+      onCompositionUpdate: props.onCompositionUpdate,
+      // Selection events
+      onSelect: props.onSelect,
+      // Input events
+      onBeforeInput: props.onBeforeInput,
+      onInput: props.onInput
+    }, focusableProps, fieldProps)),
+    descriptionProps,
+    errorMessageProps
+  };
+}
+
+const InputBox = ({
+  className,
+  value: propsValue,
+  style,
+  onSubmit
+}) => {
+  const [value, setValue] = react.exports.useState(() => propsValue);
+  react.exports.useEffect(() => setValue(propsValue), [propsValue]);
+  const onKeyUp = react.exports.useCallback(({
+    key
+  }) => key == 'Enter' && onSubmit(value), [onSubmit, value]);
+  const onBlur = react.exports.useCallback(() => onSubmit(value), [onSubmit, value]);
+  const ref = react.exports.useRef();
+  const {
+    inputProps
+  } = useTextField({
+    value,
+    onBlur,
+    onKeyUp,
+    onChange: setValue
+  }, ref);
+  return /*#__PURE__*/jsxRuntime.exports.jsx("input", {
+    className: className,
+    type: 'text',
+    style: style,
+    ...inputProps
   });
 };
 
@@ -11211,11 +12097,7 @@ const Slider = ({
   children,
   ...rest
 }) => {
-  const onChange = react.exports.useCallback(({
-    target: {
-      value
-    }
-  }) => propsOnChange(parseFloat(value)), [propsOnChange]);
+  const onChange = react.exports.useCallback(str => propsOnChange(parseFloat(str)), [propsOnChange]);
   return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     className: 'slider',
     style: style,
@@ -11226,14 +12108,17 @@ const Slider = ({
       className: 'slider__slider',
       type: 'range',
       value: value,
-      onChange: onChange,
+      onChange: ({
+        target: {
+          value
+        }
+      }) => onChange(value),
       style: style.slider,
       ...rest
-    }), /*#__PURE__*/jsxRuntime.exports.jsx("input", {
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(InputBox, {
       className: 'slider__input',
-      type: 'text',
       value: value || 0,
-      onBlur: onChange,
+      onSubmit: onChange,
       style: style.input
     })]
   });
@@ -11378,6 +12263,7 @@ const RCircle = ({
   cx,
   cy,
   alpha,
+  beta,
   r,
   rotation
 }) => {
@@ -11407,25 +12293,32 @@ const RCircle = ({
         x: r * Math.cos(alpha),
         y: r * Math.sin(alpha)
       }
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
+      className: 'slice-display__r-line',
+      from: {},
+      to: {
+        x: r * Math.cos(beta + Math.PI),
+        y: r * Math.sin(beta + Math.PI)
+      }
     })]
   });
 };
 
-const MAX_ALPHA = Math.PI * 20;
+const MAX_ALPHA = Math.PI * 10;
 const SliceDisplay = props => {
   const {
     R,
     k,
     k2,
     h,
-    p
+    p,
+    delta
   } = props;
-  const delta = MAX_ALPHA / 5000;
   const [bind, {
     width,
     height
   }] = useMeasure();
-  const [alpha, setAlpha] = react.exports.useState(0);
+  const [alpha, setAlpha] = react.exports.useState(() => Math.PI / 3);
   const r1 = R;
   const r2 = R / k;
   const r3 = R / k2;
@@ -11476,7 +12369,7 @@ const SliceDisplay = props => {
     className: 'slice-display',
     children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", { ...bind,
       style: {
-        height: 400
+        height: 500
       }
     }), /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
       className: 'slice-display__svg',
@@ -11493,7 +12386,7 @@ const SliceDisplay = props => {
         left: width / 2,
         top: height / 2,
         children: /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
-          transform: `scale(${Math.min(width, height) / ((r1 + r2 + r3) * 2)})`,
+          transform: `scale(${Math.min(width, height) / ((r1 + r2 + r3) * 3 + h)})`,
           children: [/*#__PURE__*/jsxRuntime.exports.jsx("g", {
             className: 'slice-display__graphed-line',
             children: lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
@@ -11507,24 +12400,33 @@ const SliceDisplay = props => {
             cx: circle1.x,
             cy: circle1.y
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-            rotation: alpha + beta,
+            rotation: alpha - beta + beta * (1 / p) - Math.PI / 2,
             alpha: alpha + beta - beta * (1 / p),
+            beta: alpha,
             r: r2,
             cx: circle2.x,
             cy: circle2.y
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-            rotation: alpha + beta + theta,
+            rotation: alpha + beta - beta * (1 / p) - theta * (1 / p) + Math.PI / 2,
             alpha: alpha + beta - beta * (1 / p) - theta * (1 / p),
+            beta: alpha + beta - beta * (1 / p),
             r: r3,
             cx: circle3.x,
             cy: circle3.y
-          }), /*#__PURE__*/jsxRuntime.exports.jsx("g", {
-            children: /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
+          }), /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
+            children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
+              className: 'slice-display__r-line',
+              from: {
+                x: circle3.x + r3 * Math.cos(alpha + beta - beta * (1 / p) - theta * (1 / p)),
+                y: circle3.y + r3 * Math.sin(alpha + beta - beta * (1 / p) - theta * (1 / p))
+              },
+              to: drawingPoint
+            }), /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
               className: 'slice-display__drawing-point',
               r: 3,
               cx: drawingPoint.x,
               cy: drawingPoint.y
-            })
+            })]
           })]
         })
       })]
@@ -11616,7 +12518,7 @@ const App = () => {
     k2: 2.01,
     h: 40,
     p: 0.5,
-    delta: 0.05
+    delta: 0.03
   }));
   return /*#__PURE__*/jsxRuntime.exports.jsxs(Row, {
     spacing: 24,

@@ -47,7 +47,7 @@ export const GraphDisplay = (props) => {
     async api => {
       const chunkLength = (Math.PI * 100) / CHUNKS_PER_PIE;
 
-      const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, 10);
+      const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, 5);
 
       generateLineChunks(
         {
@@ -91,13 +91,18 @@ export const GraphDisplay = (props) => {
         borderRadius: 4,
         boxShadow: '0 4px 8px rgba(0, 0, 0, 0.2)',
         padding: 16,
+        position: 'relative',
         width: '100%'
       }}
-      {...bind}
     >
+      <div
+        {...bind}
+        style={{ width: '100%', height: width, maxHeight: 600 }}
+      />
       <svg
-        width={'100%'}
-        height={'300px'}
+        width={width}
+        height={height}
+        style={{ position: 'absolute', top: 16, left: 16 }}
         viewBox={`${-viewRadius} ${-viewRadius} ${viewRadius*2} ${viewRadius*2}`}
       >
         <Line

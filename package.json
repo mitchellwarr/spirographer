@@ -15,6 +15,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "@react-aria/textfield": "^3.4.0",
     "@visx/group": "^2.1.0",
     "@visx/shape": "^2.2.2",
     "@visx/text": "^2.1.1",

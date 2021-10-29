@@ -10,7 +10,7 @@ import { Line, LinePath } from '@visx/shape';
 const xGetter = ({ x }) => x;
 const yGetter = ({ y }) => y;
 
-const RCircle = ({ cx, cy, alpha, r, rotation }) => {
+const RCircle = ({ cx, cy, alpha, beta, r, rotation }) => {
 
   return (
     <Group
@@ -44,11 +44,19 @@ const RCircle = ({ cx, cy, alpha, r, rotation }) => {
           y: r * Math.sin(alpha),
         }}
       />
+      <Line
+        className={'slice-display__r-line'}
+        from={{}}
+        to={{
+          x: r * Math.cos(beta + Math.PI),
+          y: r * Math.sin(beta + Math.PI),
+        }}
+      />
     </Group>
   );
 };
 
-const MAX_ALPHA = Math.PI * 20;
+const MAX_ALPHA = Math.PI * 10;
 
 export const SliceDisplay = (props) => {
   const {
@@ -57,13 +65,12 @@ export const SliceDisplay = (props) => {
     k2,
     h,
     p,
+    delta
   } = props;
-  
-  const delta = MAX_ALPHA / 5000;
 
   const [bind, { width, height }] = useMeasure();
   
-  const [alpha, setAlpha] = useState(0);
+  const [alpha, setAlpha] = useState(() => Math.PI / 3);
 
   const r1 = R;
   const r2 = R / k;
@@ -124,12 +131,12 @@ export const SliceDisplay = (props) => {
     },
     [R, k, k2, h, p, delta, alpha]
   );
-
+  
   return (
     <div className={'slice-display'} >
       <div
         {...bind}
-        style={{ height: 400 }}
+        style={{ height: 500 }}
       />
       <svg className={'slice-display__svg'} width={width} height={height} >
         <rect
@@ -141,7 +148,7 @@ export const SliceDisplay = (props) => {
         <Axis width={width} height={height} />
 
         <Group left={width/2} top={height/2} >
-          <g transform={`scale(${Math.min(width, height) / ((r1 + r2 + r3) * 2)})`} >
+          <g transform={`scale(${(Math.min(width, height) / (((r1 + r2 + r3) * 3) + h))})`} >
               
             <g className={'slice-display__graphed-line'} >
               {lines.map(
@@ -164,22 +171,32 @@ export const SliceDisplay = (props) => {
             />
 
             <RCircle
-              rotation={alpha + beta}
+              rotation={alpha - beta + (beta * (1/p)) - (Math.PI/2)}
               alpha={alpha + beta - (beta * (1/p))}
+              beta={alpha}
               r={r2}
               cx={circle2.x}
               cy={circle2.y}
             />
 
             <RCircle
-              rotation={alpha + beta + theta}
+              rotation={alpha + beta - (beta * (1/p)) - (theta * (1/p)) + (Math.PI/2)}
               alpha={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
+              beta={alpha + beta - (beta * (1/p))}
               r={r3}
               cx={circle3.x}
               cy={circle3.y}
             />
               
             <g>
+              <Line
+                className={'slice-display__r-line'}
+                from={{
+                  x: circle3.x + (r3 * Math.cos(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
+                  y: circle3.y + (r3 * Math.sin(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
+                }}
+                to={drawingPoint}
+              />
               <circle
                 className={'slice-display__drawing-point'}
                 r={3}
