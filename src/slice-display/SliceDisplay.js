@@ -3,8 +3,8 @@ import { Group } from '@visx/group';
 import './SliceDisplay.scss';
 import { Axis } from './Axis';
 import { Slider } from '../variable-settings/Slider';
-import { useState } from 'react';
-import { generateLineChunks } from '../graph-data';
+import { useMemo, useState } from 'react';
+import { generateLineChunks, scaleFactory } from '../graph-data';
 import { Line } from '@visx/shape';
 import { GraphedLines } from './GraphedLines';
 
@@ -68,37 +68,36 @@ export const SliceDisplay = (props) => {
 
   const [bind, { width, height }] = useMeasure();
   
+  const scale = useMemo(
+    () => scaleFactory({
+      R,
+      k,
+      k2,
+      h,
+      p
+    }),
+    [
+      R,
+      k,
+      k2,
+      h,
+      p
+    ]
+  );
+
   const [alpha, setAlpha] = useState(() => Math.PI / 3);
 
-  const r1 = R;
-  const r2 = R / k;
-  const r3 = R / k2;
-
-  const beta = (r1 / r2) * alpha;
-  const theta = (r1 / r3) * alpha;
-
-
-  const circle1 = {
-    x: 0,
-    y: 0,
-  };
-
-  const circle2 = {
-    x: (r1 + r2) * Math.cos(alpha),
-    y: (r1 + r2) * Math.sin(alpha),
-  };
-
-  const circle3 = {
-    x: circle2.x + ((r2 + r3) * Math.cos(alpha + beta - (beta * (1/p)))),
-    y: circle2.y + ((r2 + r3) * Math.sin(alpha + beta - (beta * (1/p)))),
-  };
-
-  const drawingPoint = {
-    x: circle3.x + (h * Math.cos(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
-    y: circle3.y + (h * Math.sin(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
-  };
-
-
+  const {
+    r1,
+    r2,
+    r3,
+    beta,
+    theta,
+    circle1,
+    circle2,
+    circle3,
+    drawingPoint,
+  } = scale(alpha);
 
   const [lines, setLines] = useState(() => []);
   useAPIEffect(

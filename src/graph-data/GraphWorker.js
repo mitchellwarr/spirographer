@@ -1,5 +1,5 @@
 import * as Comlink from 'comlink';
-import { xScaleFactory, yScaleFactory } from './ScaleUtils';
+import { scaleFactory } from './ScaleUtils';
 
 const LineData = async (
   {
@@ -17,14 +17,11 @@ const LineData = async (
   let data = [];
 
   const pack = { R, k, k2, h, p };
-  const xScale = xScaleFactory(pack);
-  const yScale = yScaleFactory(pack);
+  const scale = scaleFactory(pack);
   while (time < t2) {
     if (abort.true) return [];
-    data.push({
-      x: xScale(time),
-      y: yScale(time)
-    });
+    const { x, y } = scale(time);
+    data.push({ x, y });
     time += delta;
   }
   return data;
