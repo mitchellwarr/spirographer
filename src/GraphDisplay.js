@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 import { useAPIEffect, useMeasure } from 'hooks';
 
-import { generateLineChunks, xScaleFactory, yScaleFactory } from './graph-data';
+import { generateLineChunks, scaleFactory } from './graph-data';
 
 import { Line, LinePath } from '@visx/shape';
 import { extent } from 'd3-array';
@@ -10,15 +10,10 @@ const xGetter = ({ x }) => x;
 const yGetter = ({ y }) => y;
 
 const PIES_NEEDED = (scaleData, max) => {
-  const xScale = xScaleFactory(scaleData);
-  const yScale = yScaleFactory(scaleData);
-  const start = {
-    x: xScale(0),
-    y: yScale(0)
-  };
+  const scale = scaleFactory(scaleData);
+  const start = scale(0);
   for (let i = 1; i < max; i++) {
-    const x = xScale(Math.PI * 100 * i);
-    const y = yScale(Math.PI * 100 * i);
+    const { x, y } = scale(Math.PI * 100 * i);
     if (
       Math.abs(x - start.x) < 0.5 &&
       Math.abs(y - start.y) < 0.5
