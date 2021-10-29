@@ -5,10 +5,8 @@ import { Axis } from './Axis';
 import { Slider } from '../variable-settings/Slider';
 import { useState } from 'react';
 import { generateLineChunks } from '../graph-data';
-import { Line, LinePath } from '@visx/shape';
-
-const xGetter = ({ x }) => x;
-const yGetter = ({ y }) => y;
+import { Line } from '@visx/shape';
+import { GraphedLines } from './GraphedLines';
 
 const RCircle = ({ cx, cy, alpha, beta, r, rotation }) => {
 
@@ -149,20 +147,9 @@ export const SliceDisplay = (props) => {
 
         <Group left={width/2} top={height/2} >
           <g transform={`scale(${(Math.min(width, height) / (((r1 + r2 + r3) * 3) + h))})`} >
-              
-            <g className={'slice-display__graphed-line'} >
-              {lines.map(
-                (line, i) => (
-                  <LinePath
-                    key={i}
-                    data={line}
-                    x={xGetter}
-                    y={yGetter}
-                  />
-                )
-              )}
-            </g>
-              
+
+            <GraphedLines lines={lines} />
+
             <RCircle
               alpha={alpha}
               r={r1}
@@ -171,7 +158,7 @@ export const SliceDisplay = (props) => {
             />
 
             <RCircle
-              rotation={alpha - beta + (beta * (1/p)) - (Math.PI/2)}
+              rotation={beta}
               alpha={alpha + beta - (beta * (1/p))}
               beta={alpha}
               r={r2}
@@ -180,7 +167,7 @@ export const SliceDisplay = (props) => {
             />
 
             <RCircle
-              rotation={alpha + beta - (beta * (1/p)) - (theta * (1/p)) + (Math.PI/2)}
+              rotation={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
               alpha={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
               beta={alpha + beta - (beta * (1/p))}
               r={r3}
@@ -221,7 +208,7 @@ export const SliceDisplay = (props) => {
           }}
           onChange={setAlpha}
         >
-          Alpha
+          Time
         </Slider>
       </div>
     </div>

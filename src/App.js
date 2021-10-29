@@ -5,7 +5,7 @@ import { SliceDisplay } from './slice-display';
 import { Row, RowItem } from './elements/Row';
 
 export const App = () => {
-  
+
   const [
     variables,
     setVariables

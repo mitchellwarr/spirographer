@@ -42,7 +42,7 @@ export const VariableSettings = (props) => {
         value={h}
         onChange={onHChange}
       >
-        <div style={{ width: 50 }} >h</div>
+        <div style={{ width: 150 }} >Distance to drawing point</div>
       </Slider>
       <Slider
         min={-5}
@@ -51,7 +51,7 @@ export const VariableSettings = (props) => {
         value={p}
         onChange={onPChange}
       >
-        <div style={{ width: 50 }} >p</div>
+        <div style={{ width: 150 }} >Speed of circle rotation</div>
       </Slider>
       <Slider
         min={0.01}
@@ -60,7 +60,7 @@ export const VariableSettings = (props) => {
         value={k}
         onChange={onKChange}
       >
-        <div style={{ width: 50 }} >k</div>
+        <div style={{ width: 150 }} >Radius of first circle</div>
       </Slider>
       <Slider
         min={0.01}
@@ -69,7 +69,7 @@ export const VariableSettings = (props) => {
         value={k2}
         onChange={onK2Change}
       >
-        <div style={{ width: 50 }} >k2</div>
+        <div style={{ width: 150 }} >Radius of second circle</div>
       </Slider>
       <Slider
         min={0.001}
@@ -78,7 +78,7 @@ export const VariableSettings = (props) => {
         value={delta}
         onChange={onDeltaChange}
       >
-        <div style={{ width: 50 }} >delta</div>
+        <div style={{ width: 150 }} >Rendering ticks</div>
       </Slider>
       <Slider
         min={1}
@@ -87,7 +87,7 @@ export const VariableSettings = (props) => {
         value={maxLoops}
         onChange={onMaxLoopsChange}
       >
-        <div style={{ width: 50 }} >Render loops</div>
+        <div style={{ width: 150 }} >Render loops</div>
       </Slider>
     </div>
   );

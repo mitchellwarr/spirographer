@@ -12192,9 +12192,9 @@ const VariableSettings = props => {
       onChange: onHChange,
       children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         style: {
-          width: 50
+          width: 150
         },
-        children: "h"
+        children: "Distance to drawing point"
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: -5,
@@ -12204,9 +12204,9 @@ const VariableSettings = props => {
       onChange: onPChange,
       children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         style: {
-          width: 50
+          width: 150
         },
-        children: "p"
+        children: "Speed of circle rotation"
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 0.01,
@@ -12216,9 +12216,9 @@ const VariableSettings = props => {
       onChange: onKChange,
       children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         style: {
-          width: 50
+          width: 150
         },
-        children: "k"
+        children: "Radius of first circle"
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 0.01,
@@ -12228,9 +12228,9 @@ const VariableSettings = props => {
       onChange: onK2Change,
       children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         style: {
-          width: 50
+          width: 150
         },
-        children: "k2"
+        children: "Radius of second circle"
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 0.001,
@@ -12240,9 +12240,9 @@ const VariableSettings = props => {
       onChange: onDeltaChange,
       children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         style: {
-          width: 50
+          width: 150
         },
-        children: "delta"
+        children: "Rendering ticks"
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 1,
@@ -12252,7 +12252,7 @@ const VariableSettings = props => {
       onChange: onMaxLoopsChange,
       children: /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         style: {
-          width: 50
+          width: 150
         },
         children: "Render loops"
       })
@@ -12292,6 +12292,17 @@ const xGetter = ({
 const yGetter = ({
   y
 }) => y;
+
+const GraphedLines = ({
+  lines
+}) => /*#__PURE__*/jsxRuntime.exports.jsx("g", {
+  className: 'slice-display__graphed-line',
+  children: lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
+    data: line,
+    x: xGetter,
+    y: yGetter
+  }, i))
+});
 
 const RCircle = ({
   cx,
@@ -12421,27 +12432,22 @@ const SliceDisplay = props => {
         top: height / 2,
         children: /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
           transform: `scale(${Math.min(width, height) / ((r1 + r2 + r3) * 3 + h)})`,
-          children: [/*#__PURE__*/jsxRuntime.exports.jsx("g", {
-            className: 'slice-display__graphed-line',
-            children: lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
-              data: line,
-              x: xGetter,
-              y: yGetter
-            }, i))
+          children: [/*#__PURE__*/jsxRuntime.exports.jsx(GraphedLines, {
+            lines: lines
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
             alpha: alpha,
             r: r1,
             cx: circle1.x,
             cy: circle1.y
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-            rotation: alpha - beta + beta * (1 / p) - Math.PI / 2,
+            rotation: beta,
             alpha: alpha + beta - beta * (1 / p),
             beta: alpha,
             r: r2,
             cx: circle2.x,
             cy: circle2.y
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-            rotation: alpha + beta - beta * (1 / p) - theta * (1 / p) + Math.PI / 2,
+            rotation: alpha + beta - beta * (1 / p) - theta * (1 / p),
             alpha: alpha + beta - beta * (1 / p) - theta * (1 / p),
             beta: alpha + beta - beta * (1 / p),
             r: r3,
@@ -12479,7 +12485,7 @@ const SliceDisplay = props => {
           }
         },
         onChange: setAlpha,
-        children: "Alpha"
+        children: "Time"
       })
     })]
   });
