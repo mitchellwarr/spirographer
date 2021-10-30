@@ -4,15 +4,13 @@ import { LinePath } from '@visx/shape';
 const xGetter = ({ x }) => x;
 const yGetter = ({ y }) => y;
 
-export const PlottedLine = memo(function PlottedLine({ data }) {
+export const PlottedLine = memo(function PlottedLine({ data, ...rest }) {
   return (
     <LinePath
       data={data}
       x={xGetter}
       y={yGetter}
-      stroke={'red'}
-      opacity={0.4}
-      strokeWidth={0.5}
+      {...rest}
     />
   );
 });

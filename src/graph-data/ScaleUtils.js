@@ -2,6 +2,7 @@ export const scalePlotterFactory =({ R, k, k2, h, p }) => {
   const r1 = R;
   const r2 = R / k;
   const r3 = R / k2;
+  const rh = h * R;
 
   const r1_2 = r1 + r2;
   const r2_3 = r2 + r3;
@@ -17,8 +18,8 @@ export const scalePlotterFactory =({ R, k, k2, h, p }) => {
     const secondAngle = alpha + beta - (beta/p);
     const thirdAngle = alpha + beta - (beta/p) - (theta/p);
     
-    const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(secondAngle)) + (h * Math.cos(thirdAngle));
-    const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(secondAngle)) + (h * Math.sin(thirdAngle));
+    const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(secondAngle)) + (rh * Math.cos(thirdAngle));
+    const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(secondAngle)) + (rh * Math.sin(thirdAngle));
 
     return [x, y];
   };
@@ -28,6 +29,7 @@ export const scaleFactory = ({ R, k, k2, h, p }) => {
   const r1 = R;
   const r2 = R / k;
   const r3 = R / k2;
+  const rh = h * R;
 
   return alpha => {
 
@@ -50,14 +52,15 @@ export const scaleFactory = ({ R, k, k2, h, p }) => {
     };
   
     const drawingPoint = {
-      x: circle3.x + (h * Math.cos(alpha + beta - (beta/p) - (theta/p))),
-      y: circle3.y + (h * Math.sin(alpha + beta - (beta/p) - (theta/p))),
+      x: circle3.x + (rh * Math.cos(alpha + beta - (beta/p) - (theta/p))),
+      y: circle3.y + (rh * Math.sin(alpha + beta - (beta/p) - (theta/p))),
     };
 
     return {
       r1,
       r2,
       r3,
+      rh,
       beta,
       theta,
       circle1,

@@ -11,6 +11,7 @@ export const NumberInput = (props) => {
     className,
     value,
     style,
+    label,
     onSubmit,
     ...rest
   } = props;
@@ -18,6 +19,7 @@ export const NumberInput = (props) => {
   const { locale } = useLocale();
   const state = useNumberFieldState({
     ...rest,
+    label,
     onChange: onSubmit,
     value,
     locale
@@ -27,7 +29,7 @@ export const NumberInput = (props) => {
   const incrRef = useRef();
   const decRef = useRef();
   const {
-    // labelProps,
+    labelProps,
     groupProps,
     inputProps,
     incrementButtonProps,
@@ -35,6 +37,7 @@ export const NumberInput = (props) => {
   } = useNumberField(
     {
       value,
+      label,
       ...rest
     },
     state,
@@ -52,7 +55,14 @@ export const NumberInput = (props) => {
       )}
       style={style}
     >
-      {/* <label {...labelProps}>{props.label}</label> */}
+      {label && (
+        <label
+          className={'number-input__label'}
+          {...labelProps}
+        >
+          {label}
+        </label>
+      )}
       <div
         className={'number-input__group'}
         {...groupProps}

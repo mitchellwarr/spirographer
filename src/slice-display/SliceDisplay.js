@@ -91,6 +91,7 @@ export const SliceDisplay = (props) => {
     r1,
     r2,
     r3,
+    rh,
     beta,
     theta,
     circle1,
@@ -145,7 +146,7 @@ export const SliceDisplay = (props) => {
         <Axis width={width} height={height} />
 
         <Group left={width/2} top={height/2} >
-          <g transform={`scale(${(Math.min(width, height) / (((r1 + r2 + r3) * 3) + h))})`} >
+          <g transform={`scale(${(Math.min(width, height) / (((r1 + r2 + r3) * 3) + rh))})`} >
 
             <GraphedLines lines={lines} />
 

@@ -23,7 +23,7 @@ export const VariableSettings = (props) => {
     onMaxLoopsChange
   } = useMemo(
     () => ({
-      onHChange: h => onChange({ h }),
+      onHChange: h => onChange({ h: h / R }),
       onPChange: l => onChange({ p: 1 / l }),
       onKChange: r => onChange({ k: R / r }),
       onK2Change: r => onChange({ k2: R / r }),
@@ -34,55 +34,92 @@ export const VariableSettings = (props) => {
   );
 
   return (
-    <div className={'variable-settings'} >
-      <Slider
-        min={0}
-        max={R * 5}
-        step={1}
-        value={h}
-        onChange={onHChange}
-        label={'Distance to drawing point'}
-      />
-      <Slider
-        min={-5}
-        max={10}
-        step={0.001}
-        value={1/p}
-        onChange={onPChange}
-        label={'Speed of second circle'}
-      />
-      <Slider
-        min={0.01}
-        max={R * 5}
-        step={0.01}
-        value={R / k}
-        onChange={onKChange}
-        label={'Radius of first circle'}
-      />
-      <Slider
-        min={0.01}
-        max={R * 5}
-        step={0.01}
-        value={R / k2}
-        onChange={onK2Change}
-        label={'Radius of second circle'}
-      />
-      <Slider
-        min={0.001}
-        max={0.2}
-        step={0.001}
-        value={delta}
-        onChange={onDeltaChange}
-        label={'Rendering ticks'}
-      />
-      <Slider
-        min={1}
-        max={20}
-        step={1}
-        value={maxLoops}
-        onChange={onMaxLoopsChange}
-        label={'Render loops'}
-      />
-    </div>
+    <>
+      <div className={'variable-settings'} >
+        <div className={'variable-settings__title'} >
+          Circle 1
+        </div>
+        <div className={'variable-settings__list'} >
+          <div className={'variable-settings__label'} >
+            Radius: <span className={'variable-settings__label-number'}>{R}</span>
+          </div>
+        </div>
+
+        <div className={'variable-settings__divider'} />
+        
+        <div className={'variable-settings__title'} >
+          Circle 2
+        </div>
+        <div className={'variable-settings__list'} >
+          <Slider
+            min={0.01}
+            max={R * 5}
+            step={0.01}
+            value={R / k}
+            onChange={onKChange}
+            label={'Radius'}
+          />
+          <div className={'variable-settings__label'} >
+            Speed of rotation: <span className={'variable-settings__label-number'}>1</span>
+          </div>
+        </div>
+
+        <div className={'variable-settings__divider'} />
+
+        <div className={'variable-settings__title'} >
+          Circle 3
+        </div>
+        <div className={'variable-settings__list'} >
+          <Slider
+            min={0.01}
+            max={R * 5}
+            step={0.01}
+            value={R / k2}
+            onChange={onK2Change}
+            label={'Radius'}
+          />
+          <Slider
+            min={-5}
+            max={10}
+            step={0.001}
+            value={1/p}
+            onChange={onPChange}
+            label={'Speed of rotation'}
+          />
+          <Slider
+            min={0}
+            max={R * 5}
+            step={1}
+            value={h * R}
+            onChange={onHChange}
+            label={'Distance to drawing point'}
+          />
+        </div>
+
+        <div className={'variable-settings__divider'} />
+
+        <div className={'variable-settings__title'} >
+          Rendering settings
+        </div>
+        <div className={'variable-settings__list'} >
+          <Slider
+            min={0.001}
+            max={0.2}
+            step={0.001}
+            value={delta}
+            onChange={onDeltaChange}
+            label={'Tick rate per radian'}
+          />
+          <Slider
+            min={1}
+            max={20}
+            step={1}
+            value={maxLoops}
+            onChange={onMaxLoopsChange}
+            label={'Max loops'}
+          />
+        </div>
+      </div>
+    </>
   );
 };
