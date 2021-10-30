@@ -5,7 +5,6 @@ import { SliceDisplay } from './slice-display';
 
 const PRESETS = [
   {
-    R: 40,
     h: 40,
     p: 0.5,
     k: 2.5,
@@ -14,7 +13,6 @@ const PRESETS = [
     maxLoops: 2
   },
   {
-    R: 40,
     h: 40,
     p: 0.5,
     k: 0.996,
@@ -23,7 +21,6 @@ const PRESETS = [
     maxLoops: 5
   },
   {
-    R: 40,
     h: 0,
     p: 1.934,
     k: 2.394,
@@ -32,13 +29,28 @@ const PRESETS = [
     maxLoops: 1
   },
   {
-    R: 40,
     h: 100,
     p: 0.5,
     k: 0.804,
     k2: 4.608,
     delta: 0.04,
     maxLoops: 3
+  },
+  {
+    h: 52,
+    p: 0.31702,
+    k: 0.476,
+    k2: 1.894,
+    delta: 0.023,
+    maxLoops: 3
+  },
+  {
+    h: 13,
+    p: 0.31702,
+    k: 0.476,
+    k2: 1.894,
+    delta: 0.023,
+    maxLoops: 6
   },
 ];
 
@@ -48,7 +60,10 @@ export const App = () => {
     variables,
     setVariables
   ] = useStateReducer(
-    () => PRESETS[Math.floor(Math.random() * PRESETS.length)]
+    () => ({
+      R: 40,
+      ...PRESETS[Math.floor(Math.random() * PRESETS.length)]
+    })
   );
 
   return (

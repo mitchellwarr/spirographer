@@ -12504,7 +12504,6 @@ const SliceDisplay = props => {
 };
 
 const PRESETS = [{
-  R: 40,
   h: 40,
   p: 0.5,
   k: 2.5,
@@ -12512,7 +12511,6 @@ const PRESETS = [{
   delta: 0.04,
   maxLoops: 2
 }, {
-  R: 40,
   h: 40,
   p: 0.5,
   k: 0.996,
@@ -12520,7 +12518,6 @@ const PRESETS = [{
   delta: 0.04,
   maxLoops: 5
 }, {
-  R: 40,
   h: 0,
   p: 1.934,
   k: 2.394,
@@ -12528,16 +12525,32 @@ const PRESETS = [{
   delta: 0.04,
   maxLoops: 1
 }, {
-  R: 40,
   h: 100,
   p: 0.5,
   k: 0.804,
   k2: 4.608,
   delta: 0.04,
   maxLoops: 3
+}, {
+  h: 52,
+  p: 0.31702,
+  k: 0.476,
+  k2: 1.894,
+  delta: 0.023,
+  maxLoops: 3
+}, {
+  h: 13,
+  p: 0.31702,
+  k: 0.476,
+  k2: 1.894,
+  delta: 0.023,
+  maxLoops: 6
 }];
 const App = () => {
-  const [variables, setVariables] = useStateReducer(() => PRESETS[Math.floor(Math.random() * PRESETS.length)]);
+  const [variables, setVariables] = useStateReducer(() => ({
+    R: 40,
+    ...PRESETS[Math.floor(Math.random() * PRESETS.length)]
+  }));
   return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
       style: {
