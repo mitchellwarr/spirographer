@@ -16,10 +16,12 @@
     flex-grow: 1;
     flex-shrink: 1;
     cursor: pointer;
+    min-width: unquote('min(100%, 400px)')
   }
   
   &__input {
     width: 100px;
+    margin-left: auto;
     flex-grow: 0;
     flex-shrink: 0;
     cursor: pointer;

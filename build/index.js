@@ -21096,20 +21096,20 @@ const App = () => {
     dir: direction,
     children: [/*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
       style: {
+        width: '50%'
+      },
+      flexible: true,
+      children: /*#__PURE__*/jsxRuntime.exports.jsx(GraphDisplay, { ...variables
+      })
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      style: {
         width: 600,
-        minWidth: 600
+        minWidth: 'min(calc(100% - 32px), 600px)'
       },
       flexible: true,
       column: true,
       children: /*#__PURE__*/jsxRuntime.exports.jsx(VariableSettings, { ...variables,
         onChange: setVariables
-      })
-    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
-      style: {
-        width: '50%'
-      },
-      flexible: true,
-      children: /*#__PURE__*/jsxRuntime.exports.jsx(GraphDisplay, { ...variables
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
       style: {

@@ -23,16 +23,16 @@ export const App = () => {
   const { locale, direction } = useLocale();
   return (
     <Row wrap spacing={32} lang={locale} dir={direction} >
-      <RowItem style={{ width: 600, minWidth: 600 }} flexible column >
-        <VariableSettings
-          {...variables}
-          onChange={setVariables}
-        />
-      </RowItem>
-
       <RowItem style={{ width: '50%' }} flexible >
         <GraphDisplay
           {...variables}
+        />
+      </RowItem>
+
+      <RowItem style={{ width: 600, minWidth: 'min(calc(100% - 32px), 600px)' }} flexible column >
+        <VariableSettings
+          {...variables}
+          onChange={setVariables}
         />
       </RowItem>
 
