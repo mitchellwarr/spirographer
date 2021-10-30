@@ -1,3 +1,28 @@
+export const scalePlotterFactory =({ R, k, k2, h, p }) => {
+  const r1 = R;
+  const r2 = R / k;
+  const r3 = R / k2;
+
+  const r1_2 = r1 + r2;
+  const r2_3 = r2 + r3;
+
+  const betaR = r1 / r2;
+  const thetaR = r1 / r3;
+
+  return alpha => {
+    const beta = betaR * alpha;
+    const theta = thetaR * alpha;
+  
+  
+    const secondAngle = alpha + beta - (beta/p);
+    const thirdAngle = alpha + beta - (beta/p) - (theta/p);
+    
+    const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(secondAngle)) + (h * Math.cos(thirdAngle));
+    const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(secondAngle)) + (h * Math.sin(thirdAngle));
+
+    return [x, y];
+  };
+};
 
 export const scaleFactory = ({ R, k, k2, h, p }) => {
   const r1 = R;

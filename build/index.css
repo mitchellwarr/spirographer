@@ -8,27 +8,6 @@ body {
 body * {
   box-sizing: inherit; }
 
-.slider {
-  display: flex;
-  align-items: center; }
-  .slider__label {
-    margin-right: 8px;
-    flex-grow: 0;
-    flex-shrink: 0; }
-  .slider__slider {
-    width: 100%;
-    margin-right: 8px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    cursor: pointer; }
-  .slider__input {
-    width: 50px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    cursor: pointer; }
-    .slider__input:focus-within {
-      cursor: auto; }
-
 .variable-settings {
   width: 100%;
   border-radius: 4px;
@@ -70,3 +49,57 @@ body * {
     stroke: #d32a2a;
     stroke-width: 1;
     opacity: 0.6; }
+
+.slider {
+  display: flex;
+  align-items: center; }
+  .slider__label {
+    margin-right: 8px;
+    flex-grow: 0;
+    flex-shrink: 0; }
+  .slider__slider {
+    width: 100%;
+    margin-right: 8px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    cursor: pointer; }
+  .slider__input {
+    width: 100px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    cursor: pointer; }
+    .slider__input:focus-within {
+      cursor: auto; }
+
+.number-input {
+  display: flex; }
+  .number-input__group {
+    display: flex;
+    width: 100%; }
+  .number-input__input {
+    width: 100%;
+    flex-grow: 1;
+    flex-shrink: 1;
+    border: 1px solid #8f8f8f;
+    border-radius: 4px 0 0 4px;
+    padding: 4px 8px; }
+  .number-input__buttons {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 0;
+    flex-shrink: 0;
+    width: 24px;
+    border-radius: 0 4px 4px 0;
+    overflow: hidden;
+    border: 1px solid #8f8f8f;
+    border-left: none; }
+    .number-input__buttons button {
+      height: 50%;
+      width: 100%;
+      border-radius: 0;
+      padding: 0;
+      cursor: pointer;
+      border: none;
+      background: #ebebeb; }
+      .number-input__buttons button:first-child {
+        border-bottom: 1px solid #8f8f8f; }

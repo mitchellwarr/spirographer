@@ -2,7 +2,7 @@ import { useMeasure, useAPIEffect } from 'hooks';
 import { Group } from '@visx/group';
 import './SliceDisplay.scss';
 import { Axis } from './Axis';
-import { Slider } from '../variable-settings/Slider';
+import { Slider } from 'elements/slider';
 import { useMemo, useState } from 'react';
 import { generateLineChunks, scaleFactory } from '../graph-data';
 import { Line } from '@visx/shape';
@@ -120,7 +120,7 @@ export const SliceDisplay = (props) => {
           setLines(
             lines => {
               lines[chunk] = line;
-              return [...lines].slice(0, chunks.length);
+              return [...lines];
             }
           );
         }
@@ -206,9 +206,8 @@ export const SliceDisplay = (props) => {
             }
           }}
           onChange={setAlpha}
-        >
-          Time
-        </Slider>
+          label={'Time'}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,5 @@
 import * as Comlink from 'comlink';
-import { scaleFactory } from './ScaleUtils';
+import { scalePlotterFactory } from './ScaleUtils';
 
 const LineData = async (
   {
@@ -17,14 +17,21 @@ const LineData = async (
   let data = [];
 
   const pack = { R, k, k2, h, p };
-  const scale = scaleFactory(pack);
-  while (time < t2) {
-    if (abort.true) return [];
-    const { x, y } = scale(time);
+  const scale = scalePlotterFactory(pack);
+  let maxFromOrigin = 0;
+  
+  while(time < t2) {
+    if (abort.true) return {};
+    const [x, y] = scale(time);
+    if (Math.abs(x) > maxFromOrigin) maxFromOrigin = Math.abs(x);
+    if (Math.abs(y) > maxFromOrigin) maxFromOrigin = Math.abs(y);
     data.push({ x, y });
     time += delta;
   }
-  return data;
+  return {
+    data,
+    maxFromOrigin
+  };
 };
 
 Comlink.expose(LineData);

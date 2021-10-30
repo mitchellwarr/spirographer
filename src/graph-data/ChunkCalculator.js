@@ -41,9 +41,14 @@ export const generateLineChunks = (props, cb) => {
       abort
     )
       .then(
-        line => {
+        ({ data: line, maxFromOrigin }) => {
           if (abort.true) return;
-          cb({ line, chunk: i, chunks: ranges });
+          cb({
+            line,
+            chunk: i,
+            chunks: ranges,
+            maxFromOrigin
+          });
         }
       );
   }

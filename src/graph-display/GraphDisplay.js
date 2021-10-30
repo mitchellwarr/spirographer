@@ -35,9 +35,24 @@ export const GraphDisplay = (props) => {
 
   const [bind, { width, height }] = useMeasure();
 
-  const [lines, setLines] = useState(() => new Array(maxLoops).fill([]));
+  const [
+    {
+      lines,
+      maxRadius
+    },
+    setLines
+  ] = useState(
+    () => ({
+      lines: new Array(maxLoops).fill([]),
+      maxRadius: 0
+    })
+  );
+
   useEffect(
-    () => setLines(new Array(maxLoops).fill([])),
+    () => void setLines(({
+      lines: new Array(maxLoops).fill([]),
+      maxRadius: 0
+    })),
     [maxLoops]
   );
 
@@ -50,10 +65,13 @@ export const GraphDisplay = (props) => {
     api => {
       const chunksOverwritten = maxAlpha * CHUNKS_PER_PIE;
       setLines(
-        lines => [
-          ...lines.slice(0, chunksOverwritten),
-          ...lines.slice(chunksOverwritten).map(() => [])
-        ]
+        ({ lines }) => ({
+          lines: [
+            ...lines.slice(0, chunksOverwritten),
+            ...lines.slice(chunksOverwritten).map(() => [])
+          ],
+          maxRadius: (R + (R/k) + (R/k2))
+        })
       );
       return generateLineChunks(
         {
@@ -67,12 +85,15 @@ export const GraphDisplay = (props) => {
           p,
           delta,
         },
-        ({ line, chunk, chunks }) => {
+        ({ line, chunk, chunks, maxFromOrigin }) => {
           if (!api.current) return;
           setLines(
-            lines => {
+            ({ lines, maxRadius }) => {
               lines[chunk] = line;
-              return [...lines];
+              return {
+                lines: [...lines],
+                maxRadius: Math.max(maxRadius, maxFromOrigin)
+              };
             }
           );
         }
@@ -81,8 +102,7 @@ export const GraphDisplay = (props) => {
     [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]
   );
 
-  const viewRadius = Math.max(...lines.flat().flatMap(d => [Math.abs(d.x), Math.abs(d.y)])) || 0;
-  const viewZoomRatio = ((viewRadius*2) / Math.min(width, height)) || 1;
+  const viewZoomRatio = ((maxRadius*2) / Math.min(width, height)) || 1;
 
   return (
     <div
@@ -101,7 +121,7 @@ export const GraphDisplay = (props) => {
         width={width}
         height={height}
         style={{ position: 'absolute', top: 0, left: 0 }}
-        viewBox={`${-viewRadius} ${-viewRadius} ${viewRadius*2} ${viewRadius*2}`}
+        viewBox={`${-maxRadius} ${-maxRadius} ${maxRadius*2} ${maxRadius*2}`}
       >
         <Line
           from={{ x: -(width/2) * viewZoomRatio }}

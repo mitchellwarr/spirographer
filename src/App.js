@@ -2,6 +2,7 @@ import { useStateReducer } from 'hooks';
 import { GraphDisplay } from './graph-display/GraphDisplay';
 import { VariableSettings } from './variable-settings';
 import { SliceDisplay } from './slice-display';
+import { useLocale } from '@react-aria/i18n';
 
 const PRESETS = [
   {
@@ -52,6 +53,14 @@ const PRESETS = [
     delta: 0.023,
     maxLoops: 6
   },
+  {
+    h: 60,
+    p: 0.31565656565656564,
+    k: 0.4594004823705065,
+    k2: 1.8939393939393938,
+    delta: 0.023,
+    maxLoops: 5
+  },
 ];
 
 export const App = () => {
@@ -66,8 +75,9 @@ export const App = () => {
     })
   );
 
+  const { locale, direction } = useLocale();
   return (
-    <div>
+    <div lang={locale} dir={direction} >
       <div style={{ marginBottom: 32 }} >
         <GraphDisplay
           {...variables}

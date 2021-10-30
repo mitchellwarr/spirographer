@@ -1,4 +1,4 @@
-import { Slider } from 'variable-settings/Slider';
+import { Slider } from 'elements/slider';
 
 export const TimeSlider = ({ onChange, value, style }) => {
   return (
@@ -9,9 +9,8 @@ export const TimeSlider = ({ onChange, value, style }) => {
       value={value}
       style={style}
       onChange={onChange}
-    >
-      Time
-    </Slider>
+      label={'Time'}
+    />
   );
 };
 

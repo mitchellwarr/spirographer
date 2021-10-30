@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { Slider } from './Slider';
+import { Slider } from 'elements/slider';
 import './VariableSettings.scss';
 
 export const VariableSettings = (props) => {
@@ -24,13 +24,13 @@ export const VariableSettings = (props) => {
   } = useMemo(
     () => ({
       onHChange: h => onChange({ h }),
-      onPChange: p => onChange({ p }),
-      onKChange: k => onChange({ k }),
-      onK2Change: k2 => onChange({ k2 }),
+      onPChange: l => onChange({ p: 1 / l }),
+      onKChange: r => onChange({ k: R / r }),
+      onK2Change: r => onChange({ k2: R / r }),
       onDeltaChange: delta => onChange({ delta }),
       onMaxLoopsChange: maxLoops => onChange({ maxLoops }),
     }),
-    [onChange]
+    [onChange, R]
   );
 
   return (
@@ -41,54 +41,54 @@ export const VariableSettings = (props) => {
         step={1}
         value={h}
         onChange={onHChange}
-      >
-        <div style={{ width: 150 }} >Distance to drawing point</div>
-      </Slider>
+        label={'Distance to drawing point'}
+        labelWidth={150}
+      />
       <Slider
         min={-5}
         max={10}
-        step={0.002}
-        value={p}
+        step={0.001}
+        value={1/p}
         onChange={onPChange}
-      >
-        <div style={{ width: 150 }} >Speed of circle rotation</div>
-      </Slider>
+        label={'Speed of second circle'}
+        labelWidth={150}
+      />
       <Slider
         min={0.01}
-        max={10}
-        step={0.002}
-        value={k}
+        max={R * 5}
+        step={0.01}
+        value={R / k}
         onChange={onKChange}
-      >
-        <div style={{ width: 150 }} >Radius of first circle</div>
-      </Slider>
+        label={'Radius of first circle'}
+        labelWidth={150}
+      />
       <Slider
         min={0.01}
-        max={10}
-        step={0.002}
-        value={k2}
+        max={R * 5}
+        step={0.01}
+        value={R / k2}
         onChange={onK2Change}
-      >
-        <div style={{ width: 150 }} >Radius of second circle</div>
-      </Slider>
+        label={'Radius of second circle'}
+        labelWidth={150}
+      />
       <Slider
         min={0.001}
         max={0.2}
         step={0.001}
         value={delta}
         onChange={onDeltaChange}
-      >
-        <div style={{ width: 150 }} >Rendering ticks</div>
-      </Slider>
+        label={'Rendering ticks'}
+        labelWidth={150}
+      />
       <Slider
         min={1}
         max={20}
         step={1}
         value={maxLoops}
         onChange={onMaxLoopsChange}
-      >
-        <div style={{ width: 150 }} >Render loops</div>
-      </Slider>
+        label={'Render loops'}
+        labelWidth={150}
+      />
     </div>
   );
 };
