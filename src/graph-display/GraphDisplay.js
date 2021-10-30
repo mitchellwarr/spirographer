@@ -1,14 +1,11 @@
-import { useMemo, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useAPIEffect, useMeasure } from 'hooks';
 
-import { generateLineChunks, scaleFactory } from './graph-data';
+import { generateLineChunks, scaleFactory } from 'graph-data';
 
-import { Line, LinePath } from '@visx/shape';
-import { extent } from 'd3-array';
-import { Slider } from './variable-settings/Slider';
-
-const xGetter = ({ x }) => x;
-const yGetter = ({ y }) => y;
+import { Line } from '@visx/shape';
+import { PlottedLine } from './PlottedLine';
+import { TimeSlider } from './TimeSlider';
 
 const PIES_NEEDED = (scaleData, max) => {
   const scale = scaleFactory(scaleData);
@@ -38,7 +35,11 @@ export const GraphDisplay = (props) => {
 
   const [bind, { width, height }] = useMeasure();
 
-  const [lines, setLines] = useState(() => []);
+  const [lines, setLines] = useState(() => new Array(maxLoops).fill([]));
+  useEffect(
+    () => setLines(new Array(maxLoops).fill([])),
+    [maxLoops]
+  );
 
   const chunkLength = (Math.PI * 100) / CHUNKS_PER_PIE;
   const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, maxLoops);
@@ -47,6 +48,13 @@ export const GraphDisplay = (props) => {
 
   useAPIEffect(
     api => {
+      const chunksOverwritten = maxAlpha * CHUNKS_PER_PIE;
+      setLines(
+        lines => [
+          ...lines.slice(0, chunksOverwritten),
+          ...lines.slice(chunksOverwritten).map(() => [])
+        ]
+      );
       return generateLineChunks(
         {
           alphaStart: 0,
@@ -59,12 +67,12 @@ export const GraphDisplay = (props) => {
           p,
           delta,
         },
-        ({ line, chunk, chunkLength }) => {
+        ({ line, chunk, chunks }) => {
           if (!api.current) return;
           setLines(
             lines => {
               lines[chunk] = line;
-              return [...lines].slice(0, chunkLength);
+              return [...lines];
             }
           );
         }
@@ -73,16 +81,9 @@ export const GraphDisplay = (props) => {
     [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]
   );
 
-  const viewRadius = useMemo(
-    () => {
-      const xDomain = extent(lines.flat(), xGetter);
-      const yDomain = extent(lines.flat(), yGetter);
-      return Math.max(...[...xDomain, ...yDomain].map(x => Math.abs(x))) || 0;
-    },
-    [lines]
-  );
-
+  const viewRadius = Math.max(...lines.flat().flatMap(d => [Math.abs(d.x), Math.abs(d.y)])) || 0;
   const viewZoomRatio = ((viewRadius*2) / Math.min(width, height)) || 1;
+
   return (
     <div
       style={{
@@ -116,33 +117,18 @@ export const GraphDisplay = (props) => {
         />
         {lines.map(
           (line, i) => (
-            <LinePath
+            <PlottedLine
               key={i}
               data={line}
-              x={xGetter}
-              y={yGetter}
-              stroke={'red'}
-              opacity={0.4}
-              strokeWidth={0.5}
             />
           )
         )}
       </svg>
       <div style={{ padding: '8px 16px' }} >
-        <Slider
-          min={0}
-          max={1}
-          step={'any'}
+        <TimeSlider
           value={alphaPercent}
-          style={{
-            input: {
-              width: 80
-            }
-          }}
           onChange={setAlphaPercent}
-        >
-          Time
-        </Slider>
+        />
       </div>
     </div>
   );

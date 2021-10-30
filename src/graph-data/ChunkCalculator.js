@@ -43,7 +43,7 @@ export const generateLineChunks = (props, cb) => {
       .then(
         line => {
           if (abort.true) return;
-          cb({ line, chunk: i, chunkLength: ranges.length });
+          cb({ line, chunk: i, chunks: ranges });
         }
       );
   }

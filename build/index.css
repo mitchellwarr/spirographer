@@ -8,140 +8,26 @@ body {
 body * {
   box-sizing: inherit; }
 
-.system-layout-row {
+.slider {
   display: flex;
-  align-items: center;
-  width: 100%; }
-  .system-layout-row__wrapper {
+  align-items: center; }
+  .slider__label {
+    margin-right: 8px;
+    flex-grow: 0;
+    flex-shrink: 0; }
+  .slider__slider {
     width: 100%;
-    display: flex; }
-    .system-layout-row__wrapper--flexible {
-      flex-grow: 1;
-      flex-shrink: 1; }
-  .system-layout-row--center {
-    justify-content: center; }
-  .system-layout-row--wrap {
-    align-items: flex-start;
-    flex-wrap: wrap;
-    pointer-events: none; }
-    .system-layout-row--wrap > * {
-      pointer-events: all; }
-  .system-layout-row > .system-layout-row__item {
-    display: flex; }
-    .system-layout-row > .system-layout-row__item--layout-row {
-      flex-direction: row; }
-    .system-layout-row > .system-layout-row__item--layout-column {
-      flex-direction: column; }
-    .system-layout-row > .system-layout-row__item--flexible {
-      flex-grow: 1;
-      flex-shrink: 1; }
-    .system-layout-row > .system-layout-row__item--inflexible {
-      flex-grow: 0;
-      flex-shrink: 0; }
-    .system-layout-row > .system-layout-row__item--right {
-      margin-left: auto !important; }
-    .system-layout-row > .system-layout-row__item--bottom {
-      margin-top: auto !important; }
-  .system-layout-row--spacing-0 > .system-layout-row__item:not(:last-child) {
-    margin-right: 0px; }
-  .system-layout-row--spacing-0.system-layout-row--wrap {
-    width: calc(100% + 0px);
-    margin-top: -0px;
-    margin-left: -0px; }
-  .system-layout-row--spacing-0.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 0px;
-    margin-left: 0px;
-    margin-right: 0; }
-  .system-layout-row--spacing-4 > .system-layout-row__item:not(:last-child) {
-    margin-right: 4px; }
-  .system-layout-row--spacing-4.system-layout-row--wrap {
-    width: calc(100% + 4px);
-    margin-top: -4px;
-    margin-left: -4px; }
-  .system-layout-row--spacing-4.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 4px;
-    margin-left: 4px;
-    margin-right: 0; }
-  .system-layout-row--spacing-8 > .system-layout-row__item:not(:last-child) {
-    margin-right: 8px; }
-  .system-layout-row--spacing-8.system-layout-row--wrap {
-    width: calc(100% + 8px);
-    margin-top: -8px;
-    margin-left: -8px; }
-  .system-layout-row--spacing-8.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 8px;
-    margin-left: 8px;
-    margin-right: 0; }
-  .system-layout-row--spacing-16 > .system-layout-row__item:not(:last-child) {
-    margin-right: 16px; }
-  .system-layout-row--spacing-16.system-layout-row--wrap {
-    width: calc(100% + 16px);
-    margin-top: -16px;
-    margin-left: -16px; }
-  .system-layout-row--spacing-16.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 16px;
-    margin-left: 16px;
-    margin-right: 0; }
-  .system-layout-row--spacing-24 > .system-layout-row__item:not(:last-child) {
-    margin-right: 24px; }
-  .system-layout-row--spacing-24.system-layout-row--wrap {
-    width: calc(100% + 24px);
-    margin-top: -24px;
-    margin-left: -24px; }
-  .system-layout-row--spacing-24.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 24px;
-    margin-left: 24px;
-    margin-right: 0; }
-  .system-layout-row--spacing-32 > .system-layout-row__item:not(:last-child) {
-    margin-right: 32px; }
-  .system-layout-row--spacing-32.system-layout-row--wrap {
-    width: calc(100% + 32px);
-    margin-top: -32px;
-    margin-left: -32px; }
-  .system-layout-row--spacing-32.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 32px;
-    margin-left: 32px;
-    margin-right: 0; }
-  .system-layout-row--spacing-40 > .system-layout-row__item:not(:last-child) {
-    margin-right: 40px; }
-  .system-layout-row--spacing-40.system-layout-row--wrap {
-    width: calc(100% + 40px);
-    margin-top: -40px;
-    margin-left: -40px; }
-  .system-layout-row--spacing-40.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 40px;
-    margin-left: 40px;
-    margin-right: 0; }
-  .system-layout-row--spacing-48 > .system-layout-row__item:not(:last-child) {
-    margin-right: 48px; }
-  .system-layout-row--spacing-48.system-layout-row--wrap {
-    width: calc(100% + 48px);
-    margin-top: -48px;
-    margin-left: -48px; }
-  .system-layout-row--spacing-48.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 48px;
-    margin-left: 48px;
-    margin-right: 0; }
-  .system-layout-row--spacing-56 > .system-layout-row__item:not(:last-child) {
-    margin-right: 56px; }
-  .system-layout-row--spacing-56.system-layout-row--wrap {
-    width: calc(100% + 56px);
-    margin-top: -56px;
-    margin-left: -56px; }
-  .system-layout-row--spacing-56.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 56px;
-    margin-left: 56px;
-    margin-right: 0; }
-  .system-layout-row--spacing-64 > .system-layout-row__item:not(:last-child) {
-    margin-right: 64px; }
-  .system-layout-row--spacing-64.system-layout-row--wrap {
-    width: calc(100% + 64px);
-    margin-top: -64px;
-    margin-left: -64px; }
-  .system-layout-row--spacing-64.system-layout-row--wrap > .system-layout-row__item {
-    margin-top: 64px;
-    margin-left: 64px;
-    margin-right: 0; }
+    margin-right: 8px;
+    flex-grow: 1;
+    flex-shrink: 1;
+    cursor: pointer; }
+  .slider__input {
+    width: 50px;
+    flex-grow: 0;
+    flex-shrink: 0;
+    cursor: pointer; }
+    .slider__input:focus-within {
+      cursor: auto; }
 
 .variable-settings {
   width: 100%;
@@ -184,24 +70,3 @@ body * {
     stroke: #d32a2a;
     stroke-width: 1;
     opacity: 0.6; }
-
-.slider {
-  display: flex;
-  align-items: center; }
-  .slider__label {
-    margin-right: 8px;
-    flex-grow: 0;
-    flex-shrink: 0; }
-  .slider__slider {
-    width: 100%;
-    margin-right: 8px;
-    flex-grow: 1;
-    flex-shrink: 1;
-    cursor: pointer; }
-  .slider__input {
-    width: 50px;
-    flex-grow: 0;
-    flex-shrink: 0;
-    cursor: pointer; }
-    .slider__input:focus-within {
-      cursor: auto; }

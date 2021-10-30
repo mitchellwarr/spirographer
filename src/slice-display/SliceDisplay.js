@@ -115,12 +115,12 @@ export const SliceDisplay = (props) => {
           p,
           delta,
         },
-        ({ line, chunk, chunkLength }) => {
+        ({ line, chunk, chunks }) => {
           if (!api.current) return;
           setLines(
             lines => {
               lines[chunk] = line;
-              return [...lines].slice(0, chunkLength);
+              return [...lines].slice(0, chunks.length);
             }
           );
         }
