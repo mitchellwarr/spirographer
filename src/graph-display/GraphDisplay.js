@@ -70,7 +70,7 @@ export const GraphDisplay = (props) => {
             ...lines.slice(0, chunksOverwritten),
             ...lines.slice(chunksOverwritten).map(() => [])
           ],
-          maxRadius: (R + (R/k) + (R/k2))
+          maxRadius: (R + ((R/k) * 2) + ((R/k2) * 2))
         })
       );
       return generateLineChunks(
