@@ -52,19 +52,15 @@ body * {
     fill: #ecda38; }
   .slice-display__r-circumference {
     stroke: white;
-    stroke-width: 1;
     fill: none; }
   .slice-display__r-line {
-    stroke: #ecda38;
-    stroke-width: 1; }
+    stroke: #ecda38; }
   .slice-display__r-diameter {
-    stroke: #d4d4d4;
-    stroke-width: 0.5; }
+    stroke: #d4d4d4; }
   .slice-display__drawing-point {
     fill: #d32a2a; }
   .slice-display__graphed-line {
     stroke: #d32a2a;
-    stroke-width: 1;
     opacity: 0.6; }
 
 .slider {

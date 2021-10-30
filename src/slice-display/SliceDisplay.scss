@@ -27,16 +27,13 @@
     }
     &-circumference {
       stroke: white;
-      stroke-width: 1;
       fill: none;
     }
     &-line {
       stroke: #ecda38;
-      stroke-width: 1;
     }
     &-diameter {
       stroke: #d4d4d4;
-      stroke-width: 0.5;
     }
   }
 
@@ -46,7 +43,6 @@
 
   &__graphed-line {
     stroke: #d32a2a;
-    stroke-width: 1;
     opacity: 0.6;
   }
 }

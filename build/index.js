@@ -20785,13 +20785,15 @@ const yGetter = ({
 }) => y;
 
 const GraphedLines = ({
-  lines
+  lines,
+  viewZoomRatio
 }) => /*#__PURE__*/jsxRuntime.exports.jsx("g", {
   className: 'slice-display__graphed-line',
   children: lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(LinePath, {
     data: line,
     x: xGetter,
-    y: yGetter
+    y: yGetter,
+    strokeWidth: viewZoomRatio
   }, i))
 });
 
@@ -20801,41 +20803,47 @@ const RCircle = ({
   alpha,
   beta,
   r,
-  rotation
+  rotation,
+  viewZoomRatio
 }) => {
+  const halfPI = Math.PI / 2;
   return /*#__PURE__*/jsxRuntime.exports.jsxs(Group, {
     left: cx,
     top: cy,
     children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
       className: 'slice-display__r-diameter',
       from: {
-        x: r * Math.cos(rotation - Math.PI),
-        y: r * Math.sin(rotation - Math.PI)
+        x: r * Math.cos(rotation - halfPI),
+        y: r * Math.sin(rotation - halfPI)
       },
       to: {
-        x: r * Math.cos(rotation),
-        y: r * Math.sin(rotation)
-      }
+        x: r * Math.cos(rotation + halfPI),
+        y: r * Math.sin(rotation + halfPI)
+      },
+      strokeWidth: viewZoomRatio
     }), /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
       className: 'slice-display__r-center',
-      r: 2
+      r: 3 * viewZoomRatio
     }), /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
       className: 'slice-display__r-circumference',
-      r: r
+      r: r,
+      strokeWidth: viewZoomRatio
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
       className: 'slice-display__r-line',
       from: {},
       to: {
         x: r * Math.cos(alpha),
         y: r * Math.sin(alpha)
-      }
+      },
+      strokeWidth: 1.5 * viewZoomRatio
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
       className: 'slice-display__r-line',
       from: {},
       to: {
         x: r * Math.cos(beta + Math.PI),
         y: r * Math.sin(beta + Math.PI)
-      }
+      },
+      strokeWidth: 1.5 * viewZoomRatio
     })]
   });
 };
@@ -20899,11 +20907,13 @@ const SliceDisplay = props => {
       });
     });
   }, [R, k, k2, h, p, delta, alpha]);
+  const maxRadius = (r1 + r2 + r3) * 3 + rh;
+  const viewZoomRatio = maxRadius * 2 / Math.min(width, height) || 1;
   return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     className: 'slice-display',
     children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", { ...bind,
       style: {
-        height: 500
+        height: 600
       }
     }), /*#__PURE__*/jsxRuntime.exports.jsxs("svg", {
       className: 'slice-display__svg',
@@ -20920,28 +20930,32 @@ const SliceDisplay = props => {
         left: width / 2,
         top: height / 2,
         children: /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
-          transform: `scale(${Math.min(width, height) / ((r1 + r2 + r3) * 3 + rh)})`,
+          transform: `scale(${Math.min(width, height) / maxRadius})`,
           children: [/*#__PURE__*/jsxRuntime.exports.jsx(GraphedLines, {
-            lines: lines
+            lines: lines,
+            viewZoomRatio: viewZoomRatio
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
             alpha: alpha,
             r: r1,
             cx: circle1.x,
-            cy: circle1.y
+            cy: circle1.y,
+            viewZoomRatio: viewZoomRatio
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
-            rotation: beta,
+            rotation: alpha + beta,
             alpha: alpha + beta - beta * (1 / p),
             beta: alpha,
             r: r2,
             cx: circle2.x,
-            cy: circle2.y
+            cy: circle2.y,
+            viewZoomRatio: viewZoomRatio
           }), /*#__PURE__*/jsxRuntime.exports.jsx(RCircle, {
             rotation: alpha + beta - beta * (1 / p) - theta * (1 / p),
             alpha: alpha + beta - beta * (1 / p) - theta * (1 / p),
             beta: alpha + beta - beta * (1 / p),
             r: r3,
             cx: circle3.x,
-            cy: circle3.y
+            cy: circle3.y,
+            viewZoomRatio: viewZoomRatio
           }), /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
             children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
               className: 'slice-display__r-line',
@@ -20949,10 +20963,11 @@ const SliceDisplay = props => {
                 x: circle3.x + r3 * Math.cos(alpha + beta - beta * (1 / p) - theta * (1 / p)),
                 y: circle3.y + r3 * Math.sin(alpha + beta - beta * (1 / p) - theta * (1 / p))
               },
-              to: drawingPoint
+              to: drawingPoint,
+              strokeWidth: viewZoomRatio
             }), /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
               className: 'slice-display__drawing-point',
-              r: 3,
+              r: 3 * viewZoomRatio,
               cx: drawingPoint.x,
               cy: drawingPoint.y
             })]

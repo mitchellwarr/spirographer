@@ -8,8 +8,8 @@ import { generateLineChunks, scaleFactory } from '../graph-data';
 import { Line } from '@visx/shape';
 import { GraphedLines } from './GraphedLines';
 
-const RCircle = ({ cx, cy, alpha, beta, r, rotation }) => {
-
+const RCircle = ({ cx, cy, alpha, beta, r, rotation, viewZoomRatio }) => {
+  const halfPI = Math.PI/2;
   return (
     <Group
       left={cx}
@@ -18,21 +18,23 @@ const RCircle = ({ cx, cy, alpha, beta, r, rotation }) => {
       <Line
         className={'slice-display__r-diameter'}
         from={{
-          x: r * Math.cos(rotation - Math.PI),
-          y: r * Math.sin(rotation - Math.PI),
+          x: r * Math.cos(rotation - halfPI),
+          y: r * Math.sin(rotation - halfPI),
         }}
         to={{
-          x: r * Math.cos(rotation),
-          y: r * Math.sin(rotation),
+          x: r * Math.cos(rotation + halfPI),
+          y: r * Math.sin(rotation + halfPI),
         }}
+        strokeWidth={viewZoomRatio}
       />
       <circle
         className={'slice-display__r-center'}
-        r={2}
+        r={3 * viewZoomRatio}
       />
       <circle
         className={'slice-display__r-circumference'}
         r={r}
+        strokeWidth={viewZoomRatio}
       />
       <Line
         className={'slice-display__r-line'}
@@ -41,6 +43,7 @@ const RCircle = ({ cx, cy, alpha, beta, r, rotation }) => {
           x: r * Math.cos(alpha),
           y: r * Math.sin(alpha),
         }}
+        strokeWidth={1.5 * viewZoomRatio}
       />
       <Line
         className={'slice-display__r-line'}
@@ -49,6 +52,7 @@ const RCircle = ({ cx, cy, alpha, beta, r, rotation }) => {
           x: r * Math.cos(beta + Math.PI),
           y: r * Math.sin(beta + Math.PI),
         }}
+        strokeWidth={1.5 * viewZoomRatio}
       />
     </Group>
   );
@@ -130,11 +134,13 @@ export const SliceDisplay = (props) => {
     [R, k, k2, h, p, delta, alpha]
   );
   
+  const maxRadius = (((r1 + r2 + r3) * 3) + rh);
+  const viewZoomRatio = ((maxRadius*2) / Math.min(width, height)) || 1;
   return (
     <div className={'slice-display'} >
       <div
         {...bind}
-        style={{ height: 500 }}
+        style={{ height: 600 }}
       />
       <svg className={'slice-display__svg'} width={width} height={height} >
         <rect
@@ -146,24 +152,26 @@ export const SliceDisplay = (props) => {
         <Axis width={width} height={height} />
 
         <Group left={width/2} top={height/2} >
-          <g transform={`scale(${(Math.min(width, height) / (((r1 + r2 + r3) * 3) + rh))})`} >
+          <g transform={`scale(${Math.min(width, height) / maxRadius})`} >
 
-            <GraphedLines lines={lines} />
+            <GraphedLines lines={lines} viewZoomRatio={viewZoomRatio} />
 
             <RCircle
               alpha={alpha}
               r={r1}
               cx={circle1.x}
               cy={circle1.y}
+              viewZoomRatio={viewZoomRatio}
             />
 
             <RCircle
-              rotation={beta}
+              rotation={alpha + beta}
               alpha={alpha + beta - (beta * (1/p))}
               beta={alpha}
               r={r2}
               cx={circle2.x}
               cy={circle2.y}
+              viewZoomRatio={viewZoomRatio}
             />
 
             <RCircle
@@ -173,6 +181,7 @@ export const SliceDisplay = (props) => {
               r={r3}
               cx={circle3.x}
               cy={circle3.y}
+              viewZoomRatio={viewZoomRatio}
             />
               
             <g>
@@ -183,10 +192,11 @@ export const SliceDisplay = (props) => {
                   y: circle3.y + (r3 * Math.sin(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
                 }}
                 to={drawingPoint}
+                strokeWidth={viewZoomRatio}
               />
               <circle
                 className={'slice-display__drawing-point'}
-                r={3}
+                r={3 * viewZoomRatio}
                 cx={drawingPoint.x}
                 cy={drawingPoint.y}
               />
