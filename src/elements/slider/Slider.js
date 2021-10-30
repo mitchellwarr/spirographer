@@ -8,7 +8,6 @@ export const Slider = ({
   value,
   onChange,
   label,
-  labelWidth,
   min,
   max,
   step,
@@ -22,7 +21,6 @@ export const Slider = ({
     >
       <div
         className={'slider__label'}
-        style={{ width: labelWidth }}
         id={id}
       >
         {label}

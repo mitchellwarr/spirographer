@@ -52,13 +52,15 @@ body * {
 
 .slider {
   display: flex;
+  flex-wrap: wrap;
   align-items: center; }
   .slider__label {
-    margin-right: 8px;
+    margin-bottom: 2px;
     flex-grow: 0;
-    flex-shrink: 0; }
+    flex-shrink: 0;
+    width: 100%; }
   .slider__slider {
-    width: 100%;
+    width: 0;
     margin-right: 8px;
     flex-grow: 1;
     flex-shrink: 1;

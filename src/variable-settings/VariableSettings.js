@@ -42,7 +42,6 @@ export const VariableSettings = (props) => {
         value={h}
         onChange={onHChange}
         label={'Distance to drawing point'}
-        labelWidth={150}
       />
       <Slider
         min={-5}
@@ -51,7 +50,6 @@ export const VariableSettings = (props) => {
         value={1/p}
         onChange={onPChange}
         label={'Speed of second circle'}
-        labelWidth={150}
       />
       <Slider
         min={0.01}
@@ -60,7 +58,6 @@ export const VariableSettings = (props) => {
         value={R / k}
         onChange={onKChange}
         label={'Radius of first circle'}
-        labelWidth={150}
       />
       <Slider
         min={0.01}
@@ -69,7 +66,6 @@ export const VariableSettings = (props) => {
         value={R / k2}
         onChange={onK2Change}
         label={'Radius of second circle'}
-        labelWidth={150}
       />
       <Slider
         min={0.001}
@@ -78,7 +74,6 @@ export const VariableSettings = (props) => {
         value={delta}
         onChange={onDeltaChange}
         label={'Rendering ticks'}
-        labelWidth={150}
       />
       <Slider
         min={1}
@@ -87,7 +82,6 @@ export const VariableSettings = (props) => {
         value={maxLoops}
         onChange={onMaxLoopsChange}
         label={'Render loops'}
-        labelWidth={150}
       />
     </div>
   );

@@ -17753,7 +17753,6 @@ const Slider = ({
   value,
   onChange,
   label,
-  labelWidth,
   min,
   max,
   step,
@@ -17765,9 +17764,6 @@ const Slider = ({
     style: style,
     children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
       className: 'slider__label',
-      style: {
-        width: labelWidth
-      },
       id: id,
       children: label
     }), /*#__PURE__*/jsxRuntime.exports.jsx("input", {
@@ -20489,48 +20485,42 @@ const VariableSettings = props => {
       step: 1,
       value: h,
       onChange: onHChange,
-      label: 'Distance to drawing point',
-      labelWidth: 150
+      label: 'Distance to drawing point'
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: -5,
       max: 10,
       step: 0.001,
       value: 1 / p,
       onChange: onPChange,
-      label: 'Speed of second circle',
-      labelWidth: 150
+      label: 'Speed of second circle'
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 0.01,
       max: R * 5,
       step: 0.01,
       value: R / k,
       onChange: onKChange,
-      label: 'Radius of first circle',
-      labelWidth: 150
+      label: 'Radius of first circle'
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 0.01,
       max: R * 5,
       step: 0.01,
       value: R / k2,
       onChange: onK2Change,
-      label: 'Radius of second circle',
-      labelWidth: 150
+      label: 'Radius of second circle'
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 0.001,
       max: 0.2,
       step: 0.001,
       value: delta,
       onChange: onDeltaChange,
-      label: 'Rendering ticks',
-      labelWidth: 150
+      label: 'Rendering ticks'
     }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
       min: 1,
       max: 20,
       step: 1,
       value: maxLoops,
       onChange: onMaxLoopsChange,
-      label: 'Render loops',
-      labelWidth: 150
+      label: 'Render loops'
     })]
   });
 };
