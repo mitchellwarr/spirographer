@@ -12519,9 +12519,25 @@ const PRESETS = [{
   k2: 2.01,
   delta: 0.04,
   maxLoops: 5
+}, {
+  R: 40,
+  h: 0,
+  p: 1.934,
+  k: 2.394,
+  k2: 1.584,
+  delta: 0.04,
+  maxLoops: 1
+}, {
+  R: 40,
+  h: 100,
+  p: 0.5,
+  k: 0.804,
+  k2: 4.608,
+  delta: 0.04,
+  maxLoops: 3
 }];
 const App = () => {
-  const [variables, setVariables] = useStateReducer(() => PRESETS[Math.floor(Math.random() * 2)]);
+  const [variables, setVariables] = useStateReducer(() => PRESETS[Math.floor(Math.random() * PRESETS.length)]);
   return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
       style: {
