@@ -20546,7 +20546,7 @@ const GraphDisplay = props => {
     });
   }, [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]);
   const [glow, setGlow] = react.exports.useState(() => 2);
-  const [lineThickness, setLineThickness] = react.exports.useState(() => 0.5);
+  const [lineThickness, setLineThickness] = react.exports.useState(() => 0.2);
   return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     style: {
       borderRadius: 4,

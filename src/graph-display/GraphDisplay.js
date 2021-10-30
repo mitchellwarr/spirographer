@@ -105,7 +105,7 @@ export const GraphDisplay = (props) => {
   );
 
   const [glow, setGlow] = useState(() => 2);
-  const [lineThickness, setLineThickness] = useState(() => 0.5);
+  const [lineThickness, setLineThickness] = useState(() => 0.2);
   return (
     <div
       style={{
