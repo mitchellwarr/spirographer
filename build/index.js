@@ -20809,6 +20809,13 @@ const PRESETS = [{
   k2: 2.01,
   delta: 0.04,
   maxLoops: 6
+}, {
+  h: 173,
+  p: 1.1587485515643106,
+  k: 1.0465724751439038,
+  k2: 1.1587485515643103,
+  delta: 0.03,
+  maxLoops: 9
 }];
 const App = () => {
   const [variables, setVariables] = useStateReducer(() => ({

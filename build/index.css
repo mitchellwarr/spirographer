@@ -8,14 +8,6 @@ body {
 body * {
   box-sizing: inherit; }
 
-.variable-settings {
-  width: 100%;
-  border-radius: 4px;
-  padding: 16px;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
-  .variable-settings > :not(:last-child) {
-    margin-bottom: 8px; }
-
 .slice-display {
   width: 100%;
   border-radius: 4px;
@@ -49,6 +41,14 @@ body * {
     stroke: #d32a2a;
     stroke-width: 1;
     opacity: 0.6; }
+
+.variable-settings {
+  width: 100%;
+  border-radius: 4px;
+  padding: 16px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); }
+  .variable-settings > :not(:last-child) {
+    margin-bottom: 8px; }
 
 .slider {
   display: flex;
