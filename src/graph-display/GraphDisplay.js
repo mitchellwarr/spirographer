@@ -3,9 +3,9 @@ import { useAPIEffect, useMeasure } from 'hooks';
 
 import { generateLineChunks, scaleFactory } from 'graph-data';
 
-import { Line } from '@visx/shape';
 import { PlottedLine } from './PlottedLine';
 import { TimeSlider } from './TimeSlider';
+import { Axis } from './Axis';
 
 const PIES_NEEDED = (scaleData, max) => {
   const scale = scaleFactory(scaleData);
@@ -65,14 +65,15 @@ export const GraphDisplay = (props) => {
     api => {
       const chunksOverwritten = maxAlpha * CHUNKS_PER_PIE;
       setLines(
-        ({ lines }) => ({
+        ({ lines, maxRadius }) => ({
+          maxRadius,
           lines: [
             ...lines.slice(0, chunksOverwritten),
             ...lines.slice(chunksOverwritten).map(() => [])
-          ],
-          maxRadius: (R + ((R/k) * 2) + ((R/k2) * 2))
+          ]
         })
       );
+      const maxRadius = R + ((R/k) * 2) + ((R/k2) * 2) + (h - (R/k2));
       return generateLineChunks(
         {
           alphaStart: 0,
@@ -88,7 +89,7 @@ export const GraphDisplay = (props) => {
         ({ line, chunk, chunks, maxFromOrigin }) => {
           if (!api.current) return;
           setLines(
-            ({ lines, maxRadius }) => {
+            ({ lines }) => {
               lines[chunk] = line;
               return {
                 lines: [...lines],
@@ -123,18 +124,6 @@ export const GraphDisplay = (props) => {
         style={{ position: 'absolute', top: 0, left: 0 }}
         viewBox={`${-maxRadius} ${-maxRadius} ${maxRadius*2} ${maxRadius*2}`}
       >
-        <Line
-          from={{ x: -(width/2) * viewZoomRatio }}
-          to={{ x: width/2 * viewZoomRatio }}
-          stroke={'black'}
-          strokeWidth={1.3 * viewZoomRatio}
-        />
-        <Line
-          from={{ y: -(height/2) * viewZoomRatio }}
-          to={{ y: height/2 * viewZoomRatio }}
-          stroke={'black'}
-          strokeWidth={1.3 * viewZoomRatio}
-        />
         {lines.map(
           (line, i) => (
             <PlottedLine
@@ -143,6 +132,15 @@ export const GraphDisplay = (props) => {
             />
           )
         )}
+        <Axis
+          width={width}
+          height={height}
+          viewZoomRatio={viewZoomRatio}
+          R={R}
+          k={k}
+          k2={k2}
+          h={h}
+        />
       </svg>
       <div style={{ padding: '8px 16px' }} >
         <TimeSlider

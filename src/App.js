@@ -61,6 +61,14 @@ const PRESETS = [
     delta: 0.023,
     maxLoops: 5
   },
+  {
+    h: 119,
+    p: 0.7052186177715092,
+    k: 0.6909656244601831,
+    k2: 2.01,
+    delta: 0.04,
+    maxLoops: 6
+  },
 ];
 
 export const App = () => {

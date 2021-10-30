@@ -5,8 +5,8 @@ const makeRandomID = (prefix = '') => {
   return `${prefix}${id}`;
 };
 const isAsyncFunction = functionToCheck => functionToCheck && {}.toString.call(functionToCheck) === '[object AsyncFunction]';
-const isFunction = functionToCheck => functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
-const isObject$1 = obj => obj && {}.toString.call(obj) === '[object Object]';
+const isFunction$2 = functionToCheck => functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
+const isObject$4 = obj => obj && {}.toString.call(obj) === '[object Object]';
 
 !Array.prototype.distinct && Object.defineProperty(Array.prototype, 'distinct', {
   enumerable: false,
@@ -50,13 +50,15 @@ const isObject$1 = obj => obj && {}.toString.call(obj) === '[object Object]';
     let arr = [...this];
     return arr.reduce((obj, next, i, arr) => {
       let result = fn(next, i, arr);
-      if (!isObject$1(result)) throw new Error('TypeError: Array.object expected result of object with { key: pair } to be merged');
+      if (!isObject$4(result)) throw new Error('TypeError: Array.object expected result of object with { key: pair } to be merged');
       return { ...obj,
         ...result
       };
     }, {});
   }
 });
+
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 var react = {exports: {}};
 
@@ -70,7 +72,7 @@ object-assign
 /* eslint-disable no-unused-vars */
 
 var getOwnPropertySymbols = Object.getOwnPropertySymbols;
-var hasOwnProperty = Object.prototype.hasOwnProperty;
+var hasOwnProperty$4 = Object.prototype.hasOwnProperty;
 var propIsEnumerable = Object.prototype.propertyIsEnumerable;
 
 function toObject(val) {
@@ -138,7 +140,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function (target, source)
     from = Object(arguments[s]);
 
     for (var key in from) {
-      if (hasOwnProperty.call(from, key)) {
+      if (hasOwnProperty$4.call(from, key)) {
         to[key] = from[key];
       }
     }
@@ -2443,7 +2445,7 @@ var objectAssign = shouldUseNative() ? Object.assign : function (target, source)
   react.exports = react_development;
 }
 
-var _react = react.exports;
+var React = react.exports;
 
 var reactDom = {exports: {}};
 
@@ -7767,7 +7769,7 @@ const useAPIEffect = (func = () => {}, deps = []) => {
   react.exports.useEffect(() => {
     const result = effect();
     if (isAsyncFunction(result)) throw new Error('useAPIEffect cannot have an async function as a cleanup');
-    if (isFunction(result)) return result;
+    if (isFunction$2(result)) return result;
   }, [effect]);
 };
 
@@ -7780,7 +7782,7 @@ const useStateReducer = (init = {}, {
       replace
     } = options;
     setState(state => {
-      if (isFunction(changes)) changes = changes(state);
+      if (isFunction$2(changes)) changes = changes(state);
       if (changes == state) return state;
       if (onChange) return onChange({
         state,
@@ -7952,14 +7954,14 @@ const createEndpoint = Symbol("Comlink.endpoint");
 const releaseProxy = Symbol("Comlink.releaseProxy");
 const throwMarker = Symbol("Comlink.thrown");
 
-const isObject = val => typeof val === "object" && val !== null || typeof val === "function";
+const isObject$3 = val => typeof val === "object" && val !== null || typeof val === "function";
 /**
  * Internal transfer handle to handle objects marked to proxy.
  */
 
 
 const proxyTransferHandler = {
-  canHandle: val => isObject(val) && val[proxyMarker],
+  canHandle: val => isObject$3(val) && val[proxyMarker],
 
   serialize(obj) {
     const {
@@ -7981,7 +7983,7 @@ const proxyTransferHandler = {
  */
 
 const throwTransferHandler = {
-  canHandle: value => isObject(value) && throwMarker in value,
+  canHandle: value => isObject$3(value) && throwMarker in value,
 
   serialize({
     value
@@ -9678,8 +9680,8 @@ var factoryWithTypeCheckers = function (isValidElement, throwOnDirectAccess) {
 
 var _pt = propTypes.exports;
 
-function _extends$3() {
-  _extends$3 = Object.assign || function (target) {
+function _extends$4() {
+  _extends$4 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -9693,10 +9695,10 @@ function _extends$3() {
     return target;
   };
 
-  return _extends$3.apply(this, arguments);
+  return _extends$4.apply(this, arguments);
 }
 
-function _objectWithoutPropertiesLoose$3(source, excluded) {
+function _objectWithoutPropertiesLoose$5(source, excluded) {
   if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
@@ -9719,9 +9721,9 @@ function Group(_ref) {
       className = _ref.className,
       children = _ref.children,
       innerRef = _ref.innerRef,
-      restProps = _objectWithoutPropertiesLoose$3(_ref, ["top", "left", "transform", "className", "children", "innerRef"]);
+      restProps = _objectWithoutPropertiesLoose$5(_ref, ["top", "left", "transform", "className", "children", "innerRef"]);
 
-  return /*#__PURE__*/_react.createElement("g", _extends$3({
+  return /*#__PURE__*/React.createElement("g", _extends$4({
     ref: innerRef,
     className: cn('visx-group', className),
     transform: transform || "translate(" + left + ", " + top + ")"
@@ -9738,8 +9740,8 @@ Group.propTypes = {
 
 var _excluded$1 = ["from", "to", "fill", "className", "innerRef"];
 
-function _extends$2() {
-  _extends$2 = Object.assign || function (target) {
+function _extends$3() {
+  _extends$3 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -9753,10 +9755,10 @@ function _extends$2() {
     return target;
   };
 
-  return _extends$2.apply(this, arguments);
+  return _extends$3.apply(this, arguments);
 }
 
-function _objectWithoutPropertiesLoose$2(source, excluded) {
+function _objectWithoutPropertiesLoose$4(source, excluded) {
   if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
@@ -9785,10 +9787,10 @@ function Line(_ref) {
       fill = _ref$fill === void 0 ? 'transparent' : _ref$fill,
       className = _ref.className,
       innerRef = _ref.innerRef,
-      restProps = _objectWithoutPropertiesLoose$2(_ref, _excluded$1);
+      restProps = _objectWithoutPropertiesLoose$4(_ref, _excluded$1);
 
   var isRectilinear = from.x === to.x || from.y === to.y;
-  return /*#__PURE__*/_react.createElement("line", _extends$2({
+  return /*#__PURE__*/React.createElement("line", _extends$3({
     ref: innerRef,
     className: cn('visx-line', className),
     x1: from.x,
@@ -9802,8 +9804,8 @@ function Line(_ref) {
 
 var _excluded = ["children", "data", "x", "y", "fill", "className", "curve", "innerRef", "defined"];
 
-function _extends$1() {
-  _extends$1 = Object.assign || function (target) {
+function _extends$2() {
+  _extends$2 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -9817,10 +9819,10 @@ function _extends$1() {
     return target;
   };
 
-  return _extends$1.apply(this, arguments);
+  return _extends$2.apply(this, arguments);
 }
 
-function _objectWithoutPropertiesLoose$1(source, excluded) {
+function _objectWithoutPropertiesLoose$3(source, excluded) {
   if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
@@ -9849,7 +9851,7 @@ function LinePath(_ref) {
       defined = _ref$defined === void 0 ? function () {
     return true;
   } : _ref$defined,
-      restProps = _objectWithoutPropertiesLoose$1(_ref, _excluded);
+      restProps = _objectWithoutPropertiesLoose$3(_ref, _excluded);
 
   var path = line({
     x: x,
@@ -9857,10 +9859,10 @@ function LinePath(_ref) {
     defined: defined,
     curve: curve
   });
-  if (children) return /*#__PURE__*/_react.createElement(_react.Fragment, null, children({
+  if (children) return /*#__PURE__*/React.createElement(React.Fragment, null, children({
     path: path
   }));
-  return /*#__PURE__*/_react.createElement("path", _extends$1({
+  return /*#__PURE__*/React.createElement("path", _extends$2({
     ref: innerRef,
     className: cn('visx-linepath', className),
     d: path(data) || '',
@@ -11099,8 +11101,8 @@ const PlottedLine = /*#__PURE__*/react.exports.memo(function PlottedLine({
   });
 });
 
-function _extends() {
-  _extends = Object.assign || function (target) {
+function _extends$1() {
+  _extends$1 = Object.assign || function (target) {
     for (var i = 1; i < arguments.length; i++) {
       var source = arguments[i];
 
@@ -11114,7 +11116,7 @@ function _extends() {
     return target;
   };
 
-  return _extends.apply(this, arguments);
+  return _extends$1.apply(this, arguments);
 }
 
 /*
@@ -11214,13 +11216,13 @@ class NumberFormatter {
     let options = this.numberFormatter.resolvedOptions();
 
     if (!$fe87f22deac4debf3eab2ca6a89602ab$var$supportsSignDisplay && this.options.signDisplay != null) {
-      options = _extends({}, options, {
+      options = _extends$1({}, options, {
         signDisplay: this.options.signDisplay
       });
     }
 
     if (!$fe87f22deac4debf3eab2ca6a89602ab$var$supportsUnit && this.options.style === 'unit') {
-      options = _extends({}, options, {
+      options = _extends$1({}, options, {
         style: 'unit',
         unit: this.options.unit,
         unitDisplay: this.options.unitDisplay
@@ -11261,7 +11263,7 @@ function $fe87f22deac4debf3eab2ca6a89602ab$var$getCachedNumberFormatter(locale, 
       throw new Error("Unsupported unit " + unit + " with unitDisplay = " + unitDisplay);
     }
 
-    options = _extends({}, options, {
+    options = _extends$1({}, options, {
       style: 'decimal'
     });
   }
@@ -13613,7 +13615,7 @@ function parse(message, opts) {
 //
 // Main
 //
-function memoize(fn, options) {
+function memoize$2(fn, options) {
   var cache = options && options.cache ? options.cache : cacheDefault;
   var serializer = options && options.serializer ? options.serializer : serializerDefault;
   var strategy = options && options.strategy ? options.strategy : strategyDefault;
@@ -13999,7 +14001,7 @@ function createDefaultFormatters(cache) {
   }
 
   return {
-    getNumberFormat: memoize(function () {
+    getNumberFormat: memoize$2(function () {
       var _a;
 
       var args = [];
@@ -14013,7 +14015,7 @@ function createDefaultFormatters(cache) {
       cache: createFastMemoizeCache(cache.number),
       strategy: strategies.variadic
     }),
-    getDateTimeFormat: memoize(function () {
+    getDateTimeFormat: memoize$2(function () {
       var _a;
 
       var args = [];
@@ -14027,7 +14029,7 @@ function createDefaultFormatters(cache) {
       cache: createFastMemoizeCache(cache.dateTime),
       strategy: strategies.variadic
     }),
-    getPluralRules: memoize(function () {
+    getPluralRules: memoize$2(function () {
       var _a;
 
       var args = [];
@@ -14235,7 +14237,7 @@ class MessageDictionary {
     this.messages = void 0;
     this.defaultLocale = void 0; // Clone messages so we don't modify the original object.
 
-    this.messages = _extends({}, messages);
+    this.messages = _extends$1({}, messages);
     this.defaultLocale = defaultLocale;
   }
 
@@ -14338,7 +14340,7 @@ const $f01a183cc7bdff77849e49ad26eb904$var$defaultContext = {
   current: 0
 };
 
-const $f01a183cc7bdff77849e49ad26eb904$var$SSRContext = /*#__PURE__*/_react.createContext($f01a183cc7bdff77849e49ad26eb904$var$defaultContext);
+const $f01a183cc7bdff77849e49ad26eb904$var$SSRContext = /*#__PURE__*/React.createContext($f01a183cc7bdff77849e49ad26eb904$var$defaultContext);
 let $f01a183cc7bdff77849e49ad26eb904$var$canUseDOM = Boolean(typeof window !== 'undefined' && window.document && window.document.createElement);
 /** @private */
 
@@ -14467,7 +14469,7 @@ function $e851d0b81d46abd5f971c8e95c27f1$export$useDefaultLocale() {
   return defaultLocale;
 }
 
-const $cff8541df3b5c83067b2ab3ee0d20$var$I18nContext = /*#__PURE__*/_react.createContext(null);
+const $cff8541df3b5c83067b2ab3ee0d20$var$I18nContext = /*#__PURE__*/React.createContext(null);
 /**
  * Returns the current locale and layout direction.
  */
@@ -14700,7 +14702,7 @@ function _clsx () {
 // Since neither useLayoutEffect nor useEffect run on the server,
 // we can suppress this by replace it with a noop on the server.
 
-const useLayoutEffect = typeof window !== 'undefined' ? _react.useLayoutEffect : () => {};
+const useLayoutEffect = typeof window !== 'undefined' ? React.useLayoutEffect : () => {};
 let $f8b5fdd96fb429d7102983f777c41307$var$idsUpdaterMap = new Map();
 /**
  * If a default is not provided, generate an id.
@@ -14827,7 +14829,7 @@ function chain() {
 function mergeProps() {
   // Start with a base clone of the first argument. This is a lot faster than starting
   // with an empty object and adding properties as we go.
-  let result = _extends({}, arguments.length <= 0 ? undefined : arguments[0]);
+  let result = _extends$1({}, arguments.length <= 0 ? undefined : arguments[0]);
 
   for (let i = 1; i < arguments.length; i++) {
     let props = i < 0 || arguments.length <= i ? undefined : arguments[i];
@@ -15152,7 +15154,7 @@ function useEvent(ref, event, handler, options) {
   }, [ref, event, options, isDisabled]);
 }
 
-function _objectWithoutPropertiesLoose(source, excluded) {
+function _objectWithoutPropertiesLoose$2(source, excluded) {
   if (source == null) return {};
   var target = {};
   var sourceKeys = Object.keys(source);
@@ -15236,7 +15238,7 @@ function $f67ef9f1b8ed09b4b00fd0840cd8b94b$export$isVirtualClick(event) {
   return event.detail === 0 && !event.pointerType;
 }
 
-const $a3ff51240de6f955c79cf17a88e349$export$PressResponderContext = /*#__PURE__*/_react.createContext(null);
+const $a3ff51240de6f955c79cf17a88e349$export$PressResponderContext = /*#__PURE__*/React.createContext(null);
 
 $a3ff51240de6f955c79cf17a88e349$export$PressResponderContext.displayName = 'PressResponderContext';
 
@@ -15248,7 +15250,7 @@ function $ffc54430b1dbeee65879852feaaff07d$var$usePressResponderContext(props) {
     let {
       register
     } = context,
-        contextProps = _objectWithoutPropertiesLoose(context, ["register"]);
+        contextProps = _objectWithoutPropertiesLoose$2(context, ["register"]);
 
     props = mergeProps(contextProps, props);
     register();
@@ -15277,7 +15279,7 @@ function usePress(props) {
     preventFocusOnPress,
     shouldCancelOnPointerExit
   } = _usePressResponderCon,
-      domProps = _objectWithoutPropertiesLoose(_usePressResponderCon, ["onPress", "onPressChange", "onPressStart", "onPressEnd", "onPressUp", "isDisabled", "isPressed", "preventFocusOnPress", "shouldCancelOnPointerExit", "ref"]);
+      domProps = _objectWithoutPropertiesLoose$2(_usePressResponderCon, ["onPress", "onPressChange", "onPressStart", "onPressEnd", "onPressUp", "isDisabled", "isPressed", "preventFocusOnPress", "shouldCancelOnPointerExit", "ref"]);
 
   let propsRef = react.exports.useRef(null);
   propsRef.current = {
@@ -16172,7 +16174,7 @@ function $dc0d75166de722fbf58eb6c3552$export$createEventHandler(handler) {
 
   let shouldStopPropagation = true;
   return e => {
-    let event = _extends({}, e, {
+    let event = _extends$1({}, e, {
       preventDefault() {
         e.preventDefault();
       },
@@ -16275,13 +16277,13 @@ function useVisuallyHidden(props) {
     if (isFocused) {
       return style;
     } else if (style) {
-      return _extends({}, $f431c2c11cc559fa3c5864caafbcfd19$var$styles, style);
+      return _extends$1({}, $f431c2c11cc559fa3c5864caafbcfd19$var$styles, style);
     } else {
       return $f431c2c11cc559fa3c5864caafbcfd19$var$styles;
     }
   }, [isFocused]);
   return {
-    visuallyHiddenProps: _extends({}, focusProps, {
+    visuallyHiddenProps: _extends$1({}, focusProps, {
       style: combinedStyles
     })
   };
@@ -16297,19 +16299,19 @@ function VisuallyHidden(props) {
     children,
     elementType: Element = 'div'
   } = props,
-      otherProps = _objectWithoutPropertiesLoose(props, ["children", "elementType", "isFocusable", "style"]);
+      otherProps = _objectWithoutPropertiesLoose$2(props, ["children", "elementType", "isFocusable", "style"]);
 
   let {
     visuallyHiddenProps
   } = useVisuallyHidden(props);
-  return /*#__PURE__*/_react.createElement(Element, mergeProps(otherProps, visuallyHiddenProps), children);
+  return /*#__PURE__*/React.createElement(Element, mergeProps(otherProps, visuallyHiddenProps), children);
 }
 
 /* Inspired by https://github.com/AlmeroSteyn/react-aria-live */
 
 const $de8b453f082d29ae3c4c121e2b261$var$LIVEREGION_TIMEOUT_DELAY = 7000;
 
-let $de8b453f082d29ae3c4c121e2b261$var$liveRegionAnnouncer = /*#__PURE__*/_react.createRef();
+let $de8b453f082d29ae3c4c121e2b261$var$liveRegionAnnouncer = /*#__PURE__*/React.createRef();
 
 let $de8b453f082d29ae3c4c121e2b261$var$node = null;
 let $de8b453f082d29ae3c4c121e2b261$var$messageId = 0;
@@ -16338,7 +16340,7 @@ function $de8b453f082d29ae3c4c121e2b261$var$ensureInstance(callback) {
     $de8b453f082d29ae3c4c121e2b261$var$node.dataset.liveAnnouncer = 'true';
     document.body.prepend($de8b453f082d29ae3c4c121e2b261$var$node);
 
-    ReactDom.render( /*#__PURE__*/_react.createElement($de8b453f082d29ae3c4c121e2b261$var$LiveRegionAnnouncer, {
+    ReactDom.render( /*#__PURE__*/React.createElement($de8b453f082d29ae3c4c121e2b261$var$LiveRegionAnnouncer, {
       ref: $de8b453f082d29ae3c4c121e2b261$var$liveRegionAnnouncer
     }), $de8b453f082d29ae3c4c121e2b261$var$node, () => callback($de8b453f082d29ae3c4c121e2b261$var$liveRegionAnnouncer.current));
   } else {
@@ -16346,7 +16348,7 @@ function $de8b453f082d29ae3c4c121e2b261$var$ensureInstance(callback) {
   }
 }
 
-const $de8b453f082d29ae3c4c121e2b261$var$LiveRegionAnnouncer = /*#__PURE__*/_react.forwardRef((_, ref) => {
+const $de8b453f082d29ae3c4c121e2b261$var$LiveRegionAnnouncer = /*#__PURE__*/React.forwardRef((_, ref) => {
   let [assertiveMessages, setAssertiveMessages] = react.exports.useState([]);
   let [politeMessages, setPoliteMessages] = react.exports.useState([]);
 
@@ -16398,13 +16400,13 @@ const $de8b453f082d29ae3c4c121e2b261$var$LiveRegionAnnouncer = /*#__PURE__*/_rea
     announce,
     clear
   }));
-  return /*#__PURE__*/_react.createElement(react.exports.Fragment, null, /*#__PURE__*/_react.createElement($de8b453f082d29ae3c4c121e2b261$var$MessageBlock, {
+  return /*#__PURE__*/React.createElement(react.exports.Fragment, null, /*#__PURE__*/React.createElement($de8b453f082d29ae3c4c121e2b261$var$MessageBlock, {
     "aria-live": "assertive"
-  }, assertiveMessages.map(message => /*#__PURE__*/_react.createElement("div", {
+  }, assertiveMessages.map(message => /*#__PURE__*/React.createElement("div", {
     key: message.id
-  }, message.text))), /*#__PURE__*/_react.createElement($de8b453f082d29ae3c4c121e2b261$var$MessageBlock, {
+  }, message.text))), /*#__PURE__*/React.createElement($de8b453f082d29ae3c4c121e2b261$var$MessageBlock, {
     "aria-live": "polite"
-  }, politeMessages.map(message => /*#__PURE__*/_react.createElement("div", {
+  }, politeMessages.map(message => /*#__PURE__*/React.createElement("div", {
     key: message.id
   }, message.text))));
 });
@@ -16414,7 +16416,7 @@ function $de8b453f082d29ae3c4c121e2b261$var$MessageBlock(_ref) {
     children,
     'aria-live': ariaLive
   } = _ref;
-  return /*#__PURE__*/_react.createElement(VisuallyHidden, {
+  return /*#__PURE__*/React.createElement(VisuallyHidden, {
     role: "log",
     "aria-live": ariaLive,
     "aria-relevant": "additions"
@@ -16721,13 +16723,13 @@ function useSpinButton(props) {
   };
 }
 
-let $e11539c8317b2d21639df611cb5658f$var$FocusableContext = /*#__PURE__*/_react.createContext(null);
+let $e11539c8317b2d21639df611cb5658f$var$FocusableContext = /*#__PURE__*/React.createContext(null);
 
 function $e11539c8317b2d21639df611cb5658f$var$useFocusableContext(ref) {
   let context = react.exports.useContext($e11539c8317b2d21639df611cb5658f$var$FocusableContext) || {};
   useSyncRef(context, ref); // eslint-disable-next-line
 
-  let otherProps = _objectWithoutPropertiesLoose(context, ["ref"]);
+  let otherProps = _objectWithoutPropertiesLoose$2(context, ["ref"]);
 
   return otherProps;
 }
@@ -16754,7 +16756,7 @@ function useFocusable(props, domRef) {
     autoFocusRef.current = false;
   }, []);
   return {
-    focusableProps: mergeProps(_extends({}, interactions, {
+    focusableProps: mergeProps(_extends$1({}, interactions, {
       tabIndex: props.excludeFromTabOrder && !props.isDisabled ? -1 : undefined
     }), interactionProps)
   };
@@ -16872,7 +16874,7 @@ function useTextField(props, ref) {
   };
   return {
     labelProps,
-    inputProps: mergeProps(domProps, inputElementType === 'input' && inputOnlyProps, _extends({
+    inputProps: mergeProps(domProps, inputElementType === 'input' && inputOnlyProps, _extends$1({
       disabled: isDisabled,
       readOnly: isReadOnly,
       'aria-required': isRequired || undefined,
@@ -17416,7 +17418,7 @@ function useNumberField(props, state, inputRef) {
     onPressStart: onButtonPressStart
   });
   return {
-    groupProps: _extends({
+    groupProps: _extends$1({
       role: 'group',
       'aria-disabled': isDisabled,
       'aria-invalid': validationState === 'invalid' ? 'true' : undefined
@@ -17452,7 +17454,7 @@ function useNumberFieldState(props) {
   let [inputValue, setInputValue] = react.exports.useState(() => isNaN(numberValue) ? '' : new NumberFormatter(locale, formatOptions).format(numberValue));
   let numberParser = react.exports.useMemo(() => new NumberParser(locale, formatOptions), [locale, formatOptions]);
   let numberingSystem = react.exports.useMemo(() => numberParser.getNumberingSystem(inputValue), [numberParser, inputValue]);
-  let formatter = react.exports.useMemo(() => new NumberFormatter(locale, _extends({}, formatOptions, {
+  let formatter = react.exports.useMemo(() => new NumberFormatter(locale, _extends$1({}, formatOptions, {
     numberingSystem
   })), [locale, formatOptions, numberingSystem]);
   let intlOptions = react.exports.useMemo(() => formatter.resolvedOptions(), [formatter]);
@@ -17821,6 +17823,2491 @@ TimeSlider.defaultProps = {
   }
 };
 
+var balancedMatch$1 = balanced$3;
+
+function balanced$3(a, b, str) {
+  if (a instanceof RegExp) a = maybeMatch$1(a, str);
+  if (b instanceof RegExp) b = maybeMatch$1(b, str);
+  var r = range$1(a, b, str);
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+function maybeMatch$1(reg, str) {
+  var m = str.match(reg);
+  return m ? m[0] : null;
+}
+
+balanced$3.range = range$1;
+
+function range$1(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    begs = [];
+    left = str.length;
+
+    while (i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [begs.pop(), bi];
+      } else {
+        beg = begs.pop();
+
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [left, right];
+    }
+  }
+
+  return result;
+}
+
+var balancedMatch = balanced$2;
+
+function balanced$2(a, b, str) {
+  if (a instanceof RegExp) a = maybeMatch(a, str);
+  if (b instanceof RegExp) b = maybeMatch(b, str);
+  var r = range(a, b, str);
+  return r && {
+    start: r[0],
+    end: r[1],
+    pre: str.slice(0, r[0]),
+    body: str.slice(r[0] + a.length, r[1]),
+    post: str.slice(r[1] + b.length)
+  };
+}
+
+function maybeMatch(reg, str) {
+  var m = str.match(reg);
+  return m ? m[0] : null;
+}
+
+balanced$2.range = range;
+
+function range(a, b, str) {
+  var begs, beg, left, right, result;
+  var ai = str.indexOf(a);
+  var bi = str.indexOf(b, ai + 1);
+  var i = ai;
+
+  if (ai >= 0 && bi > 0) {
+    if (a === b) {
+      return [ai, bi];
+    }
+
+    begs = [];
+    left = str.length;
+
+    while (i >= 0 && !result) {
+      if (i == ai) {
+        begs.push(i);
+        ai = str.indexOf(a, i + 1);
+      } else if (begs.length == 1) {
+        result = [begs.pop(), bi];
+      } else {
+        beg = begs.pop();
+
+        if (beg < left) {
+          left = beg;
+          right = bi;
+        }
+
+        bi = str.indexOf(b, i + 1);
+      }
+
+      i = ai < bi && ai >= 0 ? ai : bi;
+    }
+
+    if (begs.length) {
+      result = [left, right];
+    }
+  }
+
+  return result;
+}
+
+/*
+ * Module dependencies
+ */
+
+var balanced$1 = balancedMatch;
+/**
+ * Expose `reduceFunctionCall`
+ *
+ * @type {Function}
+ */
+
+
+var reduceFunctionCall_1 = reduceFunctionCall$1;
+/**
+ * Walkthrough all expressions, evaluate them and insert them into the declaration
+ *
+ * @param {Array} expressions
+ * @param {Object} declaration
+ */
+
+function reduceFunctionCall$1(string, functionRE, callback) {
+  var call = string;
+  return getFunctionCalls(string, functionRE).reduce(function (string, obj) {
+    return string.replace(obj.functionIdentifier + "(" + obj.matches.body + ")", evalFunctionCall(obj.matches.body, obj.functionIdentifier, callback, call, functionRE));
+  }, string);
+}
+/**
+ * Parses expressions in a value
+ *
+ * @param {String} value
+ * @returns {Array}
+ * @api private
+ */
+
+
+function getFunctionCalls(call, functionRE) {
+  var expressions = [];
+  var fnRE = typeof functionRE === "string" ? new RegExp("\\b(" + functionRE + ")\\(") : functionRE;
+
+  do {
+    var searchMatch = fnRE.exec(call);
+
+    if (!searchMatch) {
+      return expressions;
+    }
+
+    if (searchMatch[1] === undefined) {
+      throw new Error("Missing the first couple of parenthesis to get the function identifier in " + functionRE);
+    }
+
+    var fn = searchMatch[1];
+    var startIndex = searchMatch.index;
+    var matches = balanced$1("(", ")", call.substring(startIndex));
+
+    if (!matches || matches.start !== searchMatch[0].length - 1) {
+      throw new SyntaxError(fn + "(): missing closing ')' in the value '" + call + "'");
+    }
+
+    expressions.push({
+      matches: matches,
+      functionIdentifier: fn
+    });
+    call = matches.post;
+  } while (fnRE.test(call));
+
+  return expressions;
+}
+/**
+ * Evaluates an expression
+ *
+ * @param {String} expression
+ * @returns {String}
+ * @api private
+ */
+
+
+function evalFunctionCall(string, functionIdentifier, callback, call, functionRE) {
+  // allow recursivity
+  return callback(reduceFunctionCall$1(string, functionRE, callback), functionIdentifier, call);
+}
+
+var Mexp$4 = function (parsed) {
+  this.value = parsed;
+};
+
+Mexp$4.math = {
+  isDegree: true,
+  // mode of calculator
+  acos: function (x) {
+    return Mexp$4.math.isDegree ? 180 / Math.PI * Math.acos(x) : Math.acos(x);
+  },
+  add: function (a, b) {
+    return a + b;
+  },
+  asin: function (x) {
+    return Mexp$4.math.isDegree ? 180 / Math.PI * Math.asin(x) : Math.asin(x);
+  },
+  atan: function (x) {
+    return Mexp$4.math.isDegree ? 180 / Math.PI * Math.atan(x) : Math.atan(x);
+  },
+  acosh: function (x) {
+    return Math.log(x + Math.sqrt(x * x - 1));
+  },
+  asinh: function (x) {
+    return Math.log(x + Math.sqrt(x * x + 1));
+  },
+  atanh: function (x) {
+    return Math.log((1 + x) / (1 - x));
+  },
+  C: function (n, r) {
+    var pro = 1;
+    var other = n - r;
+    var choice = r;
+
+    if (choice < other) {
+      choice = other;
+      other = r;
+    }
+
+    for (var i = choice + 1; i <= n; i++) {
+      pro *= i;
+    }
+
+    return pro / Mexp$4.math.fact(other);
+  },
+  changeSign: function (x) {
+    return -x;
+  },
+  cos: function (x) {
+    if (Mexp$4.math.isDegree) x = Mexp$4.math.toRadian(x);
+    return Math.cos(x);
+  },
+  cosh: function (x) {
+    return (Math.pow(Math.E, x) + Math.pow(Math.E, -1 * x)) / 2;
+  },
+  div: function (a, b) {
+    return a / b;
+  },
+  fact: function (n) {
+    if (n % 1 !== 0) return 'NaN';
+    var pro = 1;
+
+    for (var i = 2; i <= n; i++) {
+      pro *= i;
+    }
+
+    return pro;
+  },
+  inverse: function (x) {
+    return 1 / x;
+  },
+  log: function (i) {
+    return Math.log(i) / Math.log(10);
+  },
+  mod: function (a, b) {
+    return a % b;
+  },
+  mul: function (a, b) {
+    return a * b;
+  },
+  P: function (n, r) {
+    var pro = 1;
+
+    for (var i = Math.floor(n) - Math.floor(r) + 1; i <= Math.floor(n); i++) {
+      pro *= i;
+    }
+
+    return pro;
+  },
+  Pi: function (low, high, ex) {
+    var pro = 1;
+
+    for (var i = low; i <= high; i++) {
+      pro *= Number(ex.postfixEval({
+        n: i
+      }));
+    }
+
+    return pro;
+  },
+  pow10x: function (e) {
+    var x = 1;
+
+    while (e--) {
+      x *= 10;
+    }
+
+    return x;
+  },
+  sigma: function (low, high, ex) {
+    var sum = 0;
+
+    for (var i = low; i <= high; i++) {
+      sum += Number(ex.postfixEval({
+        n: i
+      }));
+    }
+
+    return sum;
+  },
+  sin: function (x) {
+    if (Mexp$4.math.isDegree) x = Mexp$4.math.toRadian(x);
+    return Math.sin(x);
+  },
+  sinh: function (x) {
+    return (Math.pow(Math.E, x) - Math.pow(Math.E, -1 * x)) / 2;
+  },
+  sub: function (a, b) {
+    return a - b;
+  },
+  tan: function (x) {
+    if (Mexp$4.math.isDegree) x = Mexp$4.math.toRadian(x);
+    return Math.tan(x);
+  },
+  tanh: function (x) {
+    return Mexp$4.sinha(x) / Mexp$4.cosha(x);
+  },
+  toRadian: function (x) {
+    return x * Math.PI / 180;
+  }
+};
+
+Mexp$4.Exception = function (message) {
+  this.message = message;
+};
+
+var math_function = Mexp$4;
+
+var Mexp$3 = math_function;
+
+function inc(arr, val) {
+  for (var i = 0; i < arr.length; i++) {
+    arr[i] += val;
+  }
+
+  return arr;
+}
+
+var token = ['sin', 'cos', 'tan', 'pi', '(', ')', 'P', 'C', ' ', 'asin', 'acos', 'atan', '7', '8', '9', 'int', 'cosh', 'acosh', 'ln', '^', 'root', '4', '5', '6', '/', '!', 'tanh', 'atanh', 'Mod', '1', '2', '3', '*', 'sinh', 'asinh', 'e', 'log', '0', '.', '+', '-', ',', 'Sigma', 'n', 'Pi', 'pow'];
+var show = ['sin', 'cos', 'tan', '&pi;', '(', ')', 'P', 'C', ' ', 'asin', 'acos', 'atan', '7', '8', '9', 'Int', 'cosh', 'acosh', ' ln', '^', 'root', '4', '5', '6', '&divide;', '!', 'tanh', 'atanh', ' Mod ', '1', '2', '3', '&times;', 'sinh', 'asinh', 'e', ' log', '0', '.', '+', '-', ',', '&Sigma;', 'n', '&Pi;', 'pow'];
+var eva = [Mexp$3.math.sin, Mexp$3.math.cos, Mexp$3.math.tan, 'PI', '(', ')', Mexp$3.math.P, Mexp$3.math.C, ' '.anchor, Mexp$3.math.asin, Mexp$3.math.acos, Mexp$3.math.atan, '7', '8', '9', Math.floor, Mexp$3.math.cosh, Mexp$3.math.acosh, Math.log, Math.pow, Math.sqrt, '4', '5', '6', Mexp$3.math.div, Mexp$3.math.fact, Mexp$3.math.tanh, Mexp$3.math.atanh, Mexp$3.math.mod, '1', '2', '3', Mexp$3.math.mul, Mexp$3.math.sinh, Mexp$3.math.asinh, 'E', Mexp$3.math.log, '0', '.', Mexp$3.math.add, Mexp$3.math.sub, ',', Mexp$3.math.sigma, 'n', Mexp$3.math.Pi, Math.pow];
+var preced = {
+  0: 11,
+  1: 0,
+  2: 3,
+  3: 0,
+  4: 0,
+  5: 0,
+  6: 0,
+  7: 11,
+  8: 11,
+  9: 1,
+  10: 10,
+  11: 0,
+  12: 11,
+  13: 0,
+  14: -1 // will be filtered after lexer
+
+}; // stores precedence by types
+
+var type = [0, 0, 0, 3, 4, 5, 10, 10, 14, 0, 0, 0, 1, 1, 1, 0, 0, 0, 0, 10, 0, 1, 1, 1, 2, 7, 0, 0, 2, 1, 1, 1, 2, 0, 0, 3, 0, 1, 6, 9, 9, 11, 12, 13, 12, 8];
+/*
+0 : function with syntax function_name(Maths_exp)
+1 : numbers
+2 : binary operators like * / Mod left associate and same precedence
+3 : Math constant values like e,pi,Cruncher ans
+4 : opening bracket
+5 : closing bracket
+6 : decimal
+7 : function with syntax (Math_exp)function_name
+8: function with syntax function_name(Math_exp1,Math_exp2)
+9 : binary operator like +,-
+10: binary operator like P C or ^
+11: ,
+12: function with , seperated three parameters and third parameter is a string that will be mexp string
+13: variable of Sigma function
+*/
+
+var type0 = {
+  0: true,
+  1: true,
+  3: true,
+  4: true,
+  6: true,
+  8: true,
+  9: true,
+  12: true,
+  13: true,
+  14: true
+}; // type2:true,type4:true,type9:true,type11:true,type21:true,type22
+
+var type1 = {
+  0: true,
+  1: true,
+  2: true,
+  3: true,
+  4: true,
+  5: true,
+  6: true,
+  7: true,
+  8: true,
+  9: true,
+  10: true,
+  11: true,
+  12: true,
+  13: true
+}; // type3:true,type5:true,type7:true,type23
+
+var type1Asterick = {
+  0: true,
+  3: true,
+  4: true,
+  8: true,
+  12: true,
+  13: true
+};
+var empty = {};
+var type3Asterick = {
+  0: true,
+  1: true,
+  3: true,
+  4: true,
+  6: true,
+  8: true,
+  12: true,
+  13: true
+}; // type_5:true,type_7:true,type_23
+
+var type6 = {
+  1: true
+};
+var newAr = [[], ['1', '2', '3', '7', '8', '9', '4', '5', '6', '+', '-', '*', '/', '(', ')', '^', '!', 'P', 'C', 'e', '0', '.', ',', 'n', ' '], ['pi', 'ln', 'Pi'], ['sin', 'cos', 'tan', 'Del', 'int', 'Mod', 'log', 'pow'], ['asin', 'acos', 'atan', 'cosh', 'root', 'tanh', 'sinh'], ['acosh', 'atanh', 'asinh', 'Sigma']];
+
+function match(str1, str2, i, x) {
+  for (var f = 0; f < x; f++) {
+    if (str1[i + f] !== str2[f]) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
+Mexp$3.addToken = function (tokens) {
+  for (var i = 0; i < tokens.length; i++) {
+    var x = tokens[i].token.length;
+    var temp = -1; // newAr is a specially designed data structure index of 1d array = length of tokens
+
+    newAr[x] = newAr[x] || [];
+
+    for (var y = 0; y < newAr[x].length; y++) {
+      if (tokens[i].token === newAr[x][y]) {
+        temp = token.indexOf(newAr[x][y]);
+        break;
+      }
+    }
+
+    if (temp === -1) {
+      token.push(tokens[i].token);
+      type.push(tokens[i].type);
+
+      if (newAr.length <= tokens[i].token.length) {
+        newAr[tokens[i].token.length] = [];
+      }
+
+      newAr[tokens[i].token.length].push(tokens[i].token);
+      eva.push(tokens[i].value);
+      show.push(tokens[i].show);
+    } else {
+      // overwrite
+      token[temp] = tokens[i].token;
+      type[temp] = tokens[i].type;
+      eva[temp] = tokens[i].value;
+      show[temp] = tokens[i].show;
+    }
+  }
+};
+
+function tokenize(string) {
+  var nodes = [];
+  var length = string.length;
+  var key, x, y;
+
+  for (var i = 0; i < length; i++) {
+    if (i < length - 1 && string[i] === ' ' && string[i + 1] === ' ') {
+      continue;
+    }
+
+    key = '';
+
+    for (x = string.length - i > newAr.length - 2 ? newAr.length - 1 : string.length - i; x > 0; x--) {
+      if (newAr[x] === undefined) continue;
+
+      for (y = 0; y < newAr[x].length; y++) {
+        if (match(string, newAr[x][y], i, x)) {
+          key = newAr[x][y];
+          y = newAr[x].length;
+          x = 0;
+        }
+      }
+    }
+
+    i += key.length - 1;
+
+    if (key === '') {
+      throw new Mexp$3.Exception("Can't understand after " + string.slice(i));
+    }
+
+    var index = token.indexOf(key);
+    nodes.push({
+      index: index,
+      token: key,
+      type: type[index],
+      eval: eva[index],
+      precedence: preced[type[index]],
+      show: show[index]
+    });
+  }
+
+  return nodes;
+}
+
+Mexp$3.lex = function (inp, tokens) {
+
+  var changeSignObj = {
+    value: Mexp$3.math.changeSign,
+    type: 0,
+    pre: 21,
+    show: '-'
+  };
+  var closingParObj = {
+    value: ')',
+    show: ')',
+    type: 5,
+    pre: 0
+  };
+  var openingParObj = {
+    value: '(',
+    type: 4,
+    pre: 0,
+    show: '('
+  };
+  var str = [openingParObj];
+  var ptc = []; // Parenthesis to close at the beginning is after one token
+
+  var inpStr = inp;
+  var allowed = type0;
+  var bracToClose = 0;
+  var asterick = empty;
+  var prevKey = '';
+  var i;
+
+  if (typeof tokens !== 'undefined') {
+    Mexp$3.addToken(tokens);
+  }
+
+  var obj = {};
+  var nodes = tokenize(inpStr);
+
+  for (i = 0; i < nodes.length; i++) {
+    var node = nodes[i];
+
+    if (node.type === 14) {
+      if (i > 0 && i < nodes.length - 1 && nodes[i + 1].type === 1 && (nodes[i - 1].type === 1 || nodes[i - 1].type === 6)) {
+        throw new Mexp$3.Exception('Unexpected Space');
+      }
+
+      continue;
+    }
+
+    var cToken = node.token;
+    var cType = node.type;
+    var cEv = node.eval;
+    var cPre = node.precedence;
+    var cShow = node.show;
+    var pre = str[str.length - 1];
+    var j;
+
+    for (j = ptc.length; j--;) {
+      // loop over ptc
+      if (ptc[j] === 0) {
+        if ([0, 2, 3, 4, 5, 9, 11, 12, 13].indexOf(cType) !== -1) {
+          if (allowed[cType] !== true) {
+            throw new Mexp$3.Exception(cToken + ' is not allowed after ' + prevKey);
+          }
+
+          str.push(closingParObj);
+          allowed = type1;
+          asterick = type3Asterick;
+          inc(ptc, -1).pop();
+        }
+      } else break;
+    }
+
+    if (allowed[cType] !== true) {
+      throw new Mexp$3.Exception(cToken + ' is not allowed after ' + prevKey);
+    }
+
+    if (asterick[cType] === true) {
+      cType = 2;
+      cEv = Mexp$3.math.mul;
+      cShow = '&times;';
+      cPre = 3;
+      i = i - 1;
+    }
+
+    obj = {
+      value: cEv,
+      type: cType,
+      pre: cPre,
+      show: cShow
+    };
+
+    if (cType === 0) {
+      allowed = type0;
+      asterick = empty;
+      inc(ptc, 2).push(2);
+      str.push(obj);
+      str.push(openingParObj);
+    } else if (cType === 1) {
+      if (pre.type === 1) {
+        pre.value += cEv;
+        inc(ptc, 1);
+      } else {
+        str.push(obj);
+      }
+
+      allowed = type1;
+      asterick = type1Asterick;
+    } else if (cType === 2) {
+      allowed = type0;
+      asterick = empty;
+      inc(ptc, 2);
+      str.push(obj);
+    } else if (cType === 3) {
+      // constant
+      str.push(obj);
+      allowed = type1;
+      asterick = type3Asterick;
+    } else if (cType === 4) {
+      inc(ptc, 1);
+      bracToClose++;
+      allowed = type0;
+      asterick = empty;
+      str.push(obj);
+    } else if (cType === 5) {
+      if (!bracToClose) {
+        throw new Mexp$3.Exception('Closing parenthesis are more than opening one, wait What!!!');
+      }
+
+      bracToClose--;
+      allowed = type1;
+      asterick = type3Asterick;
+      str.push(obj);
+      inc(ptc, 1);
+    } else if (cType === 6) {
+      if (pre.hasDec) {
+        throw new Mexp$3.Exception('Two decimals are not allowed in one number');
+      }
+
+      if (pre.type !== 1) {
+        pre = {
+          value: 0,
+          type: 1,
+          pre: 0
+        }; // pre needs to be changed as it will the last value now to be safe in later code
+
+        str.push(pre);
+        inc(ptc, -1);
+      }
+
+      allowed = type6;
+      inc(ptc, 1);
+      asterick = empty;
+      pre.value += cEv;
+      pre.hasDec = true;
+    } else if (cType === 7) {
+      allowed = type1;
+      asterick = type3Asterick;
+      inc(ptc, 1);
+      str.push(obj);
+    }
+
+    if (cType === 8) {
+      allowed = type0;
+      asterick = empty;
+      inc(ptc, 4).push(4);
+      str.push(obj);
+      str.push(openingParObj);
+    } else if (cType === 9) {
+      if (pre.type === 9) {
+        if (pre.value === Mexp$3.math.add) {
+          pre.value = cEv;
+          pre.show = cShow;
+          inc(ptc, 1);
+        } else if (pre.value === Mexp$3.math.sub && cShow === '-') {
+          pre.value = Mexp$3.math.add;
+          pre.show = '+';
+          inc(ptc, 1);
+        }
+      } else if (pre.type !== 5 && pre.type !== 7 && pre.type !== 1 && pre.type !== 3 && pre.type !== 13) {
+        // changesign only when negative is found
+        if (cToken === '-') {
+          // do nothing for + token
+          // don't add with the above if statement as that will run the else statement of parent if on Ctoken +
+          allowed = type0;
+          asterick = empty;
+          inc(ptc, 2).push(2);
+          str.push(changeSignObj);
+          str.push(openingParObj);
+        }
+      } else {
+        str.push(obj);
+        inc(ptc, 2);
+      }
+
+      allowed = type0;
+      asterick = empty;
+    } else if (cType === 10) {
+      allowed = type0;
+      asterick = empty;
+      inc(ptc, 2);
+      str.push(obj);
+    } else if (cType === 11) {
+      allowed = type0;
+      asterick = empty;
+      str.push(obj);
+    } else if (cType === 12) {
+      allowed = type0;
+      asterick = empty;
+      inc(ptc, 6).push(6);
+      str.push(obj);
+      str.push(openingParObj);
+    } else if (cType === 13) {
+      allowed = type1;
+      asterick = type3Asterick;
+      str.push(obj);
+    }
+
+    inc(ptc, -1);
+    prevKey = cToken;
+  }
+
+  for (j = ptc.length; j--;) {
+    // loop over ptc
+    if (ptc[j] === 0) {
+      str.push(closingParObj);
+      inc(ptc, -1).pop();
+    } else break; // if it is not zero so before ptc also cant be zero
+
+  }
+
+  if (allowed[5] !== true) {
+    throw new Mexp$3.Exception('complete the expression');
+  }
+
+  while (bracToClose--) {
+    str.push(closingParObj);
+  }
+
+  str.push(closingParObj); //        console.log(str);
+
+  return new Mexp$3(str);
+};
+
+var lexer = Mexp$3;
+
+var Mexp$2 = lexer;
+
+Mexp$2.prototype.toPostfix = function () {
+
+  var post = [],
+      elem,
+      popped,
+      prep,
+      pre,
+      ele;
+  var stack = [{
+    value: "(",
+    type: 4,
+    pre: 0
+  }];
+  var arr = this.value;
+
+  for (var i = 1; i < arr.length; i++) {
+    if (arr[i].type === 1 || arr[i].type === 3 || arr[i].type === 13) {
+      //if token is number,constant,or n(which is also a special constant in our case)
+      if (arr[i].type === 1) arr[i].value = Number(arr[i].value);
+      post.push(arr[i]);
+    } else if (arr[i].type === 4) {
+      stack.push(arr[i]);
+    } else if (arr[i].type === 5) {
+      while ((popped = stack.pop()).type !== 4) {
+        post.push(popped);
+      }
+    } else if (arr[i].type === 11) {
+      while ((popped = stack.pop()).type !== 4) {
+        post.push(popped);
+      }
+
+      stack.push(popped);
+    } else {
+      elem = arr[i];
+      pre = elem.pre;
+      ele = stack[stack.length - 1];
+      prep = ele.pre;
+      var flag = ele.value == 'Math.pow' && elem.value == 'Math.pow';
+      if (pre > prep) stack.push(elem);else {
+        while (prep >= pre && !flag || flag && pre < prep) {
+          popped = stack.pop();
+          ele = stack[stack.length - 1];
+          post.push(popped);
+          prep = ele.pre;
+          flag = elem.value == 'Math.pow' && ele.value == 'Math.pow';
+        }
+
+        stack.push(elem);
+      }
+    }
+  }
+
+  return new Mexp$2(post);
+};
+
+var postfix = Mexp$2;
+
+var Mexp$1 = postfix;
+
+Mexp$1.prototype.postfixEval = function (UserDefined) {
+
+  UserDefined = UserDefined || {};
+  UserDefined.PI = Math.PI;
+  UserDefined.E = Math.E;
+  var stack = [],
+      pop1,
+      pop2,
+      pop3;
+  var arr = this.value;
+  var bool = typeof UserDefined.n !== "undefined";
+
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].type === 1) {
+      stack.push({
+        value: arr[i].value,
+        type: 1
+      });
+    } else if (arr[i].type === 3) {
+      stack.push({
+        value: UserDefined[arr[i].value],
+        type: 1
+      });
+    } else if (arr[i].type === 0) {
+      if (typeof stack[stack.length - 1].type === "undefined") {
+        stack[stack.length - 1].value.push(arr[i]);
+      } else stack[stack.length - 1].value = arr[i].value(stack[stack.length - 1].value);
+    } else if (arr[i].type === 7) {
+      if (typeof stack[stack.length - 1].type === "undefined") {
+        stack[stack.length - 1].value.push(arr[i]);
+      } else stack[stack.length - 1].value = arr[i].value(stack[stack.length - 1].value);
+    } else if (arr[i].type === 8) {
+      pop1 = stack.pop();
+      pop2 = stack.pop();
+      stack.push({
+        type: 1,
+        value: arr[i].value(pop2.value, pop1.value)
+      });
+    } else if (arr[i].type === 10) {
+      pop1 = stack.pop();
+      pop2 = stack.pop();
+
+      if (typeof pop2.type === "undefined") {
+        pop2.value = pop2.concat(pop1);
+        pop2.value.push(arr[i]);
+        stack.push(pop2);
+      } else if (typeof pop1.type === "undefined") {
+        pop1.unshift(pop2);
+        pop1.push(arr[i]);
+        stack.push(pop1);
+      } else {
+        stack.push({
+          type: 1,
+          value: arr[i].value(pop2.value, pop1.value)
+        });
+      }
+    } else if (arr[i].type === 2 || arr[i].type === 9) {
+      pop1 = stack.pop();
+      pop2 = stack.pop();
+
+      if (typeof pop2.type === "undefined") {
+        pop2 = pop2.concat(pop1);
+        pop2.push(arr[i]);
+        stack.push(pop2);
+      } else if (typeof pop1.type === "undefined") {
+        pop1.unshift(pop2);
+        pop1.push(arr[i]);
+        stack.push(pop1);
+      } else {
+        stack.push({
+          type: 1,
+          value: arr[i].value(pop2.value, pop1.value)
+        });
+      }
+    } else if (arr[i].type === 12) {
+      pop1 = stack.pop();
+
+      if (typeof pop1.type !== "undefined") {
+        pop1 = [pop1];
+      }
+
+      pop2 = stack.pop();
+      pop3 = stack.pop();
+      stack.push({
+        type: 1,
+        value: arr[i].value(pop3.value, pop2.value, new Mexp$1(pop1))
+      });
+    } else if (arr[i].type === 13) {
+      if (bool) {
+        stack.push({
+          value: UserDefined[arr[i].value],
+          type: 3
+        });
+      } else stack.push([arr[i]]);
+    }
+  }
+
+  if (stack.length > 1) {
+    throw new Mexp$1.Exception("Uncaught Syntax error");
+  }
+
+  return stack[0].value > 1000000000000000 ? "Infinity" : parseFloat(stack[0].value.toFixed(15));
+};
+
+Mexp$1.eval = function (str, tokens, obj) {
+  if (typeof tokens === "undefined") {
+    return this.lex(str).toPostfix().postfixEval();
+  } else if (typeof obj === "undefined") {
+    if (typeof tokens.length !== "undefined") return this.lex(str, tokens).toPostfix().postfixEval();else return this.lex(str).toPostfix().postfixEval(tokens);
+  } else return this.lex(str, tokens).toPostfix().postfixEval(obj);
+};
+
+var postfix_evaluator = Mexp$1;
+
+var Mexp = postfix_evaluator;
+
+Mexp.prototype.formulaEval = function () {
+
+  var pop1,
+      pop2,
+      pop3;
+  var disp = [];
+  var arr = this.value;
+
+  for (var i = 0; i < arr.length; i++) {
+    if (arr[i].type === 1 || arr[i].type === 3) {
+      disp.push({
+        value: arr[i].type === 3 ? arr[i].show : arr[i].value,
+        type: 1
+      });
+    } else if (arr[i].type === 13) {
+      disp.push({
+        value: arr[i].show,
+        type: 1
+      });
+    } else if (arr[i].type === 0) {
+      disp[disp.length - 1] = {
+        value: arr[i].show + (arr[i].show != "-" ? "(" : "") + disp[disp.length - 1].value + (arr[i].show != "-" ? ")" : ""),
+        type: 0
+      };
+    } else if (arr[i].type === 7) {
+      disp[disp.length - 1] = {
+        value: (disp[disp.length - 1].type != 1 ? "(" : "") + disp[disp.length - 1].value + (disp[disp.length - 1].type != 1 ? ")" : "") + arr[i].show,
+        type: 7
+      };
+    } else if (arr[i].type === 10) {
+      pop1 = disp.pop();
+      pop2 = disp.pop();
+      if (arr[i].show === 'P' || arr[i].show === 'C') disp.push({
+        value: "<sup>" + pop2.value + "</sup>" + arr[i].show + "<sub>" + pop1.value + "</sub>",
+        type: 10
+      });else disp.push({
+        value: (pop2.type != 1 ? "(" : "") + pop2.value + (pop2.type != 1 ? ")" : "") + "<sup>" + pop1.value + "</sup>",
+        type: 1
+      });
+    } else if (arr[i].type === 2 || arr[i].type === 9) {
+      pop1 = disp.pop();
+      pop2 = disp.pop();
+      disp.push({
+        value: (pop2.type != 1 ? "(" : "") + pop2.value + (pop2.type != 1 ? ")" : "") + arr[i].show + (pop1.type != 1 ? "(" : "") + pop1.value + (pop1.type != 1 ? ")" : ""),
+        type: arr[i].type
+      });
+    } else if (arr[i].type === 12) {
+      pop1 = disp.pop();
+      pop2 = disp.pop();
+      pop3 = disp.pop();
+      disp.push({
+        value: arr[i].show + "(" + pop3.value + "," + pop2.value + "," + pop1.value + ")",
+        type: 12
+      });
+    }
+  }
+
+  return disp[0].value;
+};
+
+var formula_evaluator = Mexp;
+
+/**
+ * Module dependencies
+ */
+
+var balanced = balancedMatch$1;
+
+var reduceFunctionCall = reduceFunctionCall_1;
+
+var mexp = formula_evaluator;
+/**
+ * Constantes
+ */
+
+
+var MAX_STACK = 100; // should be enough for a single calc()...
+
+var NESTED_CALC_RE = /(\+|\-|\*|\\|[^a-z]|)(\s*)(\()/g;
+/**
+ * Global variables
+ */
+
+var stack;
+/**
+ * Expose reduceCSSCalc plugin
+ *
+ * @type {Function}
+ */
+
+var reduceCssCalc = reduceCSSCalc;
+/**
+ * Reduce CSS calc() in a string, whenever it's possible
+ *
+ * @param {String} value css input
+ */
+
+function reduceCSSCalc(value, decimalPrecision) {
+  stack = 0;
+  decimalPrecision = Math.pow(10, decimalPrecision === undefined ? 5 : decimalPrecision); // Allow calc() on multiple lines
+
+  value = value.replace(/\n+/g, " ");
+  /**
+   * Evaluates an expression
+   *
+   * @param {String} expression
+   * @returns {String}
+   */
+
+  function evaluateExpression(expression, functionIdentifier, call) {
+    if (stack++ > MAX_STACK) {
+      stack = 0;
+      throw new Error("Call stack overflow for " + call);
+    }
+
+    if (expression === "") {
+      throw new Error(functionIdentifier + "(): '" + call + "' must contain a non-whitespace string");
+    }
+
+    expression = evaluateNestedExpression(expression, call);
+    var units = getUnitsInExpression(expression); // If the expression contains multiple units or CSS variables,
+    // then let the expression be (i.e. browser calc())
+
+    if (units.length > 1 || expression.indexOf("var(") > -1) {
+      return functionIdentifier + "(" + expression + ")";
+    }
+
+    var unit = units[0] || "";
+
+    if (unit === "%") {
+      // Convert percentages to numbers, to handle expressions like: 50% * 50% (will become: 25%):
+      // console.log(expression)
+      expression = expression.replace(/\b[0-9\.]+%/g, function (percent) {
+        return parseFloat(percent.slice(0, -1)) * 0.01;
+      });
+    } // Remove units in expression:
+
+
+    var toEvaluate = expression.replace(new RegExp(unit, "gi"), "");
+    var result;
+
+    try {
+      result = mexp.eval(toEvaluate);
+    } catch (e) {
+      return functionIdentifier + "(" + expression + ")";
+    } // Transform back to a percentage result:
+
+
+    if (unit === "%") {
+      result *= 100;
+    } // adjust rounding shit
+    // (0.1 * 0.2 === 0.020000000000000004)
+
+
+    if (functionIdentifier.length || unit === "%") {
+      result = Math.round(result * decimalPrecision) / decimalPrecision;
+    } // Add unit
+
+
+    result += unit;
+    return result;
+  }
+  /**
+   * Evaluates nested expressions
+   *
+   * @param {String} expression
+   * @returns {String}
+   */
+
+
+  function evaluateNestedExpression(expression, call) {
+    // Remove the calc part from nested expressions to ensure
+    // better browser compatibility
+    expression = expression.replace(/((?:\-[a-z]+\-)?calc)/g, "");
+    var evaluatedPart = "";
+    var nonEvaluatedPart = expression;
+    var matches;
+
+    while (matches = NESTED_CALC_RE.exec(nonEvaluatedPart)) {
+      if (matches[0].index > 0) {
+        evaluatedPart += nonEvaluatedPart.substring(0, matches[0].index);
+      }
+
+      var balancedExpr = balanced("(", ")", nonEvaluatedPart.substring([0].index));
+
+      if (balancedExpr.body === "") {
+        throw new Error("'" + expression + "' must contain a non-whitespace string");
+      }
+
+      var evaluated = evaluateExpression(balancedExpr.body, "", call);
+      evaluatedPart += balancedExpr.pre + evaluated;
+      nonEvaluatedPart = balancedExpr.post;
+    }
+
+    return evaluatedPart + nonEvaluatedPart;
+  }
+
+  return reduceFunctionCall(value, /((?:\-[a-z]+\-)?calc)\(/, evaluateExpression);
+}
+/**
+ * Checks what units are used in an expression
+ *
+ * @param {String} expression
+ * @returns {Array}
+ */
+
+
+function getUnitsInExpression(expression) {
+  var uniqueUnits = [];
+  var uniqueLowerCaseUnits = [];
+  var unitRegEx = /[\.0-9]([%a-z]+)/gi;
+  var matches = unitRegEx.exec(expression);
+
+  while (matches) {
+    if (!matches || !matches[1]) {
+      continue;
+    }
+
+    if (uniqueLowerCaseUnits.indexOf(matches[1].toLowerCase()) === -1) {
+      uniqueUnits.push(matches[1]);
+      uniqueLowerCaseUnits.push(matches[1].toLowerCase());
+    }
+
+    matches = unitRegEx.exec(expression);
+  }
+
+  return uniqueUnits;
+}
+
+var reduceCSSCalc$1 = reduceCssCalc;
+
+/** Detect free variable `global` from Node.js. */
+
+var freeGlobal$1 = typeof commonjsGlobal == 'object' && commonjsGlobal && commonjsGlobal.Object === Object && commonjsGlobal;
+var _freeGlobal = freeGlobal$1;
+
+var freeGlobal = _freeGlobal;
+/** Detect free variable `self`. */
+
+
+var freeSelf = typeof self == 'object' && self && self.Object === Object && self;
+/** Used as a reference to the global object. */
+
+var root$3 = freeGlobal || freeSelf || Function('return this')();
+var _root = root$3;
+
+var root$2 = _root;
+/** Built-in value references. */
+
+
+var Symbol$3 = root$2.Symbol;
+var _Symbol = Symbol$3;
+
+var Symbol$2 = _Symbol;
+/** Used for built-in method references. */
+
+
+var objectProto$4 = Object.prototype;
+/** Used to check objects for own properties. */
+
+var hasOwnProperty$3 = objectProto$4.hasOwnProperty;
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+
+var nativeObjectToString$1 = objectProto$4.toString;
+/** Built-in value references. */
+
+var symToStringTag$1 = Symbol$2 ? Symbol$2.toStringTag : undefined;
+/**
+ * A specialized version of `baseGetTag` which ignores `Symbol.toStringTag` values.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the raw `toStringTag`.
+ */
+
+function getRawTag$1(value) {
+  var isOwn = hasOwnProperty$3.call(value, symToStringTag$1),
+      tag = value[symToStringTag$1];
+
+  try {
+    value[symToStringTag$1] = undefined;
+    var unmasked = true;
+  } catch (e) {}
+
+  var result = nativeObjectToString$1.call(value);
+
+  if (unmasked) {
+    if (isOwn) {
+      value[symToStringTag$1] = tag;
+    } else {
+      delete value[symToStringTag$1];
+    }
+  }
+
+  return result;
+}
+
+var _getRawTag = getRawTag$1;
+
+/** Used for built-in method references. */
+
+var objectProto$3 = Object.prototype;
+/**
+ * Used to resolve the
+ * [`toStringTag`](http://ecma-international.org/ecma-262/7.0/#sec-object.prototype.tostring)
+ * of values.
+ */
+
+var nativeObjectToString = objectProto$3.toString;
+/**
+ * Converts `value` to a string using `Object.prototype.toString`.
+ *
+ * @private
+ * @param {*} value The value to convert.
+ * @returns {string} Returns the converted string.
+ */
+
+function objectToString$1(value) {
+  return nativeObjectToString.call(value);
+}
+
+var _objectToString = objectToString$1;
+
+var Symbol$1 = _Symbol,
+    getRawTag = _getRawTag,
+    objectToString = _objectToString;
+/** `Object#toString` result references. */
+
+
+var nullTag = '[object Null]',
+    undefinedTag = '[object Undefined]';
+/** Built-in value references. */
+
+var symToStringTag = Symbol$1 ? Symbol$1.toStringTag : undefined;
+/**
+ * The base implementation of `getTag` without fallbacks for buggy environments.
+ *
+ * @private
+ * @param {*} value The value to query.
+ * @returns {string} Returns the `toStringTag`.
+ */
+
+function baseGetTag$1(value) {
+  if (value == null) {
+    return value === undefined ? undefinedTag : nullTag;
+  }
+
+  return symToStringTag && symToStringTag in Object(value) ? getRawTag(value) : objectToString(value);
+}
+
+var _baseGetTag = baseGetTag$1;
+
+/**
+ * Checks if `value` is the
+ * [language type](http://www.ecma-international.org/ecma-262/7.0/#sec-ecmascript-language-types)
+ * of `Object`. (e.g. arrays, functions, objects, regexes, `new Number(0)`, and `new String('')`)
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is an object, else `false`.
+ * @example
+ *
+ * _.isObject({});
+ * // => true
+ *
+ * _.isObject([1, 2, 3]);
+ * // => true
+ *
+ * _.isObject(_.noop);
+ * // => true
+ *
+ * _.isObject(null);
+ * // => false
+ */
+
+function isObject$2(value) {
+  var type = typeof value;
+  return value != null && (type == 'object' || type == 'function');
+}
+
+var isObject_1 = isObject$2;
+
+var baseGetTag = _baseGetTag,
+    isObject$1 = isObject_1;
+/** `Object#toString` result references. */
+
+
+var asyncTag = '[object AsyncFunction]',
+    funcTag = '[object Function]',
+    genTag = '[object GeneratorFunction]',
+    proxyTag = '[object Proxy]';
+/**
+ * Checks if `value` is classified as a `Function` object.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Lang
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a function, else `false`.
+ * @example
+ *
+ * _.isFunction(_);
+ * // => true
+ *
+ * _.isFunction(/abc/);
+ * // => false
+ */
+
+function isFunction$1(value) {
+  if (!isObject$1(value)) {
+    return false;
+  } // The use of `Object#toString` avoids issues with the `typeof` operator
+  // in Safari 9 which returns 'object' for typed arrays and other constructors.
+
+
+  var tag = baseGetTag(value);
+  return tag == funcTag || tag == genTag || tag == asyncTag || tag == proxyTag;
+}
+
+var isFunction_1 = isFunction$1;
+
+var root$1 = _root;
+/** Used to detect overreaching core-js shims. */
+
+
+var coreJsData$1 = root$1['__core-js_shared__'];
+var _coreJsData = coreJsData$1;
+
+var coreJsData = _coreJsData;
+/** Used to detect methods masquerading as native. */
+
+
+var maskSrcKey = function () {
+  var uid = /[^.]+$/.exec(coreJsData && coreJsData.keys && coreJsData.keys.IE_PROTO || '');
+  return uid ? 'Symbol(src)_1.' + uid : '';
+}();
+/**
+ * Checks if `func` has its source masked.
+ *
+ * @private
+ * @param {Function} func The function to check.
+ * @returns {boolean} Returns `true` if `func` is masked, else `false`.
+ */
+
+
+function isMasked$1(func) {
+  return !!maskSrcKey && maskSrcKey in func;
+}
+
+var _isMasked = isMasked$1;
+
+/** Used for built-in method references. */
+
+var funcProto$1 = Function.prototype;
+/** Used to resolve the decompiled source of functions. */
+
+var funcToString$1 = funcProto$1.toString;
+/**
+ * Converts `func` to its source code.
+ *
+ * @private
+ * @param {Function} func The function to convert.
+ * @returns {string} Returns the source code.
+ */
+
+function toSource$1(func) {
+  if (func != null) {
+    try {
+      return funcToString$1.call(func);
+    } catch (e) {}
+
+    try {
+      return func + '';
+    } catch (e) {}
+  }
+
+  return '';
+}
+
+var _toSource = toSource$1;
+
+var isFunction = isFunction_1,
+    isMasked = _isMasked,
+    isObject = isObject_1,
+    toSource = _toSource;
+/**
+ * Used to match `RegExp`
+ * [syntax characters](http://ecma-international.org/ecma-262/7.0/#sec-patterns).
+ */
+
+
+var reRegExpChar = /[\\^$.*+?()[\]{}|]/g;
+/** Used to detect host constructors (Safari). */
+
+var reIsHostCtor = /^\[object .+?Constructor\]$/;
+/** Used for built-in method references. */
+
+var funcProto = Function.prototype,
+    objectProto$2 = Object.prototype;
+/** Used to resolve the decompiled source of functions. */
+
+var funcToString = funcProto.toString;
+/** Used to check objects for own properties. */
+
+var hasOwnProperty$2 = objectProto$2.hasOwnProperty;
+/** Used to detect if a method is native. */
+
+var reIsNative = RegExp('^' + funcToString.call(hasOwnProperty$2).replace(reRegExpChar, '\\$&').replace(/hasOwnProperty|(function).*?(?=\\\()| for .+?(?=\\\])/g, '$1.*?') + '$');
+/**
+ * The base implementation of `_.isNative` without bad shim checks.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is a native function,
+ *  else `false`.
+ */
+
+function baseIsNative$1(value) {
+  if (!isObject(value) || isMasked(value)) {
+    return false;
+  }
+
+  var pattern = isFunction(value) ? reIsNative : reIsHostCtor;
+  return pattern.test(toSource(value));
+}
+
+var _baseIsNative = baseIsNative$1;
+
+/**
+ * Gets the value at `key` of `object`.
+ *
+ * @private
+ * @param {Object} [object] The object to query.
+ * @param {string} key The key of the property to get.
+ * @returns {*} Returns the property value.
+ */
+
+function getValue$1(object, key) {
+  return object == null ? undefined : object[key];
+}
+
+var _getValue = getValue$1;
+
+var baseIsNative = _baseIsNative,
+    getValue = _getValue;
+/**
+ * Gets the native function at `key` of `object`.
+ *
+ * @private
+ * @param {Object} object The object to query.
+ * @param {string} key The key of the method to get.
+ * @returns {*} Returns the function if it's native, else `undefined`.
+ */
+
+
+function getNative$2(object, key) {
+  var value = getValue(object, key);
+  return baseIsNative(value) ? value : undefined;
+}
+
+var _getNative = getNative$2;
+
+var getNative$1 = _getNative;
+/* Built-in method references that are verified to be native. */
+
+
+var nativeCreate$4 = getNative$1(Object, 'create');
+var _nativeCreate = nativeCreate$4;
+
+var nativeCreate$3 = _nativeCreate;
+/**
+ * Removes all key-value entries from the hash.
+ *
+ * @private
+ * @name clear
+ * @memberOf Hash
+ */
+
+
+function hashClear$1() {
+  this.__data__ = nativeCreate$3 ? nativeCreate$3(null) : {};
+  this.size = 0;
+}
+
+var _hashClear = hashClear$1;
+
+/**
+ * Removes `key` and its value from the hash.
+ *
+ * @private
+ * @name delete
+ * @memberOf Hash
+ * @param {Object} hash The hash to modify.
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+
+function hashDelete$1(key) {
+  var result = this.has(key) && delete this.__data__[key];
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+var _hashDelete = hashDelete$1;
+
+var nativeCreate$2 = _nativeCreate;
+/** Used to stand-in for `undefined` hash values. */
+
+
+var HASH_UNDEFINED$1 = '__lodash_hash_undefined__';
+/** Used for built-in method references. */
+
+var objectProto$1 = Object.prototype;
+/** Used to check objects for own properties. */
+
+var hasOwnProperty$1 = objectProto$1.hasOwnProperty;
+/**
+ * Gets the hash value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf Hash
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+
+function hashGet$1(key) {
+  var data = this.__data__;
+
+  if (nativeCreate$2) {
+    var result = data[key];
+    return result === HASH_UNDEFINED$1 ? undefined : result;
+  }
+
+  return hasOwnProperty$1.call(data, key) ? data[key] : undefined;
+}
+
+var _hashGet = hashGet$1;
+
+var nativeCreate$1 = _nativeCreate;
+/** Used for built-in method references. */
+
+
+var objectProto = Object.prototype;
+/** Used to check objects for own properties. */
+
+var hasOwnProperty = objectProto.hasOwnProperty;
+/**
+ * Checks if a hash value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf Hash
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+
+function hashHas$1(key) {
+  var data = this.__data__;
+  return nativeCreate$1 ? data[key] !== undefined : hasOwnProperty.call(data, key);
+}
+
+var _hashHas = hashHas$1;
+
+var nativeCreate = _nativeCreate;
+/** Used to stand-in for `undefined` hash values. */
+
+
+var HASH_UNDEFINED = '__lodash_hash_undefined__';
+/**
+ * Sets the hash `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf Hash
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the hash instance.
+ */
+
+function hashSet$1(key, value) {
+  var data = this.__data__;
+  this.size += this.has(key) ? 0 : 1;
+  data[key] = nativeCreate && value === undefined ? HASH_UNDEFINED : value;
+  return this;
+}
+
+var _hashSet = hashSet$1;
+
+var hashClear = _hashClear,
+    hashDelete = _hashDelete,
+    hashGet = _hashGet,
+    hashHas = _hashHas,
+    hashSet = _hashSet;
+/**
+ * Creates a hash object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+
+
+function Hash$1(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+  this.clear();
+
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+} // Add methods to `Hash`.
+
+
+Hash$1.prototype.clear = hashClear;
+Hash$1.prototype['delete'] = hashDelete;
+Hash$1.prototype.get = hashGet;
+Hash$1.prototype.has = hashHas;
+Hash$1.prototype.set = hashSet;
+var _Hash = Hash$1;
+
+/**
+ * Removes all key-value entries from the list cache.
+ *
+ * @private
+ * @name clear
+ * @memberOf ListCache
+ */
+
+function listCacheClear$1() {
+  this.__data__ = [];
+  this.size = 0;
+}
+
+var _listCacheClear = listCacheClear$1;
+
+/**
+ * Performs a
+ * [`SameValueZero`](http://ecma-international.org/ecma-262/7.0/#sec-samevaluezero)
+ * comparison between two values to determine if they are equivalent.
+ *
+ * @static
+ * @memberOf _
+ * @since 4.0.0
+ * @category Lang
+ * @param {*} value The value to compare.
+ * @param {*} other The other value to compare.
+ * @returns {boolean} Returns `true` if the values are equivalent, else `false`.
+ * @example
+ *
+ * var object = { 'a': 1 };
+ * var other = { 'a': 1 };
+ *
+ * _.eq(object, object);
+ * // => true
+ *
+ * _.eq(object, other);
+ * // => false
+ *
+ * _.eq('a', 'a');
+ * // => true
+ *
+ * _.eq('a', Object('a'));
+ * // => false
+ *
+ * _.eq(NaN, NaN);
+ * // => true
+ */
+
+function eq$1(value, other) {
+  return value === other || value !== value && other !== other;
+}
+
+var eq_1 = eq$1;
+
+var eq = eq_1;
+/**
+ * Gets the index at which the `key` is found in `array` of key-value pairs.
+ *
+ * @private
+ * @param {Array} array The array to inspect.
+ * @param {*} key The key to search for.
+ * @returns {number} Returns the index of the matched value, else `-1`.
+ */
+
+
+function assocIndexOf$4(array, key) {
+  var length = array.length;
+
+  while (length--) {
+    if (eq(array[length][0], key)) {
+      return length;
+    }
+  }
+
+  return -1;
+}
+
+var _assocIndexOf = assocIndexOf$4;
+
+var assocIndexOf$3 = _assocIndexOf;
+/** Used for built-in method references. */
+
+
+var arrayProto = Array.prototype;
+/** Built-in value references. */
+
+var splice = arrayProto.splice;
+/**
+ * Removes `key` and its value from the list cache.
+ *
+ * @private
+ * @name delete
+ * @memberOf ListCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+
+function listCacheDelete$1(key) {
+  var data = this.__data__,
+      index = assocIndexOf$3(data, key);
+
+  if (index < 0) {
+    return false;
+  }
+
+  var lastIndex = data.length - 1;
+
+  if (index == lastIndex) {
+    data.pop();
+  } else {
+    splice.call(data, index, 1);
+  }
+
+  --this.size;
+  return true;
+}
+
+var _listCacheDelete = listCacheDelete$1;
+
+var assocIndexOf$2 = _assocIndexOf;
+/**
+ * Gets the list cache value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf ListCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+
+
+function listCacheGet$1(key) {
+  var data = this.__data__,
+      index = assocIndexOf$2(data, key);
+  return index < 0 ? undefined : data[index][1];
+}
+
+var _listCacheGet = listCacheGet$1;
+
+var assocIndexOf$1 = _assocIndexOf;
+/**
+ * Checks if a list cache value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf ListCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+
+
+function listCacheHas$1(key) {
+  return assocIndexOf$1(this.__data__, key) > -1;
+}
+
+var _listCacheHas = listCacheHas$1;
+
+var assocIndexOf = _assocIndexOf;
+/**
+ * Sets the list cache `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf ListCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the list cache instance.
+ */
+
+
+function listCacheSet$1(key, value) {
+  var data = this.__data__,
+      index = assocIndexOf(data, key);
+
+  if (index < 0) {
+    ++this.size;
+    data.push([key, value]);
+  } else {
+    data[index][1] = value;
+  }
+
+  return this;
+}
+
+var _listCacheSet = listCacheSet$1;
+
+var listCacheClear = _listCacheClear,
+    listCacheDelete = _listCacheDelete,
+    listCacheGet = _listCacheGet,
+    listCacheHas = _listCacheHas,
+    listCacheSet = _listCacheSet;
+/**
+ * Creates an list cache object.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+
+
+function ListCache$1(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+  this.clear();
+
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+} // Add methods to `ListCache`.
+
+
+ListCache$1.prototype.clear = listCacheClear;
+ListCache$1.prototype['delete'] = listCacheDelete;
+ListCache$1.prototype.get = listCacheGet;
+ListCache$1.prototype.has = listCacheHas;
+ListCache$1.prototype.set = listCacheSet;
+var _ListCache = ListCache$1;
+
+var getNative = _getNative,
+    root = _root;
+/* Built-in method references that are verified to be native. */
+
+
+var Map$2 = getNative(root, 'Map');
+var _Map = Map$2;
+
+var Hash = _Hash,
+    ListCache = _ListCache,
+    Map$1 = _Map;
+/**
+ * Removes all key-value entries from the map.
+ *
+ * @private
+ * @name clear
+ * @memberOf MapCache
+ */
+
+
+function mapCacheClear$1() {
+  this.size = 0;
+  this.__data__ = {
+    'hash': new Hash(),
+    'map': new (Map$1 || ListCache)(),
+    'string': new Hash()
+  };
+}
+
+var _mapCacheClear = mapCacheClear$1;
+
+/**
+ * Checks if `value` is suitable for use as unique object key.
+ *
+ * @private
+ * @param {*} value The value to check.
+ * @returns {boolean} Returns `true` if `value` is suitable, else `false`.
+ */
+
+function isKeyable$1(value) {
+  var type = typeof value;
+  return type == 'string' || type == 'number' || type == 'symbol' || type == 'boolean' ? value !== '__proto__' : value === null;
+}
+
+var _isKeyable = isKeyable$1;
+
+var isKeyable = _isKeyable;
+/**
+ * Gets the data for `map`.
+ *
+ * @private
+ * @param {Object} map The map to query.
+ * @param {string} key The reference key.
+ * @returns {*} Returns the map data.
+ */
+
+
+function getMapData$4(map, key) {
+  var data = map.__data__;
+  return isKeyable(key) ? data[typeof key == 'string' ? 'string' : 'hash'] : data.map;
+}
+
+var _getMapData = getMapData$4;
+
+var getMapData$3 = _getMapData;
+/**
+ * Removes `key` and its value from the map.
+ *
+ * @private
+ * @name delete
+ * @memberOf MapCache
+ * @param {string} key The key of the value to remove.
+ * @returns {boolean} Returns `true` if the entry was removed, else `false`.
+ */
+
+
+function mapCacheDelete$1(key) {
+  var result = getMapData$3(this, key)['delete'](key);
+  this.size -= result ? 1 : 0;
+  return result;
+}
+
+var _mapCacheDelete = mapCacheDelete$1;
+
+var getMapData$2 = _getMapData;
+/**
+ * Gets the map value for `key`.
+ *
+ * @private
+ * @name get
+ * @memberOf MapCache
+ * @param {string} key The key of the value to get.
+ * @returns {*} Returns the entry value.
+ */
+
+
+function mapCacheGet$1(key) {
+  return getMapData$2(this, key).get(key);
+}
+
+var _mapCacheGet = mapCacheGet$1;
+
+var getMapData$1 = _getMapData;
+/**
+ * Checks if a map value for `key` exists.
+ *
+ * @private
+ * @name has
+ * @memberOf MapCache
+ * @param {string} key The key of the entry to check.
+ * @returns {boolean} Returns `true` if an entry for `key` exists, else `false`.
+ */
+
+
+function mapCacheHas$1(key) {
+  return getMapData$1(this, key).has(key);
+}
+
+var _mapCacheHas = mapCacheHas$1;
+
+var getMapData = _getMapData;
+/**
+ * Sets the map `key` to `value`.
+ *
+ * @private
+ * @name set
+ * @memberOf MapCache
+ * @param {string} key The key of the value to set.
+ * @param {*} value The value to set.
+ * @returns {Object} Returns the map cache instance.
+ */
+
+
+function mapCacheSet$1(key, value) {
+  var data = getMapData(this, key),
+      size = data.size;
+  data.set(key, value);
+  this.size += data.size == size ? 0 : 1;
+  return this;
+}
+
+var _mapCacheSet = mapCacheSet$1;
+
+var mapCacheClear = _mapCacheClear,
+    mapCacheDelete = _mapCacheDelete,
+    mapCacheGet = _mapCacheGet,
+    mapCacheHas = _mapCacheHas,
+    mapCacheSet = _mapCacheSet;
+/**
+ * Creates a map cache object to store key-value pairs.
+ *
+ * @private
+ * @constructor
+ * @param {Array} [entries] The key-value pairs to cache.
+ */
+
+
+function MapCache$1(entries) {
+  var index = -1,
+      length = entries == null ? 0 : entries.length;
+  this.clear();
+
+  while (++index < length) {
+    var entry = entries[index];
+    this.set(entry[0], entry[1]);
+  }
+} // Add methods to `MapCache`.
+
+
+MapCache$1.prototype.clear = mapCacheClear;
+MapCache$1.prototype['delete'] = mapCacheDelete;
+MapCache$1.prototype.get = mapCacheGet;
+MapCache$1.prototype.has = mapCacheHas;
+MapCache$1.prototype.set = mapCacheSet;
+var _MapCache = MapCache$1;
+
+var MapCache = _MapCache;
+/** Error message constants. */
+
+
+var FUNC_ERROR_TEXT = 'Expected a function';
+/**
+ * Creates a function that memoizes the result of `func`. If `resolver` is
+ * provided, it determines the cache key for storing the result based on the
+ * arguments provided to the memoized function. By default, the first argument
+ * provided to the memoized function is used as the map cache key. The `func`
+ * is invoked with the `this` binding of the memoized function.
+ *
+ * **Note:** The cache is exposed as the `cache` property on the memoized
+ * function. Its creation may be customized by replacing the `_.memoize.Cache`
+ * constructor with one whose instances implement the
+ * [`Map`](http://ecma-international.org/ecma-262/7.0/#sec-properties-of-the-map-prototype-object)
+ * method interface of `clear`, `delete`, `get`, `has`, and `set`.
+ *
+ * @static
+ * @memberOf _
+ * @since 0.1.0
+ * @category Function
+ * @param {Function} func The function to have its output memoized.
+ * @param {Function} [resolver] The function to resolve the cache key.
+ * @returns {Function} Returns the new memoized function.
+ * @example
+ *
+ * var object = { 'a': 1, 'b': 2 };
+ * var other = { 'c': 3, 'd': 4 };
+ *
+ * var values = _.memoize(_.values);
+ * values(object);
+ * // => [1, 2]
+ *
+ * values(other);
+ * // => [3, 4]
+ *
+ * object.a = 2;
+ * values(object);
+ * // => [1, 2]
+ *
+ * // Modify the result cache.
+ * values.cache.set(object, ['a', 'b']);
+ * values(object);
+ * // => ['a', 'b']
+ *
+ * // Replace `_.memoize.Cache`.
+ * _.memoize.Cache = WeakMap;
+ */
+
+function memoize(func, resolver) {
+  if (typeof func != 'function' || resolver != null && typeof resolver != 'function') {
+    throw new TypeError(FUNC_ERROR_TEXT);
+  }
+
+  var memoized = function () {
+    var args = arguments,
+        key = resolver ? resolver.apply(this, args) : args[0],
+        cache = memoized.cache;
+
+    if (cache.has(key)) {
+      return cache.get(key);
+    }
+
+    var result = func.apply(this, args);
+    memoized.cache = cache.set(key, result) || cache;
+    return result;
+  };
+
+  memoized.cache = new (memoize.Cache || MapCache)();
+  return memoized;
+} // Expose `MapCache`.
+
+
+memoize.Cache = MapCache;
+var memoize_1 = memoize;
+
+var memoize$1 = memoize_1;
+
+var MEASUREMENT_ELEMENT_ID = '__react_svg_text_measurement_id';
+
+function getStringWidth(str, style) {
+  try {
+    // Calculate length of each word to be used to determine number of words per line
+    var textEl = document.getElementById(MEASUREMENT_ELEMENT_ID);
+
+    if (!textEl) {
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.style.width = '0';
+      svg.style.height = '0';
+      svg.style.position = 'absolute';
+      svg.style.top = '-100%';
+      svg.style.left = '-100%';
+      textEl = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      textEl.setAttribute('id', MEASUREMENT_ELEMENT_ID);
+      svg.appendChild(textEl);
+      document.body.appendChild(svg);
+    }
+
+    Object.assign(textEl.style, style);
+    textEl.textContent = str;
+    return textEl.getComputedTextLength();
+  } catch (e) {
+    return null;
+  }
+}
+
+var getStringWidth$1 = memoize$1(getStringWidth, function (str, style) {
+  return str + "_" + JSON.stringify(style);
+});
+
+function _objectWithoutPropertiesLoose$1(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+
+function isNumber(val) {
+  return typeof val === 'number';
+}
+
+function isXOrYInValid(xOrY) {
+  return (// number that is not NaN or Infinity
+    typeof xOrY === 'number' && Number.isFinite(xOrY) || // for percentage
+    typeof xOrY === 'string'
+  );
+}
+
+function useText(props) {
+  var _props$verticalAnchor = props.verticalAnchor,
+      verticalAnchor = _props$verticalAnchor === void 0 ? 'end' : _props$verticalAnchor,
+      _props$scaleToFit = props.scaleToFit,
+      scaleToFit = _props$scaleToFit === void 0 ? false : _props$scaleToFit,
+      angle = props.angle,
+      width = props.width,
+      _props$lineHeight = props.lineHeight,
+      lineHeight = _props$lineHeight === void 0 ? '1em' : _props$lineHeight,
+      _props$capHeight = props.capHeight,
+      capHeight = _props$capHeight === void 0 ? '0.71em' : _props$capHeight,
+      children = props.children,
+      style = props.style,
+      textProps = _objectWithoutPropertiesLoose$1(props, ["verticalAnchor", "scaleToFit", "angle", "width", "lineHeight", "capHeight", "children", "style"]);
+
+  var _textProps$x = textProps.x,
+      x = _textProps$x === void 0 ? 0 : _textProps$x,
+      _textProps$y = textProps.y,
+      y = _textProps$y === void 0 ? 0 : _textProps$y;
+  var isXOrYNotValid = !isXOrYInValid(x) || !isXOrYInValid(y);
+
+  var _useMemo = react.exports.useMemo(function () {
+    var words = children == null ? [] : children.toString().split(/(?:(?!\u00A0+)\s+)/);
+    return {
+      wordsWithWidth: words.map(function (word) {
+        return {
+          word: word,
+          wordWidth: getStringWidth$1(word, style) || 0
+        };
+      }),
+      spaceWidth: getStringWidth$1("\xA0", style) || 0
+    };
+  }, [children, style]),
+      wordsWithWidth = _useMemo.wordsWithWidth,
+      spaceWidth = _useMemo.spaceWidth;
+
+  var wordsByLines = react.exports.useMemo(function () {
+    if (isXOrYNotValid) {
+      return [];
+    } // Only perform calculations if using features that require them (multiline, scaleToFit)
+
+
+    if (width || scaleToFit) {
+      return wordsWithWidth.reduce(function (result, _ref) {
+        var word = _ref.word,
+            wordWidth = _ref.wordWidth;
+        var currentLine = result[result.length - 1];
+
+        if (currentLine && (width == null || scaleToFit || (currentLine.width || 0) + wordWidth + spaceWidth < width)) {
+          // Word can be added to an existing line
+          currentLine.words.push(word);
+          currentLine.width = currentLine.width || 0;
+          currentLine.width += wordWidth + spaceWidth;
+        } else {
+          // Add first word to line or word is too long to scaleToFit on existing line
+          var newLine = {
+            words: [word],
+            width: wordWidth
+          };
+          result.push(newLine);
+        }
+
+        return result;
+      }, []);
+    }
+
+    return [{
+      words: children == null ? [] : children.toString().split(/(?:(?!\u00A0+)\s+)/)
+    }];
+  }, [isXOrYNotValid, width, scaleToFit, children, wordsWithWidth, spaceWidth]);
+  var startDy = react.exports.useMemo(function () {
+    var startDyStr = isXOrYNotValid ? '' : verticalAnchor === 'start' ? reduceCSSCalc$1("calc(" + capHeight + ")") : verticalAnchor === 'middle' ? reduceCSSCalc$1("calc(" + (wordsByLines.length - 1) / 2 + " * -" + lineHeight + " + (" + capHeight + " / 2))") : reduceCSSCalc$1("calc(" + (wordsByLines.length - 1) + " * -" + lineHeight + ")");
+    return startDyStr;
+  }, [isXOrYNotValid, verticalAnchor, capHeight, wordsByLines.length, lineHeight]);
+  var transform = react.exports.useMemo(function () {
+    var transforms = [];
+
+    if (isXOrYNotValid) {
+      return '';
+    }
+
+    if (isNumber(x) && isNumber(y) && isNumber(width) && scaleToFit && wordsByLines.length > 0) {
+      var lineWidth = wordsByLines[0].width || 1;
+      var sx = width / lineWidth;
+      var sy = sx;
+      var originX = x - sx * x;
+      var originY = y - sy * y;
+      transforms.push("matrix(" + sx + ", 0, 0, " + sy + ", " + originX + ", " + originY + ")");
+    }
+
+    if (angle) {
+      transforms.push("rotate(" + angle + ", " + x + ", " + y + ")");
+    }
+
+    return transforms.length > 0 ? transforms.join(' ') : '';
+  }, [isXOrYNotValid, x, y, width, scaleToFit, wordsByLines, angle]);
+  return {
+    wordsByLines: wordsByLines,
+    startDy: startDy,
+    transform: transform
+  };
+}
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function _objectWithoutPropertiesLoose(source, excluded) {
+  if (source == null) return {};
+  var target = {};
+  var sourceKeys = Object.keys(source);
+  var key, i;
+
+  for (i = 0; i < sourceKeys.length; i++) {
+    key = sourceKeys[i];
+    if (excluded.indexOf(key) >= 0) continue;
+    target[key] = source[key];
+  }
+
+  return target;
+}
+var SVG_STYLE = {
+  overflow: 'visible'
+};
+function Text(props) {
+  var _props$dx = props.dx,
+      dx = _props$dx === void 0 ? 0 : _props$dx,
+      _props$dy = props.dy,
+      dy = _props$dy === void 0 ? 0 : _props$dy,
+      _props$textAnchor = props.textAnchor,
+      textAnchor = _props$textAnchor === void 0 ? 'start' : _props$textAnchor,
+      innerRef = props.innerRef,
+      innerTextRef = props.innerTextRef;
+      props.verticalAnchor;
+      props.angle;
+      var _props$lineHeight = props.lineHeight,
+      lineHeight = _props$lineHeight === void 0 ? '1em' : _props$lineHeight;
+      props.scaleToFit;
+      props.capHeight;
+      props.width;
+      var textProps = _objectWithoutPropertiesLoose(props, ["dx", "dy", "textAnchor", "innerRef", "innerTextRef", "verticalAnchor", "angle", "lineHeight", "scaleToFit", "capHeight", "width"]);
+
+  var _textProps$x = textProps.x,
+      x = _textProps$x === void 0 ? 0 : _textProps$x,
+      fontSize = textProps.fontSize;
+
+  var _useText = useText(props),
+      wordsByLines = _useText.wordsByLines,
+      startDy = _useText.startDy,
+      transform = _useText.transform;
+
+  return /*#__PURE__*/React.createElement("svg", {
+    ref: innerRef,
+    x: dx,
+    y: dy,
+    fontSize: fontSize,
+    style: SVG_STYLE
+  }, wordsByLines.length > 0 ? /*#__PURE__*/React.createElement("text", _extends({
+    ref: innerTextRef,
+    transform: transform
+  }, textProps, {
+    textAnchor: textAnchor
+  }), wordsByLines.map(function (line, index) {
+    return /*#__PURE__*/React.createElement("tspan", {
+      key: index,
+      x: x,
+      dy: index === 0 ? startDy : lineHeight
+    }, line.words.join(' '));
+  })) : null);
+}
+
+const Axis$1 = ({
+  R,
+  k,
+  k2,
+  h,
+  width,
+  height,
+  viewZoomRatio
+}) => {
+  const r1 = R;
+  const r2 = R / k * 2;
+  const r3 = R / k2 * 2;
+  const drawingPoint = h - R / k2;
+  return /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
+    children: [/*#__PURE__*/jsxRuntime.exports.jsxs("g", {
+      children: [/*#__PURE__*/jsxRuntime.exports.jsx(Text, {
+        fontFamily: 'calibri',
+        fontSize: 12 * viewZoomRatio,
+        verticalAnchor: 'middle',
+        textAnchor: 'end',
+        width: 200,
+        y: -r1,
+        children: "R1 -"
+      }), /*#__PURE__*/jsxRuntime.exports.jsx(Text, {
+        fontFamily: 'calibri',
+        fontSize: 12 * viewZoomRatio,
+        verticalAnchor: 'middle',
+        textAnchor: 'end',
+        width: 200,
+        y: -r1 - r2,
+        children: "R2 -"
+      }), /*#__PURE__*/jsxRuntime.exports.jsx(Text, {
+        fontFamily: 'calibri',
+        fontSize: 12 * viewZoomRatio,
+        verticalAnchor: 'middle',
+        textAnchor: 'end',
+        width: 200,
+        y: -r1 - r2 - r3,
+        children: "R3 -"
+      }), /*#__PURE__*/jsxRuntime.exports.jsx(Text, {
+        fontFamily: 'calibri',
+        fontSize: 12 * viewZoomRatio,
+        verticalAnchor: 'start',
+        textAnchor: 'end',
+        width: 200,
+        y: -r1 - r2 - r3 - drawingPoint,
+        children: "Drawing point -"
+      })]
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
+      from: {
+        x: -(width / 2) * viewZoomRatio
+      },
+      to: {
+        x: width / 2 * viewZoomRatio
+      },
+      stroke: '#3a3a3a',
+      strokeWidth: 1.3 * viewZoomRatio
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
+      from: {
+        y: -(height / 2) * viewZoomRatio
+      },
+      to: {
+        y: height / 2 * viewZoomRatio
+      },
+      stroke: '#3a3a3a',
+      strokeWidth: 1.3 * viewZoomRatio
+    })]
+  });
+};
+
 const PIES_NEEDED = (scaleData, max) => {
   const scale = scaleFactory(scaleData);
   const start = scale(0);
@@ -17875,11 +20362,13 @@ const GraphDisplay = props => {
   useAPIEffect(api => {
     const chunksOverwritten = maxAlpha * CHUNKS_PER_PIE;
     setLines(({
-      lines
+      lines,
+      maxRadius
     }) => ({
-      lines: [...lines.slice(0, chunksOverwritten), ...lines.slice(chunksOverwritten).map(() => [])],
-      maxRadius: R + R / k * 2 + R / k2 * 2
+      maxRadius,
+      lines: [...lines.slice(0, chunksOverwritten), ...lines.slice(chunksOverwritten).map(() => [])]
     }));
+    const maxRadius = R + R / k * 2 + R / k2 * 2 + (h - R / k2);
     return generateLineChunks({
       alphaStart: 0,
       alphaEnd: maxAlpha * alphaPercent,
@@ -17898,8 +20387,7 @@ const GraphDisplay = props => {
     }) => {
       if (!api.current) return;
       setLines(({
-        lines,
-        maxRadius
+        lines
       }) => {
         lines[chunk] = line;
         return {
@@ -17932,27 +20420,17 @@ const GraphDisplay = props => {
         left: 0
       },
       viewBox: `${-maxRadius} ${-maxRadius} ${maxRadius * 2} ${maxRadius * 2}`,
-      children: [/*#__PURE__*/jsxRuntime.exports.jsx(Line, {
-        from: {
-          x: -(width / 2) * viewZoomRatio
-        },
-        to: {
-          x: width / 2 * viewZoomRatio
-        },
-        stroke: 'black',
-        strokeWidth: 1.3 * viewZoomRatio
-      }), /*#__PURE__*/jsxRuntime.exports.jsx(Line, {
-        from: {
-          y: -(height / 2) * viewZoomRatio
-        },
-        to: {
-          y: height / 2 * viewZoomRatio
-        },
-        stroke: 'black',
-        strokeWidth: 1.3 * viewZoomRatio
-      }), lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(PlottedLine, {
+      children: [lines.map((line, i) => /*#__PURE__*/jsxRuntime.exports.jsx(PlottedLine, {
         data: line
-      }, i))]
+      }, i)), /*#__PURE__*/jsxRuntime.exports.jsx(Axis$1, {
+        width: width,
+        height: height,
+        viewZoomRatio: viewZoomRatio,
+        R: R,
+        k: k,
+        k2: k2,
+        h: h
+      })]
     }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
       style: {
         padding: '8px 16px'
@@ -18334,6 +20812,13 @@ const PRESETS = [{
   k2: 1.8939393939393938,
   delta: 0.023,
   maxLoops: 5
+}, {
+  h: 119,
+  p: 0.7052186177715092,
+  k: 0.6909656244601831,
+  k2: 2.01,
+  delta: 0.04,
+  maxLoops: 6
 }];
 const App = () => {
   const [variables, setVariables] = useStateReducer(() => ({
