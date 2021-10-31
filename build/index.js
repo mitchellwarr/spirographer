@@ -20403,8 +20403,8 @@ const Spirograph = props => {
     children: [/*#__PURE__*/jsxRuntime.exports.jsxs("filter", {
       id: 'glow',
       children: [/*#__PURE__*/jsxRuntime.exports.jsx("feGaussianBlur", {
-        stdDeviation: glow,
-        result: 'coloredBlur'
+        result: 'coloredBlur',
+        stdDeviation: glow
       }), /*#__PURE__*/jsxRuntime.exports.jsxs("feMerge", {
         children: [/*#__PURE__*/jsxRuntime.exports.jsx("feMergeNode", {
           in: 'coloredBlur'
@@ -20419,16 +20419,23 @@ const Spirograph = props => {
         x2: 0,
         y1: -maxRadius,
         y2: maxRadius,
+        gradientTransform: 'rotate(24)',
         gradientUnits: 'userSpaceOnUse',
         children: [/*#__PURE__*/jsxRuntime.exports.jsx("stop", {
           offset: 0,
-          stopColor: 'rgb(236, 215, 127)'
+          stopColor: '#ffbc3b'
+        }), /*#__PURE__*/jsxRuntime.exports.jsx("stop", {
+          offset: 0.15,
+          stopColor: '#ffe26c'
         }), /*#__PURE__*/jsxRuntime.exports.jsx("stop", {
           offset: 0.5,
-          stopColor: 'rgb(252, 239, 187)'
+          stopColor: '#fff3c0'
+        }), /*#__PURE__*/jsxRuntime.exports.jsx("stop", {
+          offset: 0.85,
+          stopColor: '#f589aa'
         }), /*#__PURE__*/jsxRuntime.exports.jsx("stop", {
           offset: 1,
-          stopColor: 'rgb(245, 137, 170)'
+          stopColor: '#ff70ba'
         })]
       })
     }), /*#__PURE__*/jsxRuntime.exports.jsx("rect", {
@@ -20545,7 +20552,7 @@ const GraphDisplay = props => {
       });
     });
   }, [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]);
-  const [glow, setGlow] = react.exports.useState(() => 2);
+  const [glow, setGlow] = react.exports.useState(() => 1.5);
   const [lineThickness, setLineThickness] = react.exports.useState(() => 0.2);
   return /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
     style: {

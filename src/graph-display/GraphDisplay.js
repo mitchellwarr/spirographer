@@ -104,7 +104,7 @@ export const GraphDisplay = (props) => {
     [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]
   );
 
-  const [glow, setGlow] = useState(() => 2);
+  const [glow, setGlow] = useState(() => 1.5);
   const [lineThickness, setLineThickness] = useState(() => 0.2);
   return (
     <div

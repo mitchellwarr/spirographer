@@ -28,10 +28,7 @@ export const Spirograph = (props) => {
       viewBox={`${-maxRadius} ${-maxRadius} ${maxRadius*2} ${maxRadius*2}`}
     >
       <filter id={'glow'}>
-        <feGaussianBlur
-          stdDeviation={glow}
-          result={'coloredBlur'}
-        />
+        <feGaussianBlur result={'coloredBlur'} stdDeviation={glow} />
         <feMerge>
           <feMergeNode in={'coloredBlur'} />
           <feMergeNode in={'SourceGraphic'} />
@@ -44,11 +41,14 @@ export const Spirograph = (props) => {
           x2={0}
           y1={-maxRadius}
           y2={maxRadius}
+          gradientTransform={'rotate(24)'}
           gradientUnits={'userSpaceOnUse'}
         >
-          <stop offset={0} stopColor={'rgb(236, 215, 127)'} />
-          <stop offset={0.5} stopColor={'rgb(252, 239, 187)'} />
-          <stop offset={1} stopColor={'rgb(245, 137, 170)'} />
+          <stop offset={0} stopColor={'#ffbc3b'} />
+          <stop offset={0.15} stopColor={'#ffe26c'} />
+          <stop offset={0.5} stopColor={'#fff3c0'} />
+          <stop offset={0.85} stopColor={'#f589aa'} />
+          <stop offset={1} stopColor={'#ff70ba'} />
         </linearGradient>
       </defs>
 
