@@ -14112,10 +14112,16 @@ function useFocus(props) {
     }
   };
 }
+let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$currentModality = null;
 let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$changeHandlers = new Set();
 let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasSetupGlobalListeners = false;
 let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = false;
 let $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasBlurredWindowRecently = false; // Only Tab or Esc keys will make focus visible on text input elements
+
+const $d01f69bb2ab5f70dfd0005370a2a2cbc$var$FOCUS_VISIBLE_INPUT_KEYS = {
+  Tab: true,
+  Escape: true
+};
 
 function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers(modality, e) {
   for (let handler of $d01f69bb2ab5f70dfd0005370a2a2cbc$var$changeHandlers) {
@@ -14136,11 +14142,13 @@ function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleKeyboardEvent(e) {
   $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
 
   if ($d01f69bb2ab5f70dfd0005370a2a2cbc$var$isValidKey(e)) {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$currentModality = 'keyboard';
     $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers('keyboard', e);
   }
 }
 
 function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent(e) {
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$currentModality = 'pointer';
 
   if (e.type === 'mousedown' || e.type === 'pointerdown') {
     $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
@@ -14151,6 +14159,7 @@ function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handlePointerEvent(e) {
 function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleClickEvent(e) {
   if ($f67ef9f1b8ed09b4b00fd0840cd8b94b$export$isVirtualClick(e)) {
     $d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus = true;
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$currentModality = 'virtual';
   }
 }
 
@@ -14165,6 +14174,7 @@ function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$handleFocusEvent(e) {
 
 
   if (!$d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasEventBeforeFocus && !$d01f69bb2ab5f70dfd0005370a2a2cbc$var$hasBlurredWindowRecently) {
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$currentModality = 'virtual';
     $d01f69bb2ab5f70dfd0005370a2a2cbc$var$triggerChangeHandlers('virtual', e);
   }
 
@@ -14226,6 +14236,41 @@ if (typeof document !== 'undefined') {
   } else {
     document.addEventListener('DOMContentLoaded', $d01f69bb2ab5f70dfd0005370a2a2cbc$var$setupGlobalFocusEvents);
   }
+}
+/**
+ * If true, keyboard focus is visible.
+ */
+
+
+function isFocusVisible() {
+  return $d01f69bb2ab5f70dfd0005370a2a2cbc$var$currentModality !== 'pointer';
+}
+/**
+ * If this is attached to text input component, return if the event is a focus event (Tab/Escape keys pressed) so that
+ * focus visible style can be properly set.
+ */
+
+function $d01f69bb2ab5f70dfd0005370a2a2cbc$var$isKeyboardFocusEvent(isTextInput, modality, e) {
+  return !(isTextInput && modality === 'keyboard' && e instanceof KeyboardEvent && !$d01f69bb2ab5f70dfd0005370a2a2cbc$var$FOCUS_VISIBLE_INPUT_KEYS[e.key]);
+}
+/**
+ * Listens for trigger change and reports if focus is visible (i.e., modality is not pointer).
+ */
+
+function useFocusVisibleListener(fn, deps, opts) {
+  $d01f69bb2ab5f70dfd0005370a2a2cbc$var$setupGlobalFocusEvents();
+  react.exports.useEffect(() => {
+    let handler = (modality, e) => {
+      if (!$d01f69bb2ab5f70dfd0005370a2a2cbc$var$isKeyboardFocusEvent(opts == null ? void 0 : opts.isTextInput, modality, e)) {
+        return;
+      }
+
+      fn(isFocusVisible());
+    };
+
+    $d01f69bb2ab5f70dfd0005370a2a2cbc$var$changeHandlers.add(handler);
+    return () => $d01f69bb2ab5f70dfd0005370a2a2cbc$var$changeHandlers.delete(handler);
+  }, deps);
 }
 /**
  * Handles focus events for the target and its descendants.
@@ -14838,6 +14883,63 @@ function useSpinButton(props) {
       onFocus,
       onBlur
     }
+  };
+}
+
+/**
+ * Determines whether a focus ring should be shown to indicate keyboard focus.
+ * Focus rings are visible only when the user is interacting with a keyboard,
+ * not with a mouse, touch, or other input methods.
+ */
+
+
+function useFocusRing(props) {
+  if (props === void 0) {
+    props = {};
+  }
+
+  let {
+    autoFocus = false,
+    isTextInput,
+    within
+  } = props;
+  let state = react.exports.useRef({
+    isFocused: false,
+    isFocusVisible: autoFocus || isFocusVisible()
+  }).current;
+  let [isFocused, setFocused] = react.exports.useState(false);
+  let [isFocusVisibleState, setFocusVisible] = react.exports.useState(() => state.isFocused && state.isFocusVisible);
+
+  let updateState = () => setFocusVisible(state.isFocused && state.isFocusVisible);
+
+  let onFocusChange = isFocused => {
+    state.isFocused = isFocused;
+    setFocused(isFocused);
+    updateState();
+  };
+
+  useFocusVisibleListener(isFocusVisible => {
+    state.isFocusVisible = isFocusVisible;
+    updateState();
+  }, [], {
+    isTextInput
+  });
+  let {
+    focusProps
+  } = useFocus({
+    isDisabled: within,
+    onFocusChange
+  });
+  let {
+    focusWithinProps
+  } = useFocusWithin({
+    isDisabled: !within,
+    onFocusWithinChange: onFocusChange
+  });
+  return {
+    isFocused,
+    isFocusVisible: state.isFocused && isFocusVisibleState,
+    focusProps: within ? focusWithinProps : focusProps
   };
 }
 
@@ -20894,20 +20996,239 @@ const GraphDisplay = props => {
   });
 };
 
-const Tile = props => {
-  const {
-    R,
-    k,
-    k2,
-    h,
-    p,
-    delta,
-    maxLoops,
-    width,
-    height,
-    glow,
-    lineThickness
-  } = props;
+var ObserverMap = new Map();
+var RootIds = new WeakMap();
+var rootId = 0;
+/**
+ * Generate a unique ID for the root element
+ * @param root
+ */
+
+function getRootId(root) {
+  if (!root) return '0';
+  if (RootIds.has(root)) return RootIds.get(root);
+  rootId += 1;
+  RootIds.set(root, rootId.toString());
+  return RootIds.get(root);
+}
+/**
+ * Convert the options to a string Id, based on the values.
+ * Ensures we can reuse the same observer when observing elements with the same options.
+ * @param options
+ */
+
+
+function optionsToId(options) {
+  return Object.keys(options).sort().filter(function (key) {
+    return options[key] !== undefined;
+  }).map(function (key) {
+    return key + "_" + (key === 'root' ? getRootId(options.root) : options[key]);
+  }).toString();
+}
+
+function createObserver(options) {
+  // Create a unique ID for this observer instance, based on the root, root margin and threshold.
+  var id = optionsToId(options);
+  var instance = ObserverMap.get(id);
+
+  if (!instance) {
+    // Create a map of elements this observer is going to observe. Each element has a list of callbacks that should be triggered, once it comes into view.
+    var elements = new Map();
+    var thresholds;
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        var _elements$get; // While it would be nice if you could just look at isIntersecting to determine if the component is inside the viewport, browsers can't agree on how to use it.
+        // -Firefox ignores `threshold` when considering `isIntersecting`, so it will never be false again if `threshold` is > 0
+
+
+        var inView = entry.isIntersecting && thresholds.some(function (threshold) {
+          return entry.intersectionRatio >= threshold;
+        }); // @ts-ignore support IntersectionObserver v2
+
+        if (options.trackVisibility && typeof entry.isVisible === 'undefined') {
+          // The browser doesn't support Intersection Observer v2, falling back to v1 behavior.
+          // @ts-ignore
+          entry.isVisible = inView;
+        }
+
+        (_elements$get = elements.get(entry.target)) == null ? void 0 : _elements$get.forEach(function (callback) {
+          callback(inView, entry);
+        });
+      });
+    }, options); // Ensure we have a valid thresholds array. If not, use the threshold from the options
+
+    thresholds = observer.thresholds || (Array.isArray(options.threshold) ? options.threshold : [options.threshold || 0]);
+    instance = {
+      id: id,
+      observer: observer,
+      elements: elements
+    };
+    ObserverMap.set(id, instance);
+  }
+
+  return instance;
+}
+/**
+ * @param element - DOM Element to observe
+ * @param callback - Callback function to trigger when intersection status changes
+ * @param options - Intersection Observer options
+ * @return Function - Cleanup function that should be triggered to unregister the observer
+ */
+
+
+function observe(element, callback, options) {
+  if (options === void 0) {
+    options = {};
+  }
+
+  if (!element) return function () {}; // An observer with the same options can be reused, so lets use this fact
+
+  var _createObserver = createObserver(options),
+      id = _createObserver.id,
+      observer = _createObserver.observer,
+      elements = _createObserver.elements; // Register the callback listener for this element
+
+
+  var callbacks = elements.get(element) || [];
+
+  if (!elements.has(element)) {
+    elements.set(element, callbacks);
+  }
+
+  callbacks.push(callback);
+  observer.observe(element);
+  return function unobserve() {
+    // Remove the callback from the callback list
+    callbacks.splice(callbacks.indexOf(callback), 1);
+
+    if (callbacks.length === 0) {
+      // No more callback exists for element, so destroy it
+      elements["delete"](element);
+      observer.unobserve(element);
+    }
+
+    if (elements.size === 0) {
+      // No more elements are being observer by this instance, so destroy it
+      observer.disconnect();
+      ObserverMap["delete"](id);
+    }
+  };
+}
+/**
+ * React Hooks make it easy to monitor the `inView` state of your components. Call
+ * the `useInView` hook with the (optional) [options](#options) you need. It will
+ * return an array containing a `ref`, the `inView` status and the current
+ * [`entry`](https://developer.mozilla.org/en-US/docs/Web/API/IntersectionObserverEntry).
+ * Assign the `ref` to the DOM element you want to monitor, and the hook will
+ * report the status.
+ *
+ * @example
+ * ```jsx
+ * import React from 'react';
+ * import { useInView } from 'react-intersection-observer';
+ *
+ * const Component = () => {
+ *   const { ref, inView, entry } = useInView({
+ *       threshold: 0,
+ *   });
+ *
+ *   return (
+ *     <div ref={ref}>
+ *       <h2>{`Header inside viewport ${inView}.`}</h2>
+ *     </div>
+ *   );
+ * };
+ * ```
+ */
+
+function useInView(_temp) {
+  var _ref = _temp === void 0 ? {} : _temp,
+      threshold = _ref.threshold,
+      delay = _ref.delay,
+      trackVisibility = _ref.trackVisibility,
+      rootMargin = _ref.rootMargin,
+      root = _ref.root,
+      triggerOnce = _ref.triggerOnce,
+      skip = _ref.skip,
+      initialInView = _ref.initialInView;
+
+  var unobserve = react.exports.useRef();
+
+  var _React$useState = react.exports.useState({
+    inView: !!initialInView
+  }),
+      state = _React$useState[0],
+      setState = _React$useState[1];
+
+  var setRef = react.exports.useCallback(function (node) {
+    if (unobserve.current !== undefined) {
+      unobserve.current();
+      unobserve.current = undefined;
+    } // Skip creating the observer
+
+
+    if (skip) return;
+
+    if (node) {
+      unobserve.current = observe(node, function (inView, entry) {
+        setState({
+          inView: inView,
+          entry: entry
+        });
+
+        if (entry.isIntersecting && triggerOnce && unobserve.current) {
+          // If it should only trigger once, unobserve the element after it's inView
+          unobserve.current();
+          unobserve.current = undefined;
+        }
+      }, {
+        root: root,
+        rootMargin: rootMargin,
+        threshold: threshold,
+        // @ts-ignore
+        trackVisibility: trackVisibility,
+        // @ts-ignore
+        delay: delay
+      });
+    }
+  }, // We break the rule here, because we aren't including the actual `threshold` variable
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  [// If the threshold is an array, convert it to a string so it won't change between renders.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  Array.isArray(threshold) ? threshold.toString() : threshold, root, rootMargin, triggerOnce, skip, trackVisibility, delay]);
+  /* eslint-disable-next-line */
+
+  react.exports.useEffect(function () {
+    if (!unobserve.current && state.entry && !triggerOnce && !skip) {
+      // If we don't have a ref, then reset the state (unless the hook is set to only `triggerOnce` or `skip`)
+      // This ensures we correctly reflect the current state - If you aren't observing anything, then nothing is inView
+      setState({
+        inView: !!initialInView
+      });
+    }
+  });
+  var result = [setRef, state.inView, state.entry]; // Support object destructuring, by adding the specific values.
+
+  result.ref = result[0];
+  result.inView = result[1];
+  result.entry = result[2];
+  return result;
+}
+
+const Inner = ({
+  R,
+  k,
+  k2,
+  h,
+  p,
+  delta,
+  maxLoops,
+  glow,
+  lineThickness,
+  width,
+  height,
+  setSrc
+}) => {
   const {
     lines,
     maxRadius
@@ -20921,8 +21242,19 @@ const Tile = props => {
     maxLoops,
     alphaPercent: 1
   });
+  const ref = react.exports.useRef();
+  react.exports.useEffect(() => {
+    if (lines.some(x => x.length == 0)) return;
+    let svg = ref.current.querySelector('svg');
+    let svgData = new XMLSerializer().serializeToString(svg);
+    setSrc(`data:image/svg+xml;base64,${btoa(svgData)}`);
+  }, [lines]);
   return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
-    className: 'spirograph-tile',
+    ref: ref,
+    style: {
+      display: 'flex',
+      opacity: 0
+    },
     children: /*#__PURE__*/jsxRuntime.exports.jsx(Spirograph, {
       R: R,
       k: k,
@@ -20936,6 +21268,84 @@ const Tile = props => {
       maxRadius: maxRadius,
       background: '#1b1b1b',
       foreground: '#fafafa'
+    })
+  });
+};
+
+const Tile = props => {
+  const {
+    R,
+    k,
+    k2,
+    h,
+    p,
+    delta,
+    maxLoops,
+    width,
+    height,
+    glow,
+    lineThickness,
+    onClick
+  } = props;
+  const onPress = react.exports.useCallback(() => onClick({
+    k,
+    k2,
+    h,
+    p,
+    delta,
+    maxLoops
+  }), [k, k2, h, p, delta, maxLoops, onClick]);
+  const {
+    ref,
+    inView
+  } = useInView({
+    threshold: 0.1
+  });
+  const {
+    buttonProps,
+    isPressed
+  } = useButton({
+    elementType: 'div',
+    onPress,
+    'aria-label': 'preset for spirograph'
+  }, ref);
+  const {
+    isFocused,
+    focusProps
+  } = useFocusRing({
+    isTextInput: false
+  });
+  const [src, setSrc] = react.exports.useState();
+  return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+    className: 'spirograph-tile',
+    ref: ref,
+    ...mergeProps(buttonProps, focusProps),
+    style: {
+      width,
+      height,
+      opacity: 1,
+      ...(isFocused && {
+        opacity: 0.6
+      }),
+      ...(isPressed && {
+        opacity: 0.3
+      })
+    },
+    children: src ? /*#__PURE__*/jsxRuntime.exports.jsx("img", {
+      src: src
+    }) : inView && /*#__PURE__*/jsxRuntime.exports.jsx(Inner, {
+      R: R,
+      k: k,
+      k2: k2,
+      h: h,
+      p: p,
+      delta: delta,
+      maxLoops: maxLoops,
+      glow: glow,
+      lineThickness: lineThickness,
+      width: width,
+      height: height,
+      setSrc: setSrc
     })
   });
 };
@@ -21320,7 +21730,7 @@ const PRESETS = [{
   k: 2.5,
   k2: 2.01,
   delta: 0.04,
-  maxLoops: 2
+  maxLoops: 1
 }, {
   h: 1,
   p: 0.5,
@@ -21504,7 +21914,8 @@ const App = () => {
             width: 300,
             height: 300,
             glow: glow,
-            lineThickness: lineThickness
+            lineThickness: lineThickness,
+            onClick: setVariables
           })
         }, i))
       })

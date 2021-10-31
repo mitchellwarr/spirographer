@@ -5,7 +5,7 @@ export const PRESETS = [
     k: 2.5,
     k2: 2.01,
     delta: 0.04,
-    maxLoops: 2
+    maxLoops: 1
   },
   {
     h: 1,

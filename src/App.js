@@ -78,6 +78,7 @@ export const App = () => {
                   height={300}
                   glow={glow}
                   lineThickness={lineThickness}
+                  onClick={setVariables}
                 />
               </RowItem>
             )
