@@ -1,16 +1,23 @@
-import { memo } from 'react';
-import { LinePath } from '@visx/shape';
+import { useMemo } from 'react';
+import { line } from 'd3';
 
 const xGetter = ({ x }) => x;
 const yGetter = ({ y }) => y;
 
-export const PlottedLine = memo(function PlottedLine({ data, ...rest }) {
+const linePath = line();
+linePath.x(xGetter);
+linePath.y(yGetter);
+
+export const PlottedLine = ({ data, ...rest }) => {
+  const d = useMemo(
+    () => linePath(data),
+    [data]
+  );
   return (
-    <LinePath
-      data={data}
-      x={xGetter}
-      y={yGetter}
+    <path
+      d={d}
+      fill={'none'}
       {...rest}
     />
   );
-});
+};

@@ -1,4 +1,31 @@
-export const scalePlotterFactory =({ R, k, k2, h, p }) => {
+// export const scalePlotterFactory =({ R, k, k2, h, p }) => {
+//   const r1 = R;
+//   const r2 = R / k;
+//   const r3 = R / k2;
+//   const rh = h * R;
+
+//   const r1_2 = r1 + r2;
+//   const r2_3 = r2 + r3;
+
+//   const betaR = r1 / r2;
+//   const thetaR = r1 / r3;
+
+//   return alpha => {
+//     const beta = betaR * alpha;
+//     const theta = thetaR * alpha;
+  
+  
+//     const secondAngle = alpha + beta - (beta/p);
+//     const thirdAngle = alpha + beta - (beta/p) - (theta/p);
+    
+//     const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(secondAngle)) + (rh * Math.cos(thirdAngle));
+//     const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(secondAngle)) + (rh * Math.sin(thirdAngle));
+
+//     return [x, y];
+//   };
+// };
+
+export const scalePlotterFactory = ({ R, k, k2, h, p }) => {
   const r1 = R;
   const r2 = R / k;
   const r3 = R / k2;
@@ -7,19 +34,15 @@ export const scalePlotterFactory =({ R, k, k2, h, p }) => {
   const r1_2 = r1 + r2;
   const r2_3 = r2 + r3;
 
-  const betaR = r1 / r2;
-  const thetaR = r1 / r3;
+  const betaCoefficients = r1 * ((1/r1) + (1/r2) - (1/(p*r2)));
+  const thetaCoefficients = r1 * ((1/r1) + (1/r2) - (1/(p*r2)) - (1/(p*r3)));
 
   return alpha => {
-    const beta = betaR * alpha;
-    const theta = thetaR * alpha;
-  
-  
-    const secondAngle = alpha + beta - (beta/p);
-    const thirdAngle = alpha + beta - (beta/p) - (theta/p);
+    const beta = alpha * betaCoefficients;
+    const theta = alpha * thetaCoefficients;
     
-    const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(secondAngle)) + (rh * Math.cos(thirdAngle));
-    const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(secondAngle)) + (rh * Math.sin(thirdAngle));
+    const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(beta)) + (rh * Math.cos(theta));
+    const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(beta)) + (rh * Math.sin(theta));
 
     return [x, y];
   };

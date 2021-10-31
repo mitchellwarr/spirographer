@@ -38,11 +38,10 @@ export const generateLineChunks = (props, cb) => {
         delta,
         range: ranges[i],
       },
-      abort
+      Comlink.proxy(() => abort.true)
     )
       .then(
         ({ data: line, maxFromOrigin }) => {
-          if (abort.true) return;
           cb({
             line,
             chunk: i,

@@ -75,7 +75,7 @@ export const GraphDisplay = (props) => {
         })
       );
       const maxRadius = R + ((R/k) * 2) + ((R/k2) * 2) + ((h * R) - (R/k2));
-      return generateLineChunks(
+      const cleanup = generateLineChunks(
         {
           alphaStart: 0,
           alphaEnd,
@@ -100,6 +100,9 @@ export const GraphDisplay = (props) => {
           );
         }
       );
+      return () => {
+        cleanup();
+      };
     },
     [R, k, k2, h, p, delta, maxAlpha, alphaPercent, maxLoops]
   );
