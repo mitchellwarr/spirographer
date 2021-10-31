@@ -9,6 +9,7 @@ export const Spirograph = (props) => {
     k2,
     h,
     glow,
+    axis,
     strokeWidth,
     lines,
     width,
@@ -71,16 +72,18 @@ export const Spirograph = (props) => {
           />
         )
       )}
-      <Axis
-        width={width}
-        height={height}
-        viewZoomRatio={viewZoomRatio}
-        R={R}
-        k={k}
-        k2={k2}
-        h={h}
-        color={foreground}
-      />
+      {axis && (
+        <Axis
+          width={width}
+          height={height}
+          viewZoomRatio={viewZoomRatio}
+          R={R}
+          k={k}
+          k2={k2}
+          h={h}
+          color={foreground}
+        />
+      )}
     </svg>
   );
 };

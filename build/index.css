@@ -260,3 +260,9 @@ body * {
     margin-top: 64px;
     margin-left: 64px;
     margin-right: 0; }
+
+.spirograph-tile {
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  display: flex; }
