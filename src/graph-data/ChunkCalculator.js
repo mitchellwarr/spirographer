@@ -3,6 +3,8 @@ import * as Comlink from 'comlink';
 import GraphWorker from 'web-worker:./GraphWorker';
 
 const graphWorker = new GraphWorker();
+const lineDataChunk = Comlink.wrap(graphWorker);
+
 export const generateLineChunks = (props, cb) => {
   const {
     alphaStart,
@@ -19,14 +21,13 @@ export const generateLineChunks = (props, cb) => {
   const alphaLength = alphaEnd - alphaStart;
   const chunkNumber = Math.ceil(alphaLength / chunkSize);
 
-  const lineDataChunk = Comlink.wrap(graphWorker);
-
   const ranges = Array.from(
     { length: chunkNumber },
     (_, i) => [i*chunkSize, Math.min((i+1)*chunkSize, alphaEnd)]
   );
 
   const abort = { true: false };
+  const abortProxy = Comlink.proxy(() => abort.true);
   for (let i in ranges) {
     lineDataChunk(
       {
@@ -38,7 +39,7 @@ export const generateLineChunks = (props, cb) => {
         delta,
         range: ranges[i],
       },
-      Comlink.proxy(() => abort.true)
+      abortProxy
     )
       .then(
         ({ data: line, maxFromOrigin }) => {
@@ -51,5 +52,7 @@ export const generateLineChunks = (props, cb) => {
         }
       );
   }
-  return () => abort.true = true;
+  return () => {
+    abort.true = true;
+  };
 };

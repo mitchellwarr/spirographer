@@ -13119,6 +13119,7 @@ var WorkerFactory = createBase64WorkerFactory('Lyogcm9sbHVwLXBsdWdpbi13ZWItd29ya
 /* eslint-enable */
 
 const graphWorker = new WorkerFactory();
+const lineDataChunk = wrap(graphWorker);
 const generateLineChunks = (props, cb) => {
   const {
     alphaStart,
@@ -13133,13 +13134,13 @@ const generateLineChunks = (props, cb) => {
   } = props;
   const alphaLength = alphaEnd - alphaStart;
   const chunkNumber = Math.ceil(alphaLength / chunkSize);
-  const lineDataChunk = wrap(graphWorker);
   const ranges = Array.from({
     length: chunkNumber
   }, (_, i) => [i * chunkSize, Math.min((i + 1) * chunkSize, alphaEnd)]);
   const abort = {
     true: false
   };
+  const abortProxy = proxy(() => abort.true);
 
   for (let i in ranges) {
     lineDataChunk({
@@ -13150,7 +13151,7 @@ const generateLineChunks = (props, cb) => {
       p,
       delta,
       range: ranges[i]
-    }, proxy(() => abort.true)).then(({
+    }, abortProxy).then(({
       data: line,
       maxFromOrigin
     }) => {
@@ -13163,7 +13164,9 @@ const generateLineChunks = (props, cb) => {
     });
   }
 
-  return () => abort.true = true;
+  return () => {
+    abort.true = true;
+  };
 };
 
 function useControlledState(value, defaultValue, onChange) {
