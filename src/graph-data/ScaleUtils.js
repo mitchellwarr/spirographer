@@ -1,30 +1,3 @@
-// export const scalePlotterFactory =({ R, k, k2, h, p }) => {
-//   const r1 = R;
-//   const r2 = R / k;
-//   const r3 = R / k2;
-//   const rh = h * R;
-
-//   const r1_2 = r1 + r2;
-//   const r2_3 = r2 + r3;
-
-//   const betaR = r1 / r2;
-//   const thetaR = r1 / r3;
-
-//   return alpha => {
-//     const beta = betaR * alpha;
-//     const theta = thetaR * alpha;
-  
-  
-//     const secondAngle = alpha + beta - (beta/p);
-//     const thirdAngle = alpha + beta - (beta/p) - (theta/p);
-    
-//     const x = (r1_2 * Math.cos(alpha)) + (r2_3 * Math.cos(secondAngle)) + (rh * Math.cos(thirdAngle));
-//     const y = (r1_2 * Math.sin(alpha)) + (r2_3 * Math.sin(secondAngle)) + (rh * Math.sin(thirdAngle));
-
-//     return [x, y];
-//   };
-// };
-
 export const scalePlotterFactory = ({ R, k, k2, h, p }) => {
   const r1 = R;
   const r2 = R / k;
@@ -53,6 +26,9 @@ export const scaleFactory = ({ R, k, k2, h, p }) => {
   const r2 = R / k;
   const r3 = R / k2;
   const rh = h * R;
+  
+  const betaCoefficients = r1 * ((1/r1) + (1/r2) - (1/(p*r2)));
+  const thetaCoefficients = r1 * ((1/r1) + (1/r2) - (1/(p*r2)) - (1/(p*r3)));
 
   return alpha => {
 
@@ -70,13 +46,13 @@ export const scaleFactory = ({ R, k, k2, h, p }) => {
     };
   
     const circle3 = {
-      x: circle2.x + ((r2 + r3) * Math.cos(alpha + beta - (beta/p))),
-      y: circle2.y + ((r2 + r3) * Math.sin(alpha + beta - (beta/p))),
+      x: circle2.x + ((r2 + r3) * Math.cos(alpha * betaCoefficients)),
+      y: circle2.y + ((r2 + r3) * Math.sin(alpha * betaCoefficients)),
     };
   
     const drawingPoint = {
-      x: circle3.x + (rh * Math.cos(alpha + beta - (beta/p) - (theta/p))),
-      y: circle3.y + (rh * Math.sin(alpha + beta - (beta/p) - (theta/p))),
+      x: circle3.x + (rh * Math.cos(alpha * thetaCoefficients)),
+      y: circle3.y + (rh * Math.sin(alpha * thetaCoefficients)),
     };
 
     return {
@@ -90,6 +66,8 @@ export const scaleFactory = ({ R, k, k2, h, p }) => {
       circle2,
       circle3,
       drawingPoint,
+      betaCoefficients,
+      thetaCoefficients,
       ...drawingPoint
     };
   };

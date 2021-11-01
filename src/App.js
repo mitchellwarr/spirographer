@@ -51,6 +51,8 @@ export const App = () => {
       <RowItem style={{ width: '100%' }} flexible >
         <SliceDisplay
           {...variables}
+          glow={glow}
+          lineThickness={lineThickness}
         />
       </RowItem>
 

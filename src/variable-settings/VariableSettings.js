@@ -108,7 +108,7 @@ export const VariableSettings = (props) => {
             step={0.001}
             value={delta}
             onChange={onDeltaChange}
-            label={'Tick rate per radian'}
+            label={'Radian tick rate'}
           />
           <Slider
             min={1}

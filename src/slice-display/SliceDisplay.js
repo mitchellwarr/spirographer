@@ -9,7 +9,6 @@ import { Line } from '@visx/shape';
 import { GraphedLines } from './GraphedLines';
 
 const RCircle = ({ cx, cy, alpha, beta, r, rotation, viewZoomRatio }) => {
-  const halfPI = Math.PI/2;
   return (
     <Group
       left={cx}
@@ -18,12 +17,12 @@ const RCircle = ({ cx, cy, alpha, beta, r, rotation, viewZoomRatio }) => {
       <Line
         className={'slice-display__r-diameter'}
         from={{
-          x: r * Math.cos(rotation - halfPI),
-          y: r * Math.sin(rotation - halfPI),
+          x: r * Math.cos(rotation),
+          y: r * Math.sin(rotation),
         }}
         to={{
-          x: r * Math.cos(rotation + halfPI),
-          y: r * Math.sin(rotation + halfPI),
+          x: r * Math.cos(rotation + Math.PI),
+          y: r * Math.sin(rotation + Math.PI),
         }}
         strokeWidth={viewZoomRatio}
       />
@@ -67,7 +66,8 @@ export const SliceDisplay = (props) => {
     k2,
     h,
     p,
-    delta
+    delta,
+    glow
   } = props;
 
   const [bind, { width, height }] = useMeasure();
@@ -97,11 +97,12 @@ export const SliceDisplay = (props) => {
     r3,
     rh,
     beta,
-    theta,
     circle1,
     circle2,
     circle3,
     drawingPoint,
+    betaCoefficients,
+    thetaCoefficients,
   } = scale(alpha);
 
   const [lines, setLines] = useState(() => []);
@@ -142,7 +143,37 @@ export const SliceDisplay = (props) => {
         {...bind}
         style={{ height: 600 }}
       />
-      <svg className={'slice-display__svg'} width={width} height={height} >
+      <svg
+        className={'slice-display__svg'}
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+      >
+        <filter id={'glow'}>
+          <feGaussianBlur result={'coloredBlur'} stdDeviation={glow} />
+          <feMerge>
+            <feMergeNode in={'coloredBlur'} />
+            <feMergeNode in={'SourceGraphic'} />
+          </feMerge>
+        </filter>
+        <defs>
+          <linearGradient
+            id={'lineGradient'}
+            x1={0}
+            x2={0}
+            y1={-maxRadius}
+            y2={maxRadius}
+            gradientTransform={'rotate(24)'}
+            gradientUnits={'userSpaceOnUse'}
+          >
+            <stop offset={0} stopColor={'#ffbc3b'} />
+            <stop offset={0.15} stopColor={'#ffe26c'} />
+            <stop offset={0.5} stopColor={'#fff3c0'} />
+            <stop offset={0.85} stopColor={'#f589aa'} />
+            <stop offset={1} stopColor={'#ff70ba'} />
+          </linearGradient>
+        </defs>
+
         <rect
           className={'slice-display__background'}
           width={width}
@@ -154,7 +185,12 @@ export const SliceDisplay = (props) => {
         <Group left={width/2} top={height/2} >
           <g transform={`scale(${Math.min(width, height) / maxRadius})`} >
 
-            <GraphedLines lines={lines} viewZoomRatio={viewZoomRatio} />
+            <GraphedLines
+              lines={lines}
+              viewZoomRatio={viewZoomRatio * 0.5}
+              filter={'url(#glow)'}
+              stroke={'url(#lineGradient)'}
+            />
 
             <RCircle
               alpha={alpha}
@@ -166,7 +202,7 @@ export const SliceDisplay = (props) => {
 
             <RCircle
               rotation={alpha + beta}
-              alpha={alpha + beta - (beta * (1/p))}
+              alpha={alpha * betaCoefficients}
               beta={alpha}
               r={r2}
               cx={circle2.x}
@@ -175,9 +211,9 @@ export const SliceDisplay = (props) => {
             />
 
             <RCircle
-              rotation={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
-              alpha={alpha + beta - (beta * (1/p)) - (theta * (1/p))}
-              beta={alpha + beta - (beta * (1/p))}
+              rotation={alpha * thetaCoefficients}
+              alpha={alpha * thetaCoefficients}
+              beta={alpha * betaCoefficients}
               r={r3}
               cx={circle3.x}
               cy={circle3.y}
@@ -187,10 +223,7 @@ export const SliceDisplay = (props) => {
             <g>
               <Line
                 className={'slice-display__r-line'}
-                from={{
-                  x: circle3.x + (r3 * Math.cos(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
-                  y: circle3.y + (r3 * Math.sin(alpha + beta - (beta * (1/p)) - (theta * (1/p)))),
-                }}
+                from={circle3}
                 to={drawingPoint}
                 strokeWidth={viewZoomRatio}
               />
@@ -217,7 +250,7 @@ export const SliceDisplay = (props) => {
             }
           }}
           onChange={setAlpha}
-          label={'Time'}
+          label={'Radians'}
         />
       </div>
     </div>

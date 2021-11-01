@@ -1,20 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useAPIEffect } from 'hooks';
 
-import { generateLineChunks, scaleFactory } from 'graph-data';
-
-const PIES_NEEDED = (scaleData, max) => {
-  const scale = scaleFactory(scaleData);
-  const start = scale(0);
-  for (let i = 1; i < max; i++) {
-    const { x, y } = scale(Math.PI * 100 * i);
-    if (
-      Math.abs(x - start.x) < 0.5 &&
-      Math.abs(y - start.y) < 0.5
-    ) return i;
-  }
-  return max;
-};
+import { generateLineChunks } from 'graph-data';
 
 const CHUNKS_PER_PIE = 1;
 
@@ -52,13 +39,13 @@ export const useLines = (props) => {
   );
 
   const chunkLength = (Math.PI * 100) / CHUNKS_PER_PIE;
-  const piesNeeded = PIES_NEEDED({ R, k, k2, h, p }, maxLoops);
+  const piesNeeded = maxLoops;
   const maxAlpha = (Math.PI * 100) * piesNeeded;
 
   useAPIEffect(
     api => {
       const alphaEnd = maxAlpha * alphaPercent;
-      const chunksOverwritten = alphaEnd * CHUNKS_PER_PIE;
+      const chunksOverwritten = Math.ceil(alphaEnd / chunkLength);
       setLines(
         ({ lines, maxRadius }) => ({
           maxRadius,

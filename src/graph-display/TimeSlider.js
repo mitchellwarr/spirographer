@@ -9,7 +9,7 @@ export const TimeSlider = ({ onChange, value, style }) => {
       value={value}
       style={style}
       onChange={onChange}
-      label={'Time'}
+      label={'Line length'}
     />
   );
 };
