@@ -8,7 +8,7 @@ export const Axis = ({ color, R, k, k2, h, width, height, viewZoomRatio }) => {
   const rh = R * h;
   const drawingPoint = rh - (R / k2);
   return (
-    <g>
+    <g data-component={'axis'} >
       <g>
         <Text
           fontFamily={'calibri'}

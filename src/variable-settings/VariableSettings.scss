@@ -8,9 +8,31 @@
     margin-top: 16px;
   }
 
+  &__button {
+    margin-left: auto;
+    border-radius: 4px;
+    padding: 0.4rem 0.8rem;
+    cursor: pointer;
+    background: #ebebeb;
+    border: 1px solid #8f8f8f;
+    
+    &:focus {
+      background: #e1e1e1;
+    }
+
+    &:hover {
+      background: #d3d3d3;
+    }
+
+    &:active {
+      background: #c4c4c4;
+    }
+  }
+
   &__title {
     font-size: 1.3rem;
     margin-bottom: 12px;
+    display: flex;
   }
   
   &__label {
@@ -31,7 +53,7 @@
     margin-top: 24px;
     margin-bottom: 32px;
     width: 100%;
-    height: 1px;
-    background: #adadad;
+    height: 0;
+    border-bottom: 1px solid #adadad;
   }
 }

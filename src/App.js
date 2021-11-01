@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useLocale } from '@react-aria/i18n';
 
 import { useStateReducer } from 'hooks';
@@ -7,7 +8,6 @@ import { GraphDisplay, Tile } from './graph-display';
 import { VariableSettings } from './variable-settings';
 import { SliceDisplay } from './slice-display';
 import { PRESETS } from './Presets';
-import { useState } from 'react';
 
 export const App = () => {
 
@@ -15,10 +15,20 @@ export const App = () => {
     variables,
     setVariables
   ] = useStateReducer(
-    () => ({
-      R: 10,
-      ...PRESETS[Math.floor(Math.random() * PRESETS.length)]
-    })
+    () => {
+      const urlSearchParams = new URLSearchParams(window.location.search);
+      const params = Object.fromEntries(urlSearchParams.entries());
+      return {
+        R: 10,
+        ...PRESETS[Math.floor(Math.random() * PRESETS.length)],
+        ...params.h && ({ h: parseFloat(params.h) }),
+        ...params.k && ({ k: parseFloat(params.k) }),
+        ...params.k2 && ({ k2: parseFloat(params.k2) }),
+        ...params.p && ({ p: parseFloat(params.p) }),
+        ...params.delta && ({ delta: parseFloat(params.delta) }),
+        ...params.loops && ({ maxLoops: parseFloat(params.loops) }),
+      };
+    }
   );
 
   const {

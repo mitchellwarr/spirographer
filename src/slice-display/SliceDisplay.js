@@ -228,8 +228,9 @@ export const SliceDisplay = (props) => {
                 strokeWidth={viewZoomRatio}
               />
               <circle
-                className={'slice-display__drawing-point'}
-                r={3 * viewZoomRatio}
+                filter={'url(#glow)'}
+                fill={'url(#lineGradient)'}
+                r={2 * viewZoomRatio}
                 cx={drawingPoint.x}
                 cy={drawingPoint.y}
               />

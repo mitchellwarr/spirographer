@@ -45,6 +45,14 @@
       &:first-child {
         border-bottom: 1px solid #8f8f8f;
       }
+    
+      &:hover, &:focus {
+        background: #d3d3d3;
+      }
+  
+      &:active {
+        background: #c4c4c4;
+      }
     }
   }
 }

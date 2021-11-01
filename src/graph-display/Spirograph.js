@@ -27,6 +27,7 @@ export const Spirograph = (props) => {
       height={height}
       style={style}
       viewBox={`${-maxRadius} ${-maxRadius} ${maxRadius*2} ${maxRadius*2}`}
+      id={'spirograph'}
     >
       <filter id={'glow'}>
         <feGaussianBlur result={'coloredBlur'} stdDeviation={glow} />

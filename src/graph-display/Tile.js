@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { useButton } from '@react-aria/button';
 import { useFocusRing } from '@react-aria/focus';
+import { useHover } from '@react-aria/interactions';
 import { mergeProps } from '@react-aria/utils';
 import { useInView } from 'react-intersection-observer';
 
@@ -128,6 +129,8 @@ export const Tile = (props) => {
     focusProps
   } = useFocusRing({ isTextInput: false });
 
+  const { isHovered, hoverProps } = useHover({});
+
   const [src, setSrc] = useState();
 
   return (
@@ -136,13 +139,15 @@ export const Tile = (props) => {
       ref={ref}
       {...mergeProps(
         buttonProps,
-        focusProps
+        focusProps,
+        hoverProps
       )}
       style={{
         width,
         height,
         opacity: 1,
         ...isFocused && ({ opacity: 0.6 }),
+        ...isHovered && ({ opacity: 0.6 }),
         ...isPressed && ({ opacity: 0.3 })
       }}
     >

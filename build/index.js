@@ -7,6 +7,37 @@ const makeRandomID = (prefix = '') => {
 const isAsyncFunction = functionToCheck => functionToCheck && {}.toString.call(functionToCheck) === '[object AsyncFunction]';
 const isFunction$2 = functionToCheck => functionToCheck && {}.toString.call(functionToCheck) === '[object Function]';
 const isObject$4 = obj => obj && {}.toString.call(obj) === '[object Object]';
+const copyToClipboard = text => {
+  if (window.clipboardData && window.clipboardData.setData) return clipboardData.setData('Text', text); // Useful for IE
+
+  let textArea = document.createElement('textarea'); //Stops textarea from appearing
+
+  textArea.style.position = 'fixed';
+  textArea.style.top = 0;
+  textArea.style.left = 0;
+  textArea.style.width = '2em';
+  textArea.style.height = '2em';
+  textArea.style.padding = 0;
+  textArea.style.border = 'none';
+  textArea.style.outline = 'none';
+  textArea.style.boxShadow = 'none';
+  textArea.style.background = 'transparent';
+  textArea.value = text;
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  let successful = false; // TODO: Change to toast
+
+  try {
+    successful = document.execCommand('copy');
+    if (!successful) console.warn(`Cannot copy to clipboard ${text}`); // eslint-disable-line no-console
+  } catch (err) {
+    console.warn(`Cannot copy to clipboard ${text}`); // eslint-disable-line no-console
+  }
+
+  document.body.removeChild(textArea);
+  return successful;
+};
 
 !Array.prototype.distinct && Object.defineProperty(Array.prototype, 'distinct', {
   enumerable: false,
@@ -14325,6 +14356,187 @@ function useFocusWithin(props) {
     }
   };
 } // iOS fires onPointerEnter twice: once with pointerType="touch" and again with pointerType="mouse".
+// We want to ignore these emulated events so they do not trigger hover behavior.
+// See https://bugs.webkit.org/show_bug.cgi?id=214609.
+
+let $b1a784c66b81d90efa4f74e05b$var$globalIgnoreEmulatedMouseEvents = false;
+let $b1a784c66b81d90efa4f74e05b$var$hoverCount = 0;
+
+function $b1a784c66b81d90efa4f74e05b$var$setGlobalIgnoreEmulatedMouseEvents() {
+  $b1a784c66b81d90efa4f74e05b$var$globalIgnoreEmulatedMouseEvents = true; // Clear globalIgnoreEmulatedMouseEvents after a short timeout. iOS fires onPointerEnter
+  // with pointerType="mouse" immediately after onPointerUp and before onFocus. On other
+  // devices that don't have this quirk, we don't want to ignore a mouse hover sometime in
+  // the distant future because a user previously touched the element.
+
+  setTimeout(() => {
+    $b1a784c66b81d90efa4f74e05b$var$globalIgnoreEmulatedMouseEvents = false;
+  }, 50);
+}
+
+function $b1a784c66b81d90efa4f74e05b$var$handleGlobalPointerEvent(e) {
+  if (e.pointerType === 'touch') {
+    $b1a784c66b81d90efa4f74e05b$var$setGlobalIgnoreEmulatedMouseEvents();
+  }
+}
+
+function $b1a784c66b81d90efa4f74e05b$var$setupGlobalTouchEvents() {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  if (typeof PointerEvent !== 'undefined') {
+    document.addEventListener('pointerup', $b1a784c66b81d90efa4f74e05b$var$handleGlobalPointerEvent);
+  } else {
+    document.addEventListener('touchend', $b1a784c66b81d90efa4f74e05b$var$setGlobalIgnoreEmulatedMouseEvents);
+  }
+
+  $b1a784c66b81d90efa4f74e05b$var$hoverCount++;
+  return () => {
+    $b1a784c66b81d90efa4f74e05b$var$hoverCount--;
+
+    if ($b1a784c66b81d90efa4f74e05b$var$hoverCount > 0) {
+      return;
+    }
+
+    if (typeof PointerEvent !== 'undefined') {
+      document.removeEventListener('pointerup', $b1a784c66b81d90efa4f74e05b$var$handleGlobalPointerEvent);
+    } else {
+      document.removeEventListener('touchend', $b1a784c66b81d90efa4f74e05b$var$setGlobalIgnoreEmulatedMouseEvents);
+    }
+  };
+}
+/**
+ * Handles pointer hover interactions for an element. Normalizes behavior
+ * across browsers and platforms, and ignores emulated mouse events on touch devices.
+ */
+
+
+function useHover(props) {
+  let {
+    onHoverStart,
+    onHoverChange,
+    onHoverEnd,
+    isDisabled
+  } = props;
+  let [isHovered, setHovered] = react.exports.useState(false);
+  let state = react.exports.useRef({
+    isHovered: false,
+    ignoreEmulatedMouseEvents: false,
+    pointerType: '',
+    target: null
+  }).current;
+  react.exports.useEffect($b1a784c66b81d90efa4f74e05b$var$setupGlobalTouchEvents, []);
+  let {
+    hoverProps,
+    triggerHoverEnd
+  } = react.exports.useMemo(() => {
+    let triggerHoverStart = (event, pointerType) => {
+      state.pointerType = pointerType;
+
+      if (isDisabled || pointerType === 'touch' || state.isHovered || !event.currentTarget.contains(event.target)) {
+        return;
+      }
+
+      state.isHovered = true;
+      let target = event.target;
+      state.target = target;
+
+      if (onHoverStart) {
+        onHoverStart({
+          type: 'hoverstart',
+          target,
+          pointerType
+        });
+      }
+
+      if (onHoverChange) {
+        onHoverChange(true);
+      }
+
+      setHovered(true);
+    };
+
+    let triggerHoverEnd = (event, pointerType) => {
+      state.pointerType = '';
+      state.target = null;
+
+      if (pointerType === 'touch' || !state.isHovered) {
+        return;
+      }
+
+      state.isHovered = false;
+      let target = event.target;
+
+      if (onHoverEnd) {
+        onHoverEnd({
+          type: 'hoverend',
+          target,
+          pointerType
+        });
+      }
+
+      if (onHoverChange) {
+        onHoverChange(false);
+      }
+
+      setHovered(false);
+    };
+
+    let hoverProps = {};
+
+    if (typeof PointerEvent !== 'undefined') {
+      hoverProps.onPointerEnter = e => {
+        if ($b1a784c66b81d90efa4f74e05b$var$globalIgnoreEmulatedMouseEvents && e.pointerType === 'mouse') {
+          return;
+        }
+
+        triggerHoverStart(e, e.pointerType);
+      };
+
+      hoverProps.onPointerLeave = e => {
+        if (!isDisabled && e.currentTarget.contains(e.target)) {
+          triggerHoverEnd(e, e.pointerType);
+        }
+      };
+    } else {
+      hoverProps.onTouchStart = () => {
+        state.ignoreEmulatedMouseEvents = true;
+      };
+
+      hoverProps.onMouseEnter = e => {
+        if (!state.ignoreEmulatedMouseEvents && !$b1a784c66b81d90efa4f74e05b$var$globalIgnoreEmulatedMouseEvents) {
+          triggerHoverStart(e, 'mouse');
+        }
+
+        state.ignoreEmulatedMouseEvents = false;
+      };
+
+      hoverProps.onMouseLeave = e => {
+        if (!isDisabled && e.currentTarget.contains(e.target)) {
+          triggerHoverEnd(e, 'mouse');
+        }
+      };
+    }
+
+    return {
+      hoverProps,
+      triggerHoverEnd
+    };
+  }, [onHoverStart, onHoverChange, onHoverEnd, isDisabled, state]);
+  react.exports.useEffect(() => {
+    // Call the triggerHoverEnd as soon as isDisabled changes to true
+    // Safe to call triggerHoverEnd, it will early return if we aren't currently hovering
+    if (isDisabled) {
+      triggerHoverEnd({
+        target: state.target
+      }, state.pointerType);
+    }
+  }, [isDisabled]);
+  return {
+    hoverProps,
+    isHovered
+  };
+}
 /**
  * This function wraps a React event handler to make stopPropagation the default, and support continuePropagation instead.
  */
@@ -20121,6 +20333,7 @@ const Axis$1 = ({
   const rh = R * h;
   const drawingPoint = rh - R / k2;
   return /*#__PURE__*/jsxRuntime.exports.jsxs("g", {
+    "data-component": 'axis',
     children: [/*#__PURE__*/jsxRuntime.exports.jsxs("g", {
       children: [/*#__PURE__*/jsxRuntime.exports.jsx(Text, {
         fontFamily: 'calibri',
@@ -20204,6 +20417,7 @@ const Spirograph = props => {
     height: height,
     style: style,
     viewBox: `${-maxRadius} ${-maxRadius} ${maxRadius * 2} ${maxRadius * 2}`,
+    id: 'spirograph',
     children: [/*#__PURE__*/jsxRuntime.exports.jsxs("filter", {
       id: 'glow',
       children: [/*#__PURE__*/jsxRuntime.exports.jsx("feGaussianBlur", {
@@ -21297,16 +21511,23 @@ const Tile = props => {
   } = useFocusRing({
     isTextInput: false
   });
+  const {
+    isHovered,
+    hoverProps
+  } = useHover({});
   const [src, setSrc] = react.exports.useState();
   return /*#__PURE__*/jsxRuntime.exports.jsx("div", {
     className: 'spirograph-tile',
     ref: ref,
-    ...mergeProps(buttonProps, focusProps),
+    ...mergeProps(buttonProps, focusProps, hoverProps),
     style: {
       width,
       height,
       opacity: 1,
       ...(isFocused && {
+        opacity: 0.6
+      }),
+      ...(isHovered && {
         opacity: 0.6
       }),
       ...(isPressed && {
@@ -21329,6 +21550,145 @@ const Tile = props => {
       height: height,
       setSrc: setSrc
     })
+  });
+};
+
+const K_MIN = 0.01;
+const K_MAX = R => R * 5;
+const K2_MIN = 0.01;
+const K2_MAX = R => R * 5;
+const P_MIN = -5;
+const P_MAX = 10;
+const P_RANGE = Math.abs(P_MIN) + P_MAX;
+const H_MIN = 0;
+const H_MAX = R => R * 5;
+const randomH = R => Math.random() * (H_MAX(R) - H_MIN);
+const randomP = () => Math.random() * P_RANGE - Math.abs(P_MIN);
+const randomK = R => Math.random() * (K_MAX(R) - K_MIN);
+const randomK2 = R => Math.random() * (K2_MAX(R) - K2_MIN);
+
+const downloadFromLink = (url, config = {}) => {
+  const {
+    filename,
+    target
+  } = config || {};
+  let tempLink = document.createElement('a');
+  tempLink.style.display = 'none';
+  tempLink.href = url;
+  if (filename) tempLink.setAttribute('download', filename);
+  if (target) tempLink.setAttribute('target', target);
+  document.body.appendChild(tempLink);
+  tempLink.click();
+  document.body.removeChild(tempLink);
+};
+
+const svgToPNG = async svgNode => {
+  const svgString = new XMLSerializer().serializeToString(svgNode);
+  const canvas = document.createElement('canvas');
+  const {
+    width,
+    height
+  } = svgNode.getBoundingClientRect();
+  canvas.width = width;
+  canvas.height = height;
+  const ctx = canvas.getContext('2d');
+  const DOMURL = self.URL || self.webkitURL || self;
+  const img = new Image();
+  const svg = new Blob([svgString], {
+    type: 'image/svg+xml;charset=utf-8'
+  });
+  const url = DOMURL.createObjectURL(svg);
+  return new Promise(res => {
+    img.onload = function () {
+      ctx.drawImage(img, 0, 0, parseInt(width), parseInt(height));
+      let png = canvas.toDataURL('image/png');
+      res(png);
+      DOMURL.revokeObjectURL(png);
+    };
+
+    img.src = url;
+  });
+};
+
+const Buttons = props => {
+  const {
+    R,
+    h,
+    p,
+    k,
+    k2,
+    delta,
+    maxLoops,
+    onChange
+  } = props;
+  const onRandomise = react.exports.useCallback(() => onChange({
+    h: randomH(R) / R,
+    p: 1 / randomP(),
+    k: R / randomK(R),
+    k2: R / randomK2(R)
+  }), [onChange, R]);
+  const [copied, setCopied] = react.exports.useState();
+  const onShareLink = useAPICallback(api => {
+    let params = new URLSearchParams({
+      h: h,
+      p: p,
+      k: k,
+      k2: k2,
+      delta: delta,
+      loops: maxLoops
+    });
+    copyToClipboard(`${location.origin}${location.pathname}?${params}`);
+    setCopied('Copied to clipboard');
+    setTimeout(() => api.current && setCopied(), 4000);
+  }, [h, p, k, k2, delta, maxLoops, setCopied]);
+  const onDownloadSVG = react.exports.useCallback(() => {
+    let svg = document.getElementById('spirograph');
+    let axis = svg.querySelector('[data-component="axis"]');
+    axis.style.opacity = '0';
+    let svgData = new XMLSerializer().serializeToString(svg);
+    downloadFromLink(`data:image/svg+xml;base64,${btoa(svgData)}`, {
+      filename: 'spirograph.svg'
+    });
+    axis.style.opacity = '1';
+  }, []);
+  const onDownloadPNG = react.exports.useCallback(async () => {
+    let svg = document.getElementById('spirograph');
+    let axis = svg.querySelector('[data-component="axis"]');
+    axis.style.opacity = '0';
+    const link = await svgToPNG(svg);
+    downloadFromLink(link, {
+      filename: 'spirograph.png'
+    });
+    axis.style.opacity = '1';
+  }, []);
+  return /*#__PURE__*/jsxRuntime.exports.jsxs(Row, {
+    wrap: true,
+    spacing: 8,
+    children: [/*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      children: /*#__PURE__*/jsxRuntime.exports.jsx("button", {
+        className: 'variable-settings__button',
+        onClick: onRandomise,
+        children: "Randomise"
+      })
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      children: /*#__PURE__*/jsxRuntime.exports.jsx("button", {
+        className: 'variable-settings__button',
+        onClick: onShareLink,
+        children: copied || 'Sharable link'
+      })
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      children: /*#__PURE__*/jsxRuntime.exports.jsx("button", {
+        className: 'variable-settings__button',
+        onClick: onDownloadSVG,
+        children: "Download SVG"
+      })
+    }), /*#__PURE__*/jsxRuntime.exports.jsx(RowItem, {
+      children: /*#__PURE__*/jsxRuntime.exports.jsx("button", {
+        className: 'variable-settings__button',
+        onClick: onDownloadPNG,
+        children: "Download PNG"
+      })
+    })]
   });
 };
 
@@ -21373,7 +21733,18 @@ const VariableSettings = props => {
   return /*#__PURE__*/jsxRuntime.exports.jsx(jsxRuntime.exports.Fragment, {
     children: /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
       className: 'variable-settings',
-      children: [/*#__PURE__*/jsxRuntime.exports.jsx("div", {
+      children: [/*#__PURE__*/jsxRuntime.exports.jsx(Buttons, {
+        R: R,
+        h: h,
+        p: p,
+        k: k,
+        k2: k2,
+        delta: delta,
+        maxLoops: maxLoops,
+        onChange: onChange
+      }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
+        className: 'variable-settings__divider'
+      }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
         className: 'variable-settings__title',
         children: "Circle 1"
       }), /*#__PURE__*/jsxRuntime.exports.jsx("div", {
@@ -21393,8 +21764,8 @@ const VariableSettings = props => {
       }), /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
         className: 'variable-settings__list',
         children: [/*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
-          min: 0.01,
-          max: R * 5,
+          min: K_MIN,
+          max: K_MAX(R),
           step: 0.01,
           value: R / k,
           onChange: onKChange,
@@ -21414,22 +21785,22 @@ const VariableSettings = props => {
       }), /*#__PURE__*/jsxRuntime.exports.jsxs("div", {
         className: 'variable-settings__list',
         children: [/*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
-          min: 0.01,
-          max: R * 5,
+          min: K2_MIN,
+          max: K2_MAX(R),
           step: 0.01,
           value: R / k2,
           onChange: onK2Change,
           label: 'Radius'
         }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
-          min: -5,
-          max: 10,
+          min: P_MIN,
+          max: P_MAX,
           step: 0.001,
           value: 1 / p,
           onChange: onPChange,
           label: 'Speed of rotation'
         }), /*#__PURE__*/jsxRuntime.exports.jsx(Slider, {
-          min: 0,
-          max: R * 5,
+          min: H_MIN,
+          max: H_MAX(R),
           step: 1,
           value: h * R,
           onChange: onHChange,
@@ -21720,8 +22091,9 @@ const SliceDisplay = props => {
               to: drawingPoint,
               strokeWidth: viewZoomRatio
             }), /*#__PURE__*/jsxRuntime.exports.jsx("circle", {
-              className: 'slice-display__drawing-point',
-              r: 3 * viewZoomRatio,
+              filter: 'url(#glow)',
+              fill: 'url(#lineGradient)',
+              r: 2 * viewZoomRatio,
               cx: drawingPoint.x,
               cy: drawingPoint.y
             })]
@@ -21899,10 +22271,32 @@ const PRESETS = [{
 }];
 
 const App = () => {
-  const [variables, setVariables] = useStateReducer(() => ({
-    R: 10,
-    ...PRESETS[Math.floor(Math.random() * PRESETS.length)]
-  }));
+  const [variables, setVariables] = useStateReducer(() => {
+    const urlSearchParams = new URLSearchParams(window.location.search);
+    const params = Object.fromEntries(urlSearchParams.entries());
+    return {
+      R: 10,
+      ...PRESETS[Math.floor(Math.random() * PRESETS.length)],
+      ...(params.h && {
+        h: parseFloat(params.h)
+      }),
+      ...(params.k && {
+        k: parseFloat(params.k)
+      }),
+      ...(params.k2 && {
+        k2: parseFloat(params.k2)
+      }),
+      ...(params.p && {
+        p: parseFloat(params.p)
+      }),
+      ...(params.delta && {
+        delta: parseFloat(params.delta)
+      }),
+      ...(params.loops && {
+        maxLoops: parseFloat(params.loops)
+      })
+    };
+  });
   const {
     R
   } = variables;
