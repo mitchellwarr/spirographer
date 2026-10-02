@@ -19,9 +19,28 @@ const jsxInJs = {
   },
 };
 
-export default defineConfig({
-  base: './',
-  plugins: [jsxInJs, react()],
+export default defineConfig(({ command }) => ({
+  root: srcPath,
+  publicDir: path.resolve(srcPath, '../public'),
+  base: command === 'build' ? '/spirographer/build/' : './',
+  plugins: [
+    jsxInJs,
+    react(),
+    {
+      name: 'dev-graph-worker-route',
+      configureServer(server) {
+        server.middlewares.use((request, response, next) => {
+          if (request.url?.startsWith('/GraphWorker.js')) {
+            request.url = request.url.replace(
+              '/GraphWorker.js',
+              '/graph-data/GraphWorker.js'
+            );
+          }
+          next();
+        });
+      },
+    },
+  ],
   resolve: {
     alias: {
       elements: path.join(srcPath, 'elements'),
@@ -30,11 +49,39 @@ export default defineConfig({
       lib: path.join(srcPath, 'lib'),
     },
   },
+  optimizeDeps: {
+    rolldownOptions: {
+      plugins: [
+        {
+          ...jsxInJs,
+          name: 'jsx-in-js-dependency-scan',
+        },
+      ],
+    },
+  },
   server: {
     port: 3000,
   },
   build: {
-    outDir: 'build',
+    outDir: path.resolve(srcPath, '../build'),
+    emptyOutDir: true,
+    assetsDir: '',
     sourcemap: true,
+    rolldownOptions: {
+      output: {
+        entryFileNames: '[name].js',
+        chunkFileNames: '[name].js',
+        assetFileNames: '[name][extname]',
+      },
+    },
   },
-});
+  worker: {
+    rolldownOptions: {
+      output: {
+        entryFileNames: 'GraphWorker.js',
+        chunkFileNames: '[name].js',
+        assetFileNames: '[name][extname]',
+      },
+    },
+  },
+}));

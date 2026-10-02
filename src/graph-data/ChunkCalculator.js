@@ -1,9 +1,10 @@
 import * as Comlink from 'comlink';
+// eslint-disable-next-line import/no-unresolved
+import BundledGraphWorker from './GraphWorker.js?worker';
 
-const graphWorker = new Worker(
-  new URL('./GraphWorker.js', import.meta.url),
-  { type: 'module' }
-);
+const graphWorker = import.meta.env.DEV
+  ? new Worker('./GraphWorker.js', { type: 'module' })
+  : new BundledGraphWorker();
 const lineDataChunk = Comlink.wrap(graphWorker);
 
 export const generateLineChunks = (props, cb) => {
