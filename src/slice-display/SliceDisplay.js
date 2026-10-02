@@ -3,7 +3,7 @@ import { Group } from '@visx/group';
 import './SliceDisplay.scss';
 import { Axis } from './Axis';
 import { Slider } from 'elements/slider';
-import { useMemo, useState } from 'react';
+import { memo, useMemo, useState } from 'react';
 import { generateLineChunks, scaleFactory } from '../graph-data';
 import { Line } from '@visx/shape';
 import { GraphedLines } from './GraphedLines';
@@ -59,7 +59,7 @@ const RCircle = ({ cx, cy, alpha, beta, r, rotation, viewZoomRatio }) => {
 
 const MAX_ALPHA = Math.PI * 10;
 
-export const SliceDisplay = (props) => {
+export const SliceDisplay = memo((props) => {
   const {
     R,
     k,
@@ -71,7 +71,7 @@ export const SliceDisplay = (props) => {
   } = props;
 
   const [bind, { width, height }] = useMeasure();
-  
+
   const scale = useMemo(
     () => scaleFactory({
       R,
@@ -134,7 +134,7 @@ export const SliceDisplay = (props) => {
     },
     [R, k, k2, h, p, delta, alpha]
   );
-  
+
   const maxRadius = (((r1 + r2 + r3) * 3) + rh);
   const viewZoomRatio = ((maxRadius*2) / Math.min(width, height)) || 1;
   return (
@@ -219,7 +219,7 @@ export const SliceDisplay = (props) => {
               cy={circle3.y}
               viewZoomRatio={viewZoomRatio}
             />
-              
+
             <g>
               <Line
                 className={'slice-display__r-line'}
@@ -256,4 +256,4 @@ export const SliceDisplay = (props) => {
       </div>
     </div>
   );
-};
+});

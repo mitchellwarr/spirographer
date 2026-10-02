@@ -1,32 +1,34 @@
+import { Suspense, useDeferredValue } from 'react';
+
 import { PlottedLine } from './PlottedLine';
 import { Axis } from './Axis';
 
-export const Spirograph = (props) => {
-  const {
-    style,
-    R,
-    k,
-    k2,
-    h,
-    glow,
-    axis,
-    strokeWidth,
-    lines,
-    width,
-    height,
-    maxRadius,
-    background,
-    foreground
-  } = props;
-
-  const viewZoomRatio = ((maxRadius*2) / Math.min(width, height)) || 1;
+const SpirographSvg = ({
+  style,
+  R,
+  k,
+  k2,
+  h,
+  glow,
+  axis,
+  strokeWidth,
+  lines,
+  width,
+  height,
+  maxRadius,
+  background,
+  foreground,
+}) => {
+  const deferredLines = useDeferredValue(lines);
+  const deferredMaxRadius = useDeferredValue(maxRadius);
+  const viewZoomRatio = (deferredMaxRadius * 2) / Math.min(width, height) || 1;
 
   return (
     <svg
       width={width}
       height={height}
       style={style}
-      viewBox={`${-maxRadius} ${-maxRadius} ${maxRadius*2} ${maxRadius*2}`}
+      viewBox={`${-deferredMaxRadius} ${-deferredMaxRadius} ${deferredMaxRadius * 2} ${deferredMaxRadius * 2}`}
       id={'spirograph'}
     >
       <filter id={'glow'}>
@@ -41,8 +43,8 @@ export const Spirograph = (props) => {
           id={'lineGradient'}
           x1={0}
           x2={0}
-          y1={-maxRadius}
-          y2={maxRadius}
+          y1={-deferredMaxRadius}
+          y2={deferredMaxRadius}
           gradientTransform={'rotate(24)'}
           gradientUnits={'userSpaceOnUse'}
         >
@@ -57,22 +59,20 @@ export const Spirograph = (props) => {
       <rect
         x={-width}
         y={-height}
-        width={width*2}
-        height={height*2}
+        width={width * 2}
+        height={height * 2}
         fill={background}
       />
 
-      {lines.map(
-        (line, i) => (
-          <PlottedLine
-            key={i}
-            data={line}
-            strokeWidth={strokeWidth * viewZoomRatio}
-            filter={'url(#glow)'}
-            stroke={'url(#lineGradient)'}
-          />
-        )
-      )}
+      {deferredLines.map((line, i) => (
+        <PlottedLine
+          key={i}
+          data={line}
+          strokeWidth={strokeWidth * viewZoomRatio}
+          filter={'url(#glow)'}
+          stroke={'url(#lineGradient)'}
+        />
+      ))}
       {axis && (
         <Axis
           width={width}
@@ -86,5 +86,32 @@ export const Spirograph = (props) => {
         />
       )}
     </svg>
+  );
+};
+
+export const Spirograph = (props) => {
+  const { width, height, background, style } = props;
+
+  return (
+    <Suspense
+      fallback={(
+        <svg
+          width={width}
+          height={height}
+          style={style}
+          viewBox={`${-Math.max(1, width / 2)} ${-Math.max(1, height / 2)} ${Math.max(1, width)} ${Math.max(1, height)}`}
+        >
+          <rect
+            x={-width}
+            y={-height}
+            width={width * 2}
+            height={height * 2}
+            fill={background}
+          />
+        </svg>
+      )}
+    >
+      <SpirographSvg {...props} />
+    </Suspense>
   );
 };

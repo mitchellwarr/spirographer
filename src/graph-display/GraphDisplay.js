@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { memo, useState } from 'react';
 import { useMeasure } from 'hooks';
 
 import { NumberInput } from 'elements/NumberInput';
@@ -7,7 +7,7 @@ import { TimeSlider } from './TimeSlider';
 import { Spirograph } from './Spirograph';
 import { useLines } from './useLines';
 
-export const GraphDisplay = (props) => {
+export const GraphDisplay = memo((props) => {
   const {
     R,
     k,
@@ -16,7 +16,7 @@ export const GraphDisplay = (props) => {
     p,
     delta,
     maxLoops,
-    
+
     glow,
     lineThickness,
     onGlowChange,
@@ -26,7 +26,7 @@ export const GraphDisplay = (props) => {
   const [bind, { width, height }] = useMeasure();
 
   const [alphaPercent, setAlphaPercent] = useState(() => 1);
-  
+
   const {
     lines,
     maxRadius
@@ -102,4 +102,4 @@ export const GraphDisplay = (props) => {
       </div>
     </div>
   );
-};
+});

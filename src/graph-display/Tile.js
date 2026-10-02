@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useEffect, useRef, useState } from 'react';
 import { useButton } from '@react-aria/button';
 import { useFocusRing } from '@react-aria/focus';
 import { useHover } from '@react-aria/interactions';
@@ -74,7 +74,7 @@ const Inner = ({
   );
 };
 
-export const Tile = (props) => {
+export const Tile = memo((props) => {
   const {
     R,
     k,
@@ -89,7 +89,7 @@ export const Tile = (props) => {
     lineThickness,
     onClick
   } = props;
-  
+
   const onPress = useCallback(
     () => onClick({
       k,
@@ -110,7 +110,7 @@ export const Tile = (props) => {
     ]
   );
 
-  
+
   const { ref, inView } = useInView({
     threshold: 0.1,
   });
@@ -173,4 +173,4 @@ export const Tile = (props) => {
       )}
     </div>
   );
-};
+});
