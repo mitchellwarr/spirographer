@@ -69,7 +69,7 @@ export const PRESETS = [
     k: 1.0465724751439038,
     k2: 1.1587485515643103,
     delta: 0.03,
-    maxLoops: 9
+    maxLoops: 6
   },
   {
     h: 1.5,
@@ -125,7 +125,7 @@ export const PRESETS = [
     k: 0.2782415136338342,
     k2: 0.4043671653861706,
     delta: 0.04,
-    maxLoops: 8
+    maxLoops: 6
   },
   {
     h: 0,
@@ -133,7 +133,7 @@ export const PRESETS = [
     k: 0.4022526146419952,
     k2: 0.31338138514572234,
     delta: 0.04,
-    maxLoops: 12
+    maxLoops: 6
   },
   {
     h: 2.7,
@@ -157,7 +157,7 @@ export const PRESETS = [
     k: 1.4285714285714286,
     k2: 0.5002501250625313,
     delta: 0.04,
-    maxLoops: 7,
+    maxLoops: 6,
   },
   {
     h: 0.4,
