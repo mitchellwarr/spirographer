@@ -3,7 +3,7 @@ import { Group } from '@visx/group';
 import './SliceDisplay.scss';
 import { Axis } from './Axis';
 import { Slider } from 'elements/slider';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, Suspense, useEffect, useMemo, useState, startTransition } from 'react';
 import { generateLineChunks, scaleFactory } from '../graph-data';
 import { Line } from '@visx/shape';
 import { GraphedLines } from './GraphedLines';
@@ -59,7 +59,7 @@ const RCircle = ({ cx, cy, alpha, beta, r, rotation, viewZoomRatio }) => {
 
 const MAX_ALPHA = Math.PI * 10;
 
-export const SliceDisplay = memo((props) => {
+const SliceDisplayContent = memo((props) => {
   const {
     R,
     k,
@@ -124,12 +124,14 @@ export const SliceDisplay = memo((props) => {
         },
         ({ line, chunk, chunks }) => {
           if (!active) return;
-          setLines(
-            lines => {
-              lines[chunk] = line;
-              return [...lines];
-            }
-          );
+          startTransition(() => {
+            setLines(
+              lines => {
+                lines[chunk] = line;
+                return [...lines];
+              }
+            );
+          });
         }
       );
 
@@ -263,3 +265,25 @@ export const SliceDisplay = memo((props) => {
     </div>
   );
 });
+
+export const SliceDisplay = (props) => (
+  <Suspense
+    fallback={(
+      <div
+        className={'slice-display'}
+        role={'status'}
+        style={{
+          height: 600,
+          display: 'grid',
+          placeItems: 'center',
+          background: '#1b1b1b',
+          color: '#fafafa'
+        }}
+      >
+        Loading slice...
+      </div>
+    )}
+  >
+    <SliceDisplayContent {...props} />
+  </Suspense>
+);

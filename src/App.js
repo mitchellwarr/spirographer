@@ -1,4 +1,4 @@
-import { useDeferredValue, useState } from 'react';
+import { useState } from 'react';
 import { useLocale } from '@react-aria/i18n';
 
 import { useStateReducer } from 'hooks';
@@ -34,7 +34,6 @@ export const App = () => {
   const {
     R
   } = variables;
-  const deferredVariables = variables;
 
   const [glow, setGlow] = useState(() => 1.5);
   const [lineThickness, setLineThickness] = useState(() => 0.2);
@@ -44,7 +43,7 @@ export const App = () => {
     <Row wrap spacing={32} lang={locale} dir={direction} >
       <RowItem style={{ width: '50%' }} flexible >
         <GraphDisplay
-          {...deferredVariables}
+          {...variables}
           glow={glow}
           lineThickness={lineThickness}
           onGlowChange={setGlow}
@@ -61,7 +60,7 @@ export const App = () => {
 
       <RowItem style={{ width: '100%' }} flexible >
         <SliceDisplay
-          {...deferredVariables}
+          {...variables}
           glow={glow}
           lineThickness={lineThickness}
         />

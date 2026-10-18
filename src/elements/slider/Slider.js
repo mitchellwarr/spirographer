@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { makeRandomID } from 'lib/Utils';
+import { useId } from 'react';
 import { NumberInput } from '../NumberInput';
 import './Slider.scss';
 
@@ -13,7 +12,7 @@ export const Slider = ({
   step,
   ...rest
 }) => {
-  const [id] = useState(() => makeRandomID());
+  const id = useId();
   return (
     <div
       className={'slider'}

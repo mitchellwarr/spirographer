@@ -19,7 +19,6 @@ const SpirographSvg = ({
   background,
   foreground,
 }) => {
-  const deferredLines = useDeferredValue(lines);
   const deferredMaxRadius = useDeferredValue(maxRadius);
   const viewZoomRatio = (deferredMaxRadius * 2) / Math.min(width, height) || 1;
 
@@ -64,7 +63,7 @@ const SpirographSvg = ({
         fill={background}
       />
 
-      {deferredLines.map((line, i) => (
+      {lines.map((line, i) => (
         <PlottedLine
           key={i}
           data={line}
