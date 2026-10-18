@@ -1,5 +1,4 @@
-import { useCallback, useState } from 'react';
-import { useAPICallback } from 'hooks';
+import { useCallback, useState, useRef } from 'react';
 import { copyToClipboard } from 'lib/Utils';
 import { Row, RowItem } from 'elements/Row';
 import {
@@ -41,7 +40,7 @@ const svgToPNG = async (svgNode) => {
   const img = new Image();
   const svg = new Blob([svgString], { type: 'image/svg+xml;charset=utf-8' });
   const url = DOMURL.createObjectURL(svg);
-  
+
 
   return new Promise((res) => {
     img.onload = function() {
@@ -65,7 +64,7 @@ export const Buttons = (props) => {
     maxLoops,
     onChange
   } = props;
-    
+
   const onRandomise = useCallback(
     () => onChange({
       h: randomH(R) / R,
@@ -76,9 +75,13 @@ export const Buttons = (props) => {
     [onChange, R]
   );
 
-  const [copied, setCopied] = useState();
-  const onShareLink = useAPICallback(
-    api => {
+  const [copiedMessage, setCopiedMessage] = useState();
+
+  const activeId = useRef();
+  const onShareLink = useCallback(
+    async () => {
+      const active = Math.random() * 1000000;
+      activeId.current = active;
       let params = new URLSearchParams({
         h: h,
         p: p,
@@ -88,9 +91,9 @@ export const Buttons = (props) => {
         loops: maxLoops
       });
       copyToClipboard(`${location.origin}${location.pathname}?${params}`);
-      setCopied('Copied to clipboard');
+      setCopiedMessage('Copied to clipboard');
       setTimeout(
-        () => api.current && setCopied(),
+        () => activeId.current === active && setCopiedMessage(undefined),
         4000
       );
     },
@@ -101,7 +104,7 @@ export const Buttons = (props) => {
       k2,
       delta,
       maxLoops,
-      setCopied
+      setCopiedMessage
     ]
   );
 
@@ -123,10 +126,10 @@ export const Buttons = (props) => {
       let svg = document.getElementById('spirograph');
       let axis = svg.querySelector('[data-component="axis"]');
       axis.style.opacity = '0';
-      
+
       const link = await svgToPNG(svg);
       downloadFromLink(link, { filename: 'spirograph.png' });
-      
+
       axis.style.opacity = '1';
     },
     []
@@ -147,7 +150,7 @@ export const Buttons = (props) => {
           className={'variable-settings__button'}
           onClick={onShareLink}
         >
-          {copied || 'Sharable link'}
+          {copiedMessage || 'Sharable link'}
         </button>
       </RowItem>
       <RowItem>

@@ -1,9 +1,9 @@
-import { useMeasure, useAPIEffect } from 'hooks';
+import { useMeasure } from 'hooks';
 import { Group } from '@visx/group';
 import './SliceDisplay.scss';
 import { Axis } from './Axis';
 import { Slider } from 'elements/slider';
-import { memo, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { generateLineChunks, scaleFactory } from '../graph-data';
 import { Line } from '@visx/shape';
 import { GraphedLines } from './GraphedLines';
@@ -106,10 +106,11 @@ export const SliceDisplay = memo((props) => {
   } = scale(alpha);
 
   const [lines, setLines] = useState(() => []);
-  useAPIEffect(
-    api => {
+  useEffect(
+    () => {
+      let active = true;
       if (!alpha) return setLines([]);
-      return generateLineChunks(
+      const cancel = generateLineChunks(
         {
           alphaStart: 0,
           alphaEnd: alpha,
@@ -122,7 +123,7 @@ export const SliceDisplay = memo((props) => {
           delta,
         },
         ({ line, chunk, chunks }) => {
-          if (!api.current) return;
+          if (!active) return;
           setLines(
             lines => {
               lines[chunk] = line;
@@ -131,6 +132,11 @@ export const SliceDisplay = memo((props) => {
           );
         }
       );
+
+      return () => {
+        active = false;
+        cancel();
+      };
     },
     [R, k, k2, h, p, delta, alpha]
   );

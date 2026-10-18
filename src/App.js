@@ -34,7 +34,7 @@ export const App = () => {
   const {
     R
   } = variables;
-  const deferredVariables = useDeferredValue(variables);
+  const deferredVariables = variables;
 
   const [glow, setGlow] = useState(() => 1.5);
   const [lineThickness, setLineThickness] = useState(() => 0.2);

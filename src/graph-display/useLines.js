@@ -1,7 +1,7 @@
-import { useEffect, useState } from 'react';
-import { useAPIEffect } from 'hooks';
+import { startTransition, useEffect, useState } from 'react';
 
 import { generateLineChunks } from 'graph-data';
+import { useStateChange } from '../hooks';
 
 const CHUNKS_PER_PIE = 1;
 
@@ -30,11 +30,13 @@ export const useLines = (props) => {
     })
   );
 
-  useEffect(
-    () => void setLines(({
-      lines: new Array(maxLoops).fill([]),
-      maxRadius: 0
-    })),
+  useStateChange(
+    () => {
+      setLines(({
+        lines: new Array(maxLoops).fill([]),
+        maxRadius: 0
+      }));
+    },
     [maxLoops]
   );
 
@@ -42,8 +44,9 @@ export const useLines = (props) => {
   const piesNeeded = maxLoops;
   const maxAlpha = (Math.PI * 100) * piesNeeded;
 
-  useAPIEffect(
-    api => {
+  useEffect(
+    () => {
+      let active = true;
       const alphaEnd = maxAlpha * alphaPercent;
       const chunksOverwritten = Math.ceil(alphaEnd / chunkLength);
       setLines(
@@ -69,19 +72,20 @@ export const useLines = (props) => {
           delta,
         },
         ({ line, chunk, chunks, maxFromOrigin }) => {
-          if (!api.current) return;
-          setLines(
-            ({ lines }) => {
+          if (!active) return;
+          startTransition(() => {
+            setLines(({ lines }) => {
               lines[chunk] = line;
               return {
                 lines: [...lines],
                 maxRadius: Math.max(maxRadius, maxFromOrigin)
               };
-            }
-          );
+            });
+          });
         }
       );
       return () => {
+        active = false;
         cleanup();
       };
     },

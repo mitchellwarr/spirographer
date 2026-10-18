@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useRef, useState } from 'react';
+import { memo, useCallback, useRef, useState } from 'react';
 import { useButton } from '@react-aria/button';
 import { useFocusRing } from '@react-aria/focus';
 import { useHover } from '@react-aria/interactions';
@@ -8,6 +8,7 @@ import { useInView } from 'react-intersection-observer';
 import { useLines } from './useLines';
 import { Spirograph } from './Spirograph';
 import './Tile.scss';
+import { useStateChange } from '../hooks';
 
 const Inner = ({
   R,
@@ -39,7 +40,7 @@ const Inner = ({
   });
 
   const ref = useRef();
-  useEffect(
+  useStateChange(
     () => {
       if (lines.some(x => x.length == 0)) return;
 
